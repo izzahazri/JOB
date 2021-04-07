@@ -1,0 +1,214 @@
+﻿@model OJAWeb.Models.DCManagerModel
+
+@{
+    ViewBag.Title = "DC Manager";
+}
+
+@{
+    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+}
+
+<style>
+    .btn {
+        border-radius: 20px !important;
+        background-color: #e96514;
+        color: #ffffff !important;
+        border: none;
+        padding: 10px 40px;
+        cursor: pointer;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 14px;
+        -webkit-appearance: none;
+        padding: 7px 18px;
+    }
+
+        .btn:hover, .btn button:active, .btn:focus {
+            background: #ffa31a;
+        }
+
+    a.btn {
+        padding: 4px 12px 4px 12px;
+        margin-top: 10px;
+        margin-bottom: 12px
+    }
+
+    td {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    h2 {
+        color: #e96514;
+        margin: 0px;
+    }
+
+    @@media screen and (max-width: 767px) {
+        .main-content {
+            padding: 0px;
+        }
+    }
+
+    .panel .panel-heading, .panel .panel-body, .panel .panel-footer {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div id="wrapper">
+    <div class="main">
+        <div class="main-content">
+            <div class="col-md-10 panel" style="padding-top: 50px;padding-bottom:50px">
+                <div class="panel-body">
+                    <div style="color:red; font-size:12px">** Attention, any INACTIVE DC will not be display in Job Manager menu.</div>
+
+                    <table class="table" id="dc">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Distribution Center</th>
+                                <th>State</th>
+                                <th>Company</th>
+                                <th>Region</th>
+                                <th>Active</th>
+                                <th>Date Created</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @{ int a = 0; }
+                        @foreach (var model in Model.dcManager)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @(++a)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.DC_Code)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Region_ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Comp_ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Remark)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.IsActive)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Created_Date)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("EditDC", "Superadmin",new { id = model.ID })">
+                                            <span class="icon"><i class="fa fa-pencil" style="color: #ed6d00;" title="View DC"></i></span>
+                                        </a>
+                                        @*&nbsp;
+                                            <a onclick="myFunction()" href="@Url.Action("ConfirmDelete", "Superadmin",new { id = model.Profile_Name, id2 = model.User_Name })">
+                                                <span class="icon"><i class="fa fa-user-times" style="color: #ed6d00;" title="Withdraw Application"></i></span>
+                                            </a>*@
+                                    </td>
+                                    @*<td>
+                                        <a onclick="myFunction()" href="@Url.Action("DeleteDC", "Superadmin",new { id = model.ID })">
+                                            <span class="icon"><i class="fa fa-trash" style="color: #ed6d00;" title="Delete DC"></i></span>
+                                        </a>
+                                    </td>*@
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+                <button type="submit" onclick="Edit()" class="btn pull-right">Add Distribution Center</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid edit">
+    @using (Html.BeginForm("SubmitDC", "Superadmin", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 20px;padding-bottom: 80px;">
+                <div class="col-md-6 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("Distribution Center Name : ")
+                        @Html.TextBoxFor(text => text.DC_Code, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+
+                        @*@Html.DropDownListFor(text => text.DC_Code, new SelectList(@ViewBag.DCList, "Value", "Text"), "Select DC *", new { @class = "form-control" })*@
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("State : ")
+                        @*@Html.TextBoxFor(text => text.Region_ID, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })*@
+                        @Html.DropDownListFor(text => text.Region_ID, new SelectList(@ViewBag.RegionList, "Value", "Text"), "Select State *", new { required = "required", @class = "form-control" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Company Name : ")
+                        @Html.DropDownListFor(text => text.Comp_ID, new SelectList(@ViewBag.CompList, "Value", "Text"), "Select Company *", new { required = "required", @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-12">
+                        @Html.Label("Region Name : ")
+                        @Html.TextBoxFor(text => text.Remark, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+
+                        @*@Html.DropDownListFor(text => text.DC_Code, new SelectList(@ViewBag.DCList, "Value", "Text"), "Select DC *", new { @class = "form-control" })*@
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Status : ")
+                        @Html.DropDownListFor(text => text.IsActive, new List<SelectListItem>
+                                           { new SelectListItem{Text="Active", Value="True"},
+                                           new SelectListItem{Text="Not Active", Value="False"}}, "Select Status *", new { required = "required", Style = "width:100%;", @class = "form-control" })
+                    </div>
+                    <div class="col-md-12 row" style="padding-top:10px">
+                        <button type="submit" class="btn pull-right">Save</button>
+                        <button type="button" onclick="Cancel()" class="btn pull-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section scripts {
+    <script src="~/js/filtertable.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".edit").hide();
+            $('#dc').filterTable();
+        });
+
+        function myFunction() {
+            //var answer = window.confirm("Are you sure want to withdraw this application ?");
+            alert("Delete Successfully");
+        }
+
+        function Edit() {
+            $(".edit").show();
+        }
+
+        function Cancel() {
+            $(".edit").hide();
+        }
+
+                                    //function Region() {
+                                    //    $.ajax({
+                                    //        url: "GetRegionList",
+                                    //        type: "POST",
+                                    //        data: '{}',
+                                    //        success: function (r) {
+                                    //            var regionList = $("[id*=regionList]");
+                                    //            regionList.empty().append('<option selected="selected" value="0">Please select</option>');
+                                    //            $.each(r.d, function () {
+                                    //                regionList.append($("<option></option>").val(this['Value']).html(this['Text']));
+                                    //            });
+                                    //        }
+                                    //    });
+                                    //}
+    </script>
+}

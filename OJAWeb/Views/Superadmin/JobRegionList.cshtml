@@ -1,0 +1,103 @@
+﻿@model List<OJAWeb.Models.JobRegionListModel>
+
+@{
+    ViewData["Title"] = "Job Region List";
+}
+
+@{
+    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+}
+
+<style>
+    td {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    h2 {
+        color: #e96514;
+        margin: 0px;
+    }
+
+    @@media screen and (max-width: 767px) {
+        .main-content {
+            padding: 0px;
+        }
+    }
+
+    .panel .panel-heading, .panel .panel-body, .panel .panel-footer {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<h3 class="title" style="text-align:center;padding-bottom: 10px;padding-top: 20px;">Jobs List</h3>
+<div id="wrapper">
+    <div class="main">
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-body">
+                    <table class="table" id="jobregionlist">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>State</th>
+                                @*<th>Company</th>*@
+                                <th>Distribution Center</th>
+                                <th>Department</th>
+                                <th>Position</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        @{ int a = 0; }
+                        <tbody>
+                            @foreach (OJAWeb.Models.JobRegionListModel item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @(++a)
+                                    </td>
+                                    <td>
+                                        @item.Region_Name
+                                    </td>
+                                    @*<td>
+                                        @item.Company_Name
+                                    </td>*@
+                                    <td>
+                                        @item.DC_Code
+                                    </td>
+                                    <td>
+                                        @item.Dep_Name
+                                    </td>
+                                    <td>
+                                        @item.Position_Name
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("JobDescription", "Superadmin",new { id = item.Position_ID })">
+                                            <div style="display: none;">@item.Position_ID</div>
+                                            <span class="icon"><i class="fa fa-search" style="color: #ed6d00;" title="View Job"></i></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/filtertable.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#jobregionlist').filterTable();
+        });
+    </script>
+}

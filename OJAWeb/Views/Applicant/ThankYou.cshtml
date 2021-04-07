@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Thank You";
+}
+
+@{
+    Layout = "~/Views/Shared/_ApplicantLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        @*<div class="col-md-6" style="padding-left: 40px;text-align:end;">
+                <img style="background-repeat: no-repeat; background-position: bottom center;width:100%" src="~/images/1.jpg" title="Quote" alt="Quote" />
+            </div>*@
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6" style="padding-left: 50px;padding-top: 10px;padding-right: 50px;margin-top:10px;border:solid;border-color:green">
+            <h4 class="title" style="text-align:center;padding-bottom: 10px;color:green">Thank you! Application have been submitted.</h4>
+            <h5 class="title" style="text-align:center;padding-bottom: 10px;color:green">Our team will be in touch with you if you are selected. In the meantime, have a good day!</h5>
+        </div>
+
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="row">
+        @*<div class="col-md-6" style="padding-left: 40px;text-align:end;">
+                <img style="background-repeat: no-repeat; background-position: bottom center;width:100%" src="~/images/1.jpg" title="Quote" alt="Quote" />
+            </div>*@
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6" style="padding-top: 50px;text-align:center">
+            @Html.ActionLink("View Applied Job", "MyJob", "Applicant", new { Style = "background-color: #ed6d00" }, new { @class = "btn" })
+        </div>
+
+        <div class="col-md-3"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

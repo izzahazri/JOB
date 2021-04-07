@@ -1,0 +1,94 @@
+﻿@model OJAWeb.Models.ResumeModel
+
+@{
+    ViewBag.Title = "Resume Edit";
+}
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    @*<span style="color:red;">@TempData["Message"].ToString()</span>*@
+    <script type="text/javascript">
+            window.onload = function () {
+                alert('@TempData["Message"].ToString()');
+            };
+    </script>
+
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<style>
+    .nav_navbar a {
+        text-decoration: none;
+    }
+
+    body {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding-bottom: 0px;
+    }
+
+    .form textarea {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    @@media (min-width: 768px) {
+        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+    }
+
+    h3, .h3 {
+        font-size: 28px;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    h1, h2, h3, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: #e96514;
+    }
+</style>
+
+@using (Html.BeginForm("ResumeEdit", "Applicant", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="padding-left: 200px;padding-top: 20px;padding-bottom:80px;">
+                <h3 class="title" style="text-align:left;padding-bottom: 10px;">
+                    Uploaded Resume
+                    @*<a class="btn" href="@Url.Action("Resume", "Applicant")"><< Back</a>*@
+                </h3>
+                @foreach (var model in Model.usersresume)
+                {
+                    <div class="form" id="form">
+                        <div class="col-md-12" id="upload">
+                            @Html.Label("Upload Resume : ")
+                            @Html.TextBoxFor(modelItem => model.User_Resume, new { @class = "form-control", @readonly = "readonly" })
+                            <input type="file" accept=".PDF,.png,.jpg,.jpeg" name="ResumeFile" class="file form-control" required/>
+                        </div>
+                        <div class="col-md-12 row" style="padding-top:10px">
+                            <button type="submit" class="btn pull-right">Save Changes</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,127 @@
+﻿@model OJAWeb.Models.ReportModel
+
+@{
+    ViewBag.Title = "Report";
+}
+
+@{
+    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+}
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<style>
+    .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+<h3 class="title" style=" text-align: center;padding-bottom: 10px;padding-top: 20px;">Job Application Report</h3>
+
+<div class="container-fluid edit">
+    @using (Html.BeginForm("Report", "Superadmin", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 20px;">
+                <div class="col-md-3 form" id="form"></div>
+                <div class="col-md-3 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("From : ")
+                        @Html.TextBoxFor(text => text.DateFrom, new { @class = "datepicker", @placeholder = "Date From", @required = "required", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-4 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("To : ")
+                        @Html.TextBoxFor(text => text.DateTo, new { @class = "datepicker", @placeholder = "Date To", @required = "required", autocomplete = "off" })
+                        <button type="submit" class="btn1">Submit</button>
+                    </div>
+                </div>
+                <div class="col-md-2 form" id="form"></div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="wrapper">
+    <div class="main">
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-body">
+                    <table id="example1" class="table table-striped" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Department Name</th>
+                                <th>Position Name</th>
+                                <th>Total Applicant</th>
+                                <th>New Applicant</th>
+                                <th>Reviewed</th>
+                                <th>Call For Interview</th>
+                                <th>Interview</th>
+                                <th>Keep In View</th>
+                                <th>Accepted</th>
+                                <th>Rejected</th>
+                            </tr>
+                        </thead>
+                        @foreach (var model in Model.reportinfo)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Dep_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Position_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Total)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.New)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Review)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Call_Interview)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Interview)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Keep_In_View)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Accepted)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Rejected)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/filtertable.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example1').filterTable();
+
+            $(".datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                changemonth: true,
+                changeyear: true
+            });
+        });
+    </script>
+}

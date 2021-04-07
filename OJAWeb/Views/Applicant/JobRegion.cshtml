@@ -1,0 +1,136 @@
+﻿@model OJAWeb.Models.RegionModel
+
+@{
+    ViewData["Title"] = "Job Region";
+}
+
+@{
+    Layout = "~/Views/Shared/_ApplicantLayout.cshtml";
+}
+
+
+<style>
+    a:hover {
+        color: #E96515;
+    }
+
+    nav.dropdown1 {
+        padding-top: 50px;
+        text-align: center;
+        padding-bottom: 300px;
+    }
+
+    nav ul.itembox {
+        margin-left: 0;
+        padding-left: 0;
+        width: 500px;
+        list-style: none;
+        position: relative;
+        display: inline-table;
+    }
+
+    nav ul ul.itemList {
+        display: none;
+    }
+
+    nav ul li:hover > ul.itemList {
+        display: block;
+    }
+
+    nav ul li.itembox1 {
+        float: left;
+        width: 500px;
+        text-align: left;
+        border-bottom: 3px solid #e96514;
+    }
+
+        nav ul li.itembox1:hover {
+            background: #f2f2f2;
+        }
+
+        nav ul li.itembox1 a {
+            display: block;
+            padding: 5px 5px;
+            color: #2a2a2a;
+            text-decoration: none;
+        }
+
+    nav ul ul.itemList {
+        border-radius: 0px;
+        padding: 0;
+        position: absolute;
+        top: 100%;
+    }
+
+        nav ul ul.itemList li {
+            list-style: none;
+            float: none;
+            border-bottom: 2px solid #eaeaea;
+            position: relative;
+        }
+
+            nav ul ul.itemList li a {
+                padding: 5px 200px;
+                color: #838383;
+            }
+
+                nav ul ul.itemList li a:hover {
+                    background: #e96514;
+                    color: #fff;
+                }
+
+    #down-triangle {
+        float: right;
+        width: 0;
+        height: 0;
+        margin-top: 10px;
+        border-top: 10px solid #e96514;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+    }
+
+    /*.circle {
+        float: right;
+        display: inline;
+        width: 10px;
+        height: 10px;
+        margin-top: 5px;
+        border: 3px solid #e96514;
+        -moz-border-radius: 100%;
+        -webkit-border-radius: 100%;
+        border-radius: 100%;
+    }*/
+</style>
+
+<h3 class="title" style="text-align:center;padding-bottom: 10px;padding-top: 20px;">Jobs State</h3>
+@using (Html.BeginForm("JobRegionList", "Applicant", FormMethod.Post))
+{
+    <nav class="dropdown1">
+        <ul class="itembox">
+            <li class="itembox1">
+                @*<a href="#">Please Choose Region<div id="down-triangle"></div></a>*@
+                @Html.DropDownListFor(text => text.ID, Model.Region_List, "Please select state", new { @class = "form-control" })
+                <ul class="itemList">
+                    <li>
+                        @*<div class="circle"></div>*@
+
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <button type="submit" class="btn" style="margin-bottom:30px">Choose</button>
+    </nav>
+}
+
+@*@if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                    alert("@ViewBag.Region_Name");
+            //      ID = document.getElementById("region").value;
+            //alert(ID);
+                };
+
+
+        </script>
+    }*@

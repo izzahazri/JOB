@@ -1,0 +1,118 @@
+﻿@model OJAWeb.Models.DepartManagerModel
+
+@{
+    ViewBag.Title = "Edit Department";
+}
+
+@{
+    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+}
+
+
+<style>
+    .btn {
+        border-radius: 20px !important;
+        background-color: #e96514;
+        color: #ffffff !important;
+        border: none;
+        padding: 10px 40px;
+        cursor: pointer;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 14px;
+        -webkit-appearance: none;
+        padding: 7px 18px;
+    }
+
+        .btn:hover, .btn button:active, .btn:focus {
+            background: #ffa31a;
+        }
+
+    a.btn {
+        padding: 4px 12px 4px 12px;
+        margin-top: 10px;
+        margin-bottom: 12px
+    }
+    .info-box {
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+        border-radius: 0.25rem;
+        background: #ffffff;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 1rem;
+        min-height: 80px;
+        padding: .5rem;
+        position: relative;
+        width: 100%;
+    }
+
+        .info-box .info-box-icon {
+            border-radius: 0.25rem;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -ms-flexbox;
+            display: flex;
+            font-size: 1.875rem;
+            -ms-flex-pack: center;
+            justify-content: center;
+            text-align: center;
+            width: 70px;
+        }
+
+
+            .info-box .info-box-icon > img {
+                max-width: 100%;
+            }
+
+        .info-box .info-box-content {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            line-height: 120%;
+            -ms-flex: 1;
+            flex: 1;
+            padding: 0 10px;
+        }
+</style>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("UpdateDepart", "Superadmin", FormMethod.Post))
+    {
+        <div class="col-md-12 " style="padding-top: 20px;padding-bottom: 80px;">
+            <div class="info-box">
+                @foreach (var model in Model.departManager)
+                {
+                    <div class="col-md-12" style="padding-top: 20px;padding-bottom: 20px;">
+                        <div class="col-md-6 form" id="form">
+                            <div class="col-md-12">
+                                @Html.Label("Department Name : ")
+                                @Html.TextBoxFor(modelitem => model.Dep_Name, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.Label("Status : ")
+                                @Html.DropDownListFor(modelitem => model.IsActive, new SelectList(@ViewBag.Status, "Value", "Text", ViewBag.SelectedStatus), "Select Status *", new { required = "required", @class = "form-control" })
+                            </div>
+                            <div class="col-md-12 row" style="padding-top:10px">
+                                @Html.TextBoxFor(modelitem => model.ID, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;display:none", required = "required", @class = "form-control", autocomplete = "off" })
+                                <button type="submit" class="btn pull-right">Save</button>
+                                <button type="button" onclick="Cancel()" class="btn pull-right">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+@section scripts {
+
+    <script type="text/javascript">
+        function Cancel() {
+           window.location = "@Url.Action("DepartManager", "Superadmin")";
+        }
+    </script>
+}

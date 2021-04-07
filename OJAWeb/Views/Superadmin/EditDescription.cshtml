@@ -1,0 +1,137 @@
+﻿@model OJAWeb.Models.JobDescripModel
+
+@{
+    ViewBag.Title = "Edit Description";
+}
+
+@{
+    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+}
+
+<style>
+    .summernote {
+        height: 300;
+        minHeight: null;
+        maxHeight: null;
+        focus: true;
+    }
+
+    .info-box {
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+        border-radius: 0.25rem;
+        background: #ffffff;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 1rem;
+        min-height: 80px;
+        padding: .5rem;
+        position: relative;
+        width: 100%;
+    }
+
+        .info-box .info-box-icon {
+            border-radius: 0.25rem;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -ms-flexbox;
+            display: flex;
+            font-size: 1.875rem;
+            -ms-flex-pack: center;
+            justify-content: center;
+            text-align: center;
+            width: 70px;
+        }
+
+
+            .info-box .info-box-icon > img {
+                max-width: 100%;
+            }
+
+        .info-box .info-box-content {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            line-height: 120%;
+            -ms-flex: 1;
+            flex: 1;
+            padding: 0 10px;
+        }
+</style>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("UpdateJobDescrip", "Superadmin", FormMethod.Post))
+    {
+        <div class="col-md-12 " style="padding-top: 20px;padding-bottom: 80px;">
+            <div class="info-box">
+                @foreach (var model in Model.JobDescription)
+                {
+                    <div class="col-md-12" style="padding-top: 20px;padding-bottom: 20px;">
+                        <div class="col-md-6 form" id="form">
+                            <div class="col-md-12">
+                                @Html.Label("Career Level : ")
+                                @Html.DropDownListFor(modelitem => model.Career_Name, new SelectList(@ViewBag.CareerList, "Value", "Text", ViewBag.SelectedCareerID), "Select Career Level *", new { required = "required", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.Label("Experience : ")
+                                @Html.TextBoxFor(modelitem => model.User_Years_Exp, new { type = "text", placeholder = "Eg. 2 years*", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.Label("Department : ")
+                                @Html.DropDownListFor(modelitem => model.Dep_Name, new SelectList(@ViewBag.DepList, "Value", "Text", ViewBag.SelectedDepartID), "Select Department *", new { required = "required", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.Label("Location : ")
+                                @Html.TextBoxFor(modelitem => model.Location_Job, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.Label("Qualification : ")
+                                @Html.DropDownListFor(modelitem => model.Type_Qualification, new SelectList(@ViewBag.QuaList, "Value", "Text", ViewBag.SelectedQuaID), "Select Qualification *", new { required = "required", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.Label("Job Type : ")
+                                @Html.DropDownListFor(modelitem => model.Type_Job, new SelectList(@ViewBag.TypeJobList, "Value", "Text", ViewBag.SelectedJobID), "Select Job Type *", new { required = "required", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.Label("Job Description : ")
+                                @*@Html.TextBoxFor(modelitem => model.Job_Description, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })*@
+                                @Html.TextAreaFor(modelitem => model.Job_Description, new { @class = "form-control summernote", @row = 5 })
+
+                            </div>
+
+                            <div class="col-md-12 row" style="padding-top:10px">
+                                @Html.TextBoxFor(modelitem => model.Position_ID, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;display:none", required = "required", @class = "form-control", autocomplete = "off" })
+                                <button type="submit" class="btn1 pull-right">Save</button>
+                                @*<button type="button" onclick="Cancel()" class="btn1 pull-right">Cancel</button>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+@section scripts {
+
+    <script type="text/javascript">
+        function Cancel() {
+           window.location = "@Url.Action("JobRegionList", "Superadmin")";
+        }
+
+        $(document).ready(function () {
+            $(".summernote").summernote();
+            $(".dropdown-toggle").hide();
+            $(".note-current-color-button").hide();
+        });
+    </script>
+}

@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ABX Express Job</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+
+        <link rel="stylesheet" href="~/css/main.css" />
+        <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/chartist-custom.css" />
+        <link rel="stylesheet" href="~/lib/jquery-validation/dist/jquery.validate.js" />
+        <link rel="stylesheet" href="~/fonts" />
+    </environment>
+    @*<environment exclude="Development">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>*@
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.5.1.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+    <style>
+
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            padding-bottom: 0px;
+        }
+
+        footer {
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            position: fixed;
+        }
+
+        h3 {
+            color: #e96514;
+            font-size: 42px;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .box:hover {
+            color: #ed6d00;
+        }
+
+        .nav_navbar {
+            overflow: hidden;
+            background-color: #222;
+        }
+
+            .nav_navbar a {
+                float: left;
+                font-size: 14px;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+        .nav_dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+            .nav_dropdown .nav_dropbtn {
+                font-size: 14px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 14px 16px;
+                background-color: inherit;
+                font-family: inherit;
+                margin: 0;
+            }
+
+            .nav_navbar a:hover, .nav_dropdown:hover .dropbtn {
+                color: #ddd;
+            }
+
+        .nav_dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .nav_dropdown-content a {
+                float: none;
+                font-size: 14px;
+                color: white;
+                padding: 9px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+                background-color: #222;
+            }
+
+                .nav_dropdown-content a:hover {
+                    color: #ddd;
+                }
+
+        .nav_dropdown:hover .nav_dropdown-content {
+            display: block;
+        }
+
+        .btn {
+            border-radius: 20px !important;
+            background-color: #e96514;
+            color: #ffffff !important;
+            border: none;
+            padding: 10px 40px;
+            cursor: pointer;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 14px;
+            -webkit-appearance: none;
+            padding: 7px 18px;
+        }
+
+            .btn:hover, .btn button:active, .btn:focus {
+                background: #ffa31a;
+            }
+
+        a.btn {
+            padding: 4px 12px 4px 12px;
+            margin-top: 10px;
+            margin-bottom: 12px
+        }
+
+        @@media screen and (max-width: 600px) {
+            .nav_navbar a, .nav_dropdown, .nav_dropdown .nav_dropdown-content {
+                display: none;
+            }
+
+            .navbar-header a.navbar-toggle {
+                float: right;
+                display: block;
+            }
+        }
+
+        @@media screen and (max-width: 600px) {
+            .nav_navbar.responsive {
+                position: relative;
+            }
+
+            .navbar-header.responsive .navbar-toggle {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .nav_navbar.responsive a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+
+            .nav_navbar.responsive .nav_dropdown {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+
+            .nav_navbar.responsive .nav_dropdown-content {
+                position: relative;
+            }
+
+            .nav_navbar.responsive .nav_dropdown .nav_dropbtn {
+                display: block;
+                width: 100%;
+                text-align: left;
+            }
+        }
+    </style>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("navbar-collapse");
+            if (x.className === "nav_navbar") {
+                x.className += " responsive";
+            } else {
+                x.className = "nav_navbar";
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" onclick="myFunction()">
+                    <i class="fa fa-bars" style="color:white"></i>
+                </a>
+                <a href="@Url.Action("Index", "Applicant")" class="navbar-brand">
+                    <img style="height: 37px; margin-top: -6px;" src="~/images/logo.png" title="ABX" alt="ABX" />
+                </a>
+            </div>
+
+            <div class="nav_navbar" id="navbar-collapse">
+                @Html.ActionLink("Home", "Index", "Applicant")
+                <div class="nav_dropdown">
+                    <button class="nav_dropbtn">
+                        Jobs
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="nav_dropdown-content">
+                        @Html.ActionLink("Job Opportunities", "JobRegion", "Applicant")
+                    </div>
+                </div>
+                @Html.ActionLink("Contact", "Contact", "Applicant")
+                @Html.ActionLink("My Job", "MyJob", "Applicant")
+
+
+
+                <div class="login" style="float:right;">
+                    <div class="nav_dropdown">
+                        <div style="padding: 4px 12px 4px 12px; margin-top: 10px;margin-bottom: 12px;color:white">
+                            Welcome @ViewBag.User_ShortName
+                            <i class="fa fa-caret-down" style="font-size: 14px;" aria-hidden="true"></i>
+                        </div>
+                        <div class="nav_dropdown-content">
+                            @Html.ActionLink("My Profile", "AboutMe", "Applicant")
+                            @Html.ActionLink("My Account", "Credential", "Applicant")
+                        </div>
+                    </div>
+                    @Html.ActionLink("Logout", "Logout", "Applicant", new { Style = "background-color: #ed6d00" }, new { @class = "btn" })
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <div class="container body-content" style="padding-left: 0px;padding-right: 0px;width: 100%;">
+        @RenderBody()
+        <footer style="background-color:#d6d6c2">
+            <center>Copyright &copy; ABX EXPRESS (M) SDN BHD. All Rights Reserved.</center>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

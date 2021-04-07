@@ -1,0 +1,189 @@
+﻿@model OJAWeb.Models.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<style>
+    .form textarea {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    @@media (min-width: 768px) {
+        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+    }
+
+    .navbar-brand {
+        float: none;
+        height: 0px;
+        padding: 0px;
+        font-size: 0px;
+        line-height: 0px;
+    }
+
+    h3, .h3 {
+        font-size: 42px;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: #e96514;
+    }
+
+    .navbar-brand > img {
+        display: inline-block;
+    }
+</style>
+
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post))
+{
+    <div class="container-fluid">
+        <div class="row" style="padding-top: 20px;padding-bottom: 32px;">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <h3 class="title" style="text-align:center;padding-bottom: 10px;">Registration</h3>
+                <div class="form" id="form">
+                    <form method="post" class="login-form" id="form">
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(text => text.User_Name, new { type = "text", autocomplete = "off", placeholder = "First Name *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(text => text.User_Last_Name, new { type = "text", autocomplete = "off", placeholder = "Last Name *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+                        
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(text => text.User_IC, new { type = "text", autocomplete = "off", placeholder = "IC No *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(text => text.User_Permanent_Address, new { autocomplete = "off", placeholder = "Permanent Address *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(text => text.User_Correspon_Address, new { autocomplete = "off", placeholder = "Correspondence Address *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 10px;">
+                            @Html.DropDownListFor(text => text.User_Location, new List<SelectListItem>
+                                               { new SelectListItem{Text="Johor", Value="Johor"},
+                                               new SelectListItem{Text="Kedah", Value="Kedah"},
+                                               new SelectListItem{Text="Kelantan", Value="Kelantan"},
+                                               new SelectListItem{Text="Kuala Lumpur", Value="Kuala Lumpur"},
+                                               new SelectListItem{Text="Melaka", Value="Melaka"},
+                                               new SelectListItem{Text="Negeri Sembilan", Value="Negeri Sembilan"},
+                                               new SelectListItem{Text="Pahang", Value="Pahang"},
+                                               new SelectListItem{Text="Perak", Value="Perak"},
+                                               new SelectListItem{Text="Perlis", Value="Perlis"},
+                                               new SelectListItem{Text="Pulau Pinang", Value="Pulau Pinang"},
+                                               new SelectListItem{Text="Sabah", Value="Sabah"},
+                                               new SelectListItem{Text="Sarawak", Value="Sarawak"},
+                                               new SelectListItem{Text="Selangor", Value="Selangor"},
+                                               new SelectListItem{Text="Terengganu", Value="Terengganu"},
+                                               new SelectListItem{Text="Putrajaya", Value="Putrajaya"}}, "Select State *", new { required = "required", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(text => text.User_Phone, new { onkeypress = "return isNumber(event)" ,type = "text", autocomplete = "off", placeholder = "Phone No *", Style = "width:100%;", required = "required", @class = "form-control", @title = "Please enter without (-)" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(text => text.User_Tel_Home, new { onkeypress = "return isNumber(event)", type = "text", autocomplete = "off", placeholder = "Tel Home No ", Style = "width:100%;", @class = "form-control", @title = "Please enter without (-)" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(text => text.User_Email, new { type = "email", autocomplete = "off", placeholder = "Email Address *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(text => text.User_Password2, new { id = "password1", type = "password", autocomplete = "off", placeholder = "Password *", Style = "width:100%;", required = "required", @class = "form-control" })
+                            <input type="checkbox" runat="server" onclick="myFunction1()" />
+                            Show Password
+                        </div>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(text => text.User_Password2, new { id = "password2", type = "password", autocomplete = "off", placeholder = "Confirm Password *", Style = "width:100%;", required = "required", @class = "form-control" })
+                            <input type="checkbox" runat="server" onclick="myFunction2()" />
+                            Show Password
+                        </div>
+
+                        <div class="col-md-12 row">
+                            <button type="submit" class="btn pull-right">Submit</button>
+                            <button type="reset" class="btn pull-right">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+@*@if (Model != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alert("Form succesfully submitted !");
+            });
+        </script>
+    }*@
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert('@ViewBag.Message');
+                 window.location.href = "@Url.Action("Login", "Home")";
+            };
+    </script>
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+        function myFunction1() {
+            var x = document.getElementById("password1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function myFunction2() {
+            var x = document.getElementById("password2");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

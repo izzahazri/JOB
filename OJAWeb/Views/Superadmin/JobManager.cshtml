@@ -1,0 +1,245 @@
+﻿@model OJAWeb.Models.JobManagerModel
+
+@{
+    ViewBag.Title = "Job Manager";
+}
+
+@{
+    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+}
+
+<link href="~/Scripts/summernote/summernote.css" rel="stylesheet" />
+<script src="~/Scripts/summernote/summernote.js"></script>
+
+<style>
+
+
+    .summernote {
+        height: 300;
+        minHeight: null;
+        maxHeight: null;
+        focus: true;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    h2 {
+        color: #e96514;
+        margin: 0px;
+    }
+
+    @@media screen and (max-width: 767px) {
+        .main-content {
+            padding: 0px;
+        }
+    }
+
+    .panel .panel-heading, .panel .panel-body, .panel .panel-footer {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div id="wrapper">
+    <div class="main">
+        <div class="main-content">
+            <div class="col-md-12 panel" style="padding-top: 50px;padding-bottom:50px">
+                <div class="panel-body">
+                    <div style="color:red; font-size:12px">** Attention, any INACTIVE job will not be display in Job Opportunities.</div>
+
+                    <table class="table" id="job">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Position</th>
+                                <th>Distribution Center</th>
+                                <th>Department</th>
+                                <th>Total Vacancy</th>
+                                <th>Offer</th>
+                                <th>Date Created</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @{ int a = 0; }
+                        @foreach (var model in Model.jobManager)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @(++a)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Position_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.DC_ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Depart_ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Total_Vacancy)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.IsOffer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Created_Date)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("EditJob", "Superadmin",new { id = model.Position_ID })">
+                                            <span class="icon"><i class="fa fa-pencil" style="color: #ed6d00;" title="View Job"></i></span>
+                                        </a>
+                                        @*&nbsp;
+                                            <a onclick="myFunction()" href="@Url.Action("ConfirmDelete", "Superadmin",new { id = model.Profile_Name, id2 = model.User_Name })">
+                                                <span class="icon"><i class="fa fa-user-times" style="color: #ed6d00;" title="Withdraw Application"></i></span>
+                                            </a>*@
+                                    </td>
+                                    @*<td>
+                                        <a onclick="myFunction()" href="@Url.Action("DeleteJob", "Superadmin",new { id = model.Position_ID })">
+                                            <span class="icon"><i class="fa fa-trash" style="color: #ed6d00;" title="Delete Job"></i></span>
+                                        </a>
+                                    </td>*@
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+                <button type="submit" onclick="Edit()" class="btn1 pull-right">Add Job</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid edit">
+    @using (Html.BeginForm("SubmitJob", "Superadmin", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 20px;padding-bottom: 80px;">
+                <div class="col-md-6 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("Position Name : ")
+                        @Html.TextBoxFor(text => text.Position_Name, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Distribution Center Name : ")
+                        @Html.DropDownListFor(text => text.DC_ID, new SelectList(@ViewBag.DCList, "Value", "Text"), "Select Distribution Center *", new { required = "required", @class = "form-control" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Department Name : ")
+                        @Html.DropDownListFor(text => text.Depart_ID, new SelectList(@ViewBag.DepList, "Value", "Text"), "Select Department *", new { required = "required", @class = "form-control" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Total Vacancy : ")
+                        @Html.TextBoxFor(text => text.Total_Vacancy, new { type = "number", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off", min = 0, max = 5000, })
+                    </div>
+                </div>
+                <div class="col-md-6 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("Career Level : ")
+                        @Html.DropDownListFor(text => text.Career_Name, new SelectList(@ViewBag.CareerList, "Value", "Text"), "Select Career Level *", new { required = "required", @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-12">
+                        @Html.Label("Experience : ")
+                        @Html.TextBoxFor(text => text.User_Years_Exp, new { type = "text", placeholder = "Eg. 2 years*", Value = " years", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                    </div>
+
+                    <div class="col-md-12">
+                        @Html.Label("Location : ")
+                        @Html.TextBoxFor(text => text.Location_Job, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                    </div>
+
+                    <div class="col-md-12">
+                        @Html.Label("Qualification : ")
+                        @Html.DropDownListFor(text => text.Type_Qualification, new SelectList(@ViewBag.QuaList, "Value", "Text"), "Select Qualification *", new { required = "required", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("Job Description : ")
+                        @*@Html.TextAreaFor(text => text.Job_Description, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })*@
+
+                        @Html.TextAreaFor(text => text.Job_Description, new { @class = "form-control summernote", @row = 5 })
+                    </div>
+                </div>
+                <div class="col-md-6 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("Job Type : ")
+                        @Html.DropDownListFor(text => text.Type_Job, new SelectList(@ViewBag.TypeJobList, "Value", "Text"), "Select Job Type *", new { required = "required", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6 form" id="form">
+                    <div class="col-md-12">
+                        @Html.Label("Status : ")
+                        @Html.DropDownListFor(text => text.IsOffer, new List<SelectListItem>
+                                           { new SelectListItem{Text="Offer", Value="True"},
+                                           new SelectListItem{Text="Not Offer", Value="False"}}, "Select Status *", new { required = "required", Style = "width:100%;", @class = "form-control" })
+                    </div>
+                    <div class="col-md-12 row" style="padding-top:10px">
+                        <button type="submit" class="btn1 pull-right">Save</button>
+                        <button type="button" onclick="Cancel()" class="btn1 pull-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>*@
+
+    <script src="~/js/filtertable.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".edit").hide();
+            $('#job').filterTable();
+        });
+
+        function myFunction() {
+            //var answer = window.confirm("Are you sure want to withdraw this application ?");
+            alert("Delete Successfully");
+        }
+
+        function Edit() {
+            $(".edit").show();
+            $(".dropdown-toggle").hide();
+            $(".note-current-color-button").hide();
+        }
+
+        function Cancel() {
+            $(".edit").hide();
+        }
+
+        $(document).ready(function () {
+            $(".summernote").summernote();
+        });
+
+
+
+                                        //function Region() {
+                                        //    $.ajax({
+                                        //        url: "GetRegionList",
+                                        //        type: "POST",
+                                        //        data: '{}',
+                                        //        success: function (r) {
+                                        //            var regionList = $("[id*=regionList]");
+                                        //            regionList.empty().append('<option selected="selected" value="0">Please select</option>');
+                                        //            $.each(r.d, function () {
+                                        //                regionList.append($("<option></option>").val(this['Value']).html(this['Text']));
+                                        //            });
+                                        //        }
+                                        //    });
+                                        //}
+
+    </script>
+}

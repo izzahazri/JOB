@@ -1,0 +1,133 @@
+﻿@model OJAWeb.Models.JobAppliedModel
+
+@{
+    ViewBag.Title = "Job Withdrawn";
+}
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    td {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    h2 {
+        color: #e96514;
+        margin: 0px;
+    }
+
+    @@media screen and (max-width: 767px) {
+        .main-content {
+            padding: 0px;
+        }
+    }
+
+    .panel .panel-heading, .panel .panel-body, .panel .panel-footer {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div id="wrapper">
+    <div class="main">
+        <div class="main-content">
+            <div class="panel" style="padding-top: 50px;">
+                <div class="panel-body">
+                    <table class="table" id="jobapp">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Applicant</th>
+                                <th>State</th>
+                                <th>Department</th>
+                                <th>Distribution Center</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>Reason</th>
+                                <th>Withdrawn Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @{ int a = 0; }
+                        @foreach (var model in Model.jobapplied)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @(++a)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Info", "Admin",new { id = model.User_ID })">
+                                            @Html.DisplayFor(modelItem => model.User_Name)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Region_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Depart_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.DC_Code)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Position_Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Status_Application)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Remark_Withdrawn)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Withdrawn_Date)
+                                    </td>
+                                    @*<td>
+                                            @Html.TextBoxFor(modelItem => model.Position_ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })
+
+                                            <a href="@Url.Action("ViewJob", "Admin",new { id = model.Job_ID })">
+                                                <span class="icon"><i class="fa fa-search" style="color: #ed6d00;" title="View Application"></i></span>
+                                            </a>
+                                            &nbsp;
+                                            <a onclick="myFunction()" href="@Url.Action("ConfirmDelete", "Admin",new { id = model.Position_ID, id2 = model.User_Name })">
+                                                <span class="icon"><i class="fa fa-user-times" style="color: #ed6d00;" title="Withdraw Application"></i></span>
+                                            </a>
+                                        </td>*@
+                                    <td>
+                                        @Html.TextBoxFor(modelItem => model.ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })
+
+                                        <a href="@Url.Action("DownloadResumeList", "Admin", new { id = model.ID_User})">
+                                            <span class="icon"><i class="fa fa-file-text " style="color: #ed6d00;" title="Download Resume"></i></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/js/filtertable.min.js"></script>
+
+    <script type="text/javascript">
+        function myFunction() {
+            //var answer = window.confirm("Are you sure want to withdraw this application ?");
+            alert("Withdraw Successfully");
+        }
+
+        $(document).ready(function () {
+            $('#jobapp').filterTable();
+        });
+    </script>
+}

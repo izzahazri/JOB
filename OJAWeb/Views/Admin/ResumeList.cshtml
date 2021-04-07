@@ -1,0 +1,120 @@
+﻿@model OJAWeb.Models.ResumeListModel
+
+@{
+    ViewBag.Title = "Resume List";
+}
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    td {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    h2 {
+        color: #e96514;
+        margin: 0px;
+    }
+
+    @@media screen and (max-width: 767px) {
+        .main-content {
+            padding: 0px;
+        }
+    }
+
+    .panel .panel-heading, .panel .panel-body, .panel .panel-footer {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<h3 class="title" style="text-align:center;padding-bottom: 10px;padding-top: 20px;">Resume List</h3>
+<div id="wrapper">
+    <div class="main">
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-body">
+                    <table class="table" id="resumelist">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Applicant</th>
+                                <th>IC No</th>
+                                <th>Phone No</th>
+                                <th>Email</th>
+                                <th>Date Applied</th>
+                                <th>Resume</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @{ int a = 0; }
+                        @foreach (var model in Model.resumelist)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @(++a)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Info", "Admin",new { id = model.ID })">
+                                            @Html.DisplayFor(modelItem => model.User_Name)
+                                        </a>                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.User_IC)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.User_Phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.User_Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Uploaded_Resume)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.User_Resume)
+                                        @*@Html.ActionLink("View", "DownloadResume", "Applicant", new { Style = "background-color: #ed6d00" })*@
+                                    </td>
+
+                                    <td>
+                                        @Html.TextBoxFor(modelItem => model.ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })
+
+                                        <a href="@Url.Action("DownloadResumeList", "Admin", new { id = model.ID})">
+                                            <span class="icon"><i class="fa fa-file-text " style="color: #ed6d00;" title="Download Resume"></i></span>
+                                        </a>
+                                        &nbsp;
+                                        <a onclick="myFunction()" href="@Url.Action("ConfirmDeleteResumeList", "Admin", new { id = model.ID })">
+                                            <span class="icon"><i class="fa fa-user-times" style="color: #ed6d00;" title="Withdraw Applicant"></i></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/filtertable.min.js"></script>
+
+    <script type="text/javascript">
+        function myFunction() {
+            //var answer = window.confirm("Are you sure want to withdraw this application ?");
+            alert("Withdraw Successfully");
+        }
+
+        $(document).ready(function () {
+            $('#resumelist').filterTable();
+        });
+
+    </script>
+}

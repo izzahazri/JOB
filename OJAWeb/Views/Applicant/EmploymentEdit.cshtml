@@ -1,0 +1,198 @@
+﻿@model OJAWeb.Models.EmploymentModel
+
+@{
+    ViewBag.Title = "Employment Edit";
+}
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<style>
+    .nav_navbar a {
+        text-decoration: none;
+    }
+
+    body {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding-bottom: 0px;
+    }
+
+    .form textarea {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    @@media (min-width: 768px) {
+        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+    }
+
+    h3, .h3 {
+        font-size: 28px;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    h1, h2, h3, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: #e96514;
+    }
+</style>
+
+@using (Html.BeginForm("EmploymentEdit", "Applicant", FormMethod.Post))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="padding-left: 200px;padding-top: 20px;padding-bottom: 80px;">
+                <h3 class="title" style="text-align:left;padding-bottom: 10px;">
+                    Employment
+                    @*<a class="btn" href="@Url.Action("Employment", "Applicant")"><< Back</a>*@
+                </h3>
+                @foreach (var model in Model.usersemployment)
+                {
+                    <div class="form" id="form">
+                        <div class="col-md-12">
+                            <div style="color:red; font-size:12px">** Option to add 3 latest employment records</div>
+                            <div style="background-color:#d6d6c2">Employment Record</div>
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("Company Name 1 : ")
+                            @Html.TextBoxFor(modelItem => model.User_Company1, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("Company Address : ")
+                            @Html.TextAreaFor(modelItem => model.User_CompanyAddress1, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("From Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_From_Year1, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("To Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_To_Year1, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Last Position : ")
+                            @Html.TextBoxFor(modelItem => model.User_LastPosition1, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Label("Reason for Leaving : ")
+                            @Html.TextAreaFor(modelItem => model.User_Reason1, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12" style="padding-top:30px;">
+                            @Html.Label("Company Name 2 : ")
+                            @Html.TextBoxFor(modelItem => model.User_Company2, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("Company Address : ")
+                            @Html.TextAreaFor(modelItem => model.User_CompanyAddress2, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("From Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_From_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("To Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_To_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Last Position : ")
+                            @Html.TextBoxFor(modelItem => model.User_LastPosition2, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Label("Reason for Leaving : ")
+                            @Html.TextAreaFor(modelItem => model.User_Reason2, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12" style="padding-top:30px;">
+                            @Html.Label("Company Name 3 : ")
+                            @Html.TextBoxFor(modelItem => model.User_Company3, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("Company Address : ")
+                            @Html.TextAreaFor(modelItem => model.User_CompanyAddress3, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("From Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_From_Year3, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("To Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_To_Year3, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Last Position : ")
+                            @Html.TextBoxFor(modelItem => model.User_LastPosition3, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Label("Reason for Leaving : ")
+                            @Html.TextAreaFor(modelItem => model.User_Reason3, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("If currently employed, state notice required to terminate employment : ")
+                            @Html.DropDownListFor(modelItem => model.User_Period, new List<SelectListItem>
+                                                        { new SelectListItem{Text="1 Week", Value="1 Week"},
+                                                        new SelectListItem{Text="2 Weeks", Value="2 Weeks"},
+                                                        new SelectListItem{Text="3 Weeks", Value="3 Weeks"},
+                                                        new SelectListItem{Text="1 Month", Value="1 Month"},
+                                                        new SelectListItem{Text="2 Months", Value="2 Months"},
+                                                        new SelectListItem{Text="3 Months", Value="3 Months"},
+                                                        new SelectListItem{Text="More than 4 Months", Value="More than 4 Months"}}, "Select Period *", new { Style = "width:100%;", @class = "form-control" })
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Employer's Phone No : ")
+                            @Html.TextBoxFor(modelItem => model.User_Emp_Phone, new { type = "tel", placeholder = "eg. 0345678990 *", Style = "width:100%;", @class = "form-control", @title = "Please enter without (-)" })
+                        </div>
+                        <div class="col-md-12 row" style="padding-top:10px">
+                            <button type="submit" class="btn pull-right">Save Changes</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                 alert('@ViewBag.Message');
+                 @*window.location.href = "@Url.Action("AboutMe", "Applicant")";*@
+            };
+    </script>
+}

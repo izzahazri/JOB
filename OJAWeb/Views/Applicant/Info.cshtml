@@ -1,0 +1,216 @@
+﻿@model OJAWeb.Models.InfoModel
+@{
+    ViewBag.Title = "Info";
+}
+
+@{
+    Layout = "~/Views/Shared/_ApplicantLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<style>
+
+    .institute {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .about {
+        padding: 3px;
+    }
+
+    .nav_navbar a {
+        text-decoration: none;
+    }
+
+    body {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding-bottom: 0px;
+    }
+
+
+    .form textarea {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        about-sizing: border-about;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    @@media (min-width: 768px) {
+        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+    }
+
+    h3, .h3 {
+        font-size: 28px;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    h1, h2, h3, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: #e96514;
+    }
+
+    .info-box {
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+        border-radius: 0.25rem;
+        background: #ffffff;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 1rem;
+        min-height: 80px;
+        padding: .5rem;
+        position: relative;
+        width: 100%;
+    }
+
+        .info-box .info-box-icon {
+            border-radius: 0.25rem;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -ms-flexbox;
+            display: flex;
+            font-size: 1.875rem;
+            -ms-flex-pack: center;
+            justify-content: center;
+            text-align: center;
+            width: 70px;
+        }
+
+
+            .info-box .info-box-icon > img {
+                max-width: 100%;
+            }
+
+        .info-box .info-box-content {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            line-height: 120%;
+            -ms-flex: 1;
+            flex: 1;
+            padding: 0 10px;
+        }
+</style>
+
+<div class="container-fluid">
+    <div class="col-md-12 " style="padding-top: 20px;padding-bottom: 80px;">
+        <div class="info-box">
+            @foreach (var model in Model.usersinfo)
+            {
+                <div class="col-md-12 form" id="form" style="padding-top: 20px;">
+                    <div class="col-md-8">
+                        <div class="about col-md-12">
+                            <div class="col-md-4">
+                                @Html.Label("Applicant Name")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Name)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("IC No")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_IC)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("Permanent Address")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Permanent_Address)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("Correspondence Address")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Correspon_Address)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("State")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Location)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("Phone No")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Phone)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("Home Phone No")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Tel_Home)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("Email Address")
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DisplayFor(modelItem => model.User_Email)
+                            </div>
+                        </div>
+
+                        <div class="about col-md-12 ">
+                            <div class="col-md-4 ">
+                                @Html.Label("Applicant Resume")
+                            </div>
+                            <div class="col-md-8 institute">
+                                @Html.DisplayFor(modelItem => model.User_Resume)
+                                @if (model.User_Resume != "NO FILE")
+                                {
+                                    <a href="@Url.Action("DownloadResume", "Applicant", new { id = model.ID })">
+                                        <span class="resumefile">View</span>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-12 row" style="padding-top:20px">
+                            @Html.ActionLink("Back", "MyJob", "Applicant", new { Style = "background-color: #ed6d00" }, new { @class = "btn" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

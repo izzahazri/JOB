@@ -1,0 +1,213 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .info-box {
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+        border-radius: 0.25rem;
+        background: #ffffff;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 1rem;
+        min-height: 80px;
+        padding: .5rem;
+        position: relative;
+        width: 100%;
+    }
+
+        .info-box .info-box-icon {
+            border-radius: 0.25rem;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -ms-flexbox;
+            display: flex;
+            font-size: 1.875rem;
+            -ms-flex-pack: center;
+            justify-content: center;
+            text-align: center;
+            width: 70px;
+        }
+
+
+            .info-box .info-box-icon > img {
+                max-width: 100%;
+            }
+
+        .info-box .info-box-content {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            line-height: 120%;
+            -ms-flex: 1;
+            flex: 1;
+            padding: 0 10px;
+        }
+
+    h3 {
+        text-align: left;
+    }
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<div class="row" style="padding-top:10px;padding-bottom:50px">
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-file"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">In Progress</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalProgress
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("ListJob", "Admin",new { id ="1"})">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-eye"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Screening</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalReviewed
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("ListJob", "Admin",new { id ="2"})">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Call for Interview</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalCallforIn
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("ListJob", "Admin",new { id ="3"})">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-thumbs-up"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Interview</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalInterviewed
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("ListJob", "Admin",new { id ="4"})">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-list-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Keep in View</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalKeepInView
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("ListJob", "Admin",new { id ="5"})">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-times"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Rejected</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalRejected
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("ListJob", "Admin",new { id ="6"})">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-user-times"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Withdrawn</span>
+                <span class="info-box-number">
+                    @ViewBag.toTalWithdraw
+                </span>
+            </div>
+            <a class="small-box-footer" href="@Url.Action("JobWithdrawn", "Admin")">
+                More Info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+<br />
+<br />
+
+@section scripts {
+    <script src="~/js/canvasjs.min.js"></script>
+
+    <script type="text/javascript">
+     window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title: {
+		text: "Job Appplications"
+	},
+	subtitles: [{
+		text: "2021"
+	}],
+	axisY: {
+		title: "No. of Applications",
+		gridThickness: 0
+	},
+	data: [{
+		type: "bar",
+		indexLabel: "{y}",
+		dataPoints: @Html.Raw(ViewBag.DataPoints)
+	}]
+});
+chart.render();
+
+}
+    </script>
+}

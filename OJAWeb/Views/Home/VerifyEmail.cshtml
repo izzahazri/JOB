@@ -1,0 +1,101 @@
+﻿@model OJAWeb.Models.LoginModel
+@{
+    ViewData["Title"] = "Verify Email";
+}
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    .register {
+        color: white;
+        font-size: 13px;
+    }
+
+    a:hover {
+        color: #E96515;
+    }
+
+    .navbar {
+        border-bottom: 0;
+    }
+
+    .navbar-inverse {
+        background-color: #222;
+        border-color: #080808;
+    }
+
+    .btn {
+        border-radius: 20px !important;
+        background-color: #e96514;
+        color: #ffffff !important;
+        border: none;
+        padding: 10px 40px;
+        cursor: pointer;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 14px;
+        -webkit-appearance: none;
+        padding: 7px 100px;
+    }
+</style>
+@using (Html.BeginForm("VerifyEmail", "Home", FormMethod.Post))
+{
+    <div>
+        <br />
+        <br />
+        <br />
+        <div class="content-w3ls">
+            <div class="content-bottom">
+                <h2>
+                    <center>Online Job Application</center>
+                    <div class="col-md-10 col-md-offset-1"><hr></div>
+                </h2>
+                <form id="form1" runat="server">
+                    <div class="field-group">
+                        <span class="fa fa-user" aria-hidden="true"></span>
+                        <div class="wthree-field">
+                            @Html.TextBoxFor(text => text.User_LoginID, new { type = "text", autocomplete = "off", placeholder = "User Email", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <button type="submit" class="btn center">Reset Password</button>
+                    </div>
+
+                    <ul class="list-login">
+                        <li style="color: white; font-size: 13px">
+                            Have an account already ?&nbsp;
+                            @Html.ActionLink("Login", "Login", "Home")
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+}
+
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert('@TempData["Message"].ToString()');
+        };
+    </script>
+
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+}

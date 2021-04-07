@@ -1,0 +1,219 @@
+﻿@model OJAWeb.Models.EducationModel
+
+@{
+    ViewBag.Title = "Education Edit";
+}
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<style>
+    .nav_navbar a {
+        text-decoration: none;
+    }
+
+    body {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding-bottom: 0px;
+    }
+
+    .form textarea {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    @@media (min-width: 768px) {
+        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+    }
+
+    h3, .h3 {
+        font-size: 28px;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    h1, h2, h3, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: #e96514;
+    }
+</style>
+
+@using (Html.BeginForm("EducationEdit", "Applicant", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="padding-left: 200px;padding-top: 20px;padding-bottom: 80px;">
+                <h3 class="title" style="text-align:left;padding-bottom: 10px;">
+                    Education
+                    @*<a class="btn" href="@Url.Action("Education", "Applicant")"><< Back</a>*@
+                </h3>
+                @foreach (var model in Model.userseducation)
+                {
+                    <div class="form" id="form">
+                        <div class="col-md-12">
+                            <div style="color:red; font-size:12px">** Please add two highest education qualifications</div>
+                            <div style="background-color:#d6d6c2">Education Information</div>
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("School 1 : ")
+                            @Html.DropDownListFor(modelItem => model.User_School1, new List<SelectListItem>
+                                               { new SelectListItem{Text="Primary (Standard 1 to 6)", Value="Primary (Standard 1 to 6)"},
+                                               new SelectListItem{Text="Secondary (Form 1 to 3)", Value="Secondary (Form 1 to 3)"},
+                                               new SelectListItem{Text="Secondary (Form 4 to 6)", Value="Secondary (Form 4 to 6)"},
+                                               new SelectListItem{Text="Form 6 / Pre-University", Value="Form 6 / Pre-University"},
+                                               new SelectListItem{Text="Institute", Value="Institute"},
+                                               new SelectListItem{Text="College", Value="College"},
+                                               new SelectListItem{Text="University", Value="University"},
+                                               new SelectListItem{Text="Others", Value="Others"}}, "Select School *", new { Style = "width:100%;", required = "required", @class = "form-control" })
+
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("Name of School / College / University : ")
+                            @Html.TextBoxFor(modelItem => model.User_Institute1, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("From Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_From_Year1, new { type = "month", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("To Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_To_Year1, new { type = "month", Style = "width:100%;", required = "required", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Qualification / Certificate : ")
+                            @Html.DropDownListFor(modelItem => model.User_Qualification1, new List<SelectListItem>
+                                               { new SelectListItem{Text="UPSR", Value="UPSR"},
+                                               new SelectListItem{Text="PMR", Value="PMR"},
+                                               new SelectListItem{Text="SPM", Value="SPM"},
+                                               new SelectListItem{Text="STPM", Value="STPM"},
+                                               new SelectListItem{Text="Diploma", Value="Diploma"},
+                                               new SelectListItem{Text="Bachelor's Degree", Value="Bachelor Degree"},
+                                               new SelectListItem{Text="Master's Degree", Value="Master Degree"},
+                                               new SelectListItem{Text="Doctorate (PhD)", Value="Doctorate (PhD)"},
+                                               new SelectListItem{Text="Professional Certificate", Value="Professional Certificate"}}, "Select Qualification *", new { Style = "width:100%;", required = "required", @class = "form-control" })
+
+                        </div>
+
+                        <div class="col-md-12" style="padding-top: 30px ">
+                            @Html.Label("School 2 : ")
+                            @Html.DropDownListFor(modelItem => model.User_School2, new List<SelectListItem>
+                                               { new SelectListItem{Text="Primary (Standard 1 to 6)", Value="Primary (Standard 1 to 6)"},
+                                               new SelectListItem{Text="Secondary (Form 1 to 3)", Value="Secondary (Form 1 to 3)"},
+                                               new SelectListItem{Text="Secondary (Form 4 to 6)", Value="Secondary (Form 4 to 6)"},
+                                               new SelectListItem{Text="Form 6 / Pre-University", Value="Form 6 / Pre-University"},
+                                               new SelectListItem{Text="Institute", Value="Institute"},
+                                               new SelectListItem{Text="College", Value="College"},
+                                               new SelectListItem{Text="University", Value="University"},
+                                               new SelectListItem{Text="Others", Value="Others"}}, "Select School *", new { Style = "width:100%;", @class = "form-control" })
+
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.Label("Name of School / College / University : ")
+                            @Html.TextBoxFor(modelItem => model.User_Institute2, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("From Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_From_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.Label("To Month/Year : ")
+                            @Html.TextBoxFor(modelItem => model.User_To_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Qualification / Certificate : ")
+                            @Html.DropDownListFor(modelItem => model.User_Qualification2, new List<SelectListItem>
+                                               { new SelectListItem{Text="UPSR", Value="UPSR"},
+                                               new SelectListItem{Text="PMR", Value="PMR"},
+                                               new SelectListItem{Text="SPM", Value="SPM"},
+                                               new SelectListItem{Text="STPM", Value="STPM"},
+                                               new SelectListItem{Text="Diploma", Value="Diploma"},
+                                               new SelectListItem{Text="Bachelor's Degree", Value="Bachelor Degree"},
+                                               new SelectListItem{Text="Master's Degree", Value="Master Degree"},
+                                               new SelectListItem{Text="Doctorate (PhD)", Value="Doctorate (PhD)"},
+                                               new SelectListItem{Text="Professional Certificate", Value="Professional Certificate"}}, "Select Qualification *", new { Style = "width:100%;", @class = "form-control" })
+
+                        </div>
+
+                        <div class="col-md-12" id="upload" style="padding-top:30px">
+                            @Html.Label("Certificates / Achievements (if any) : ")
+                            @Html.TextBoxFor(modelItem => model.User_Cert_File, new { @class = "form-control", @readonly = "readonly" })
+                            <input type="file" accept=".PDF,.png,.jpg,.jpeg" name="CertFile" class="file form-control" />
+                        </div>
+
+                        <div class="col-md-12 row" style="padding-top:10px">
+                            <button type="submit" class="btn pull-right">Save Changes</button>
+                            @ViewBag.Message
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                 alert('@ViewBag.Message');
+                 @*window.location.href = "@Url.Action("AboutMe", "Applicant")";*@
+            };
+    </script>
+}
+
+@*<script>
+        function myFunction() {
+            var table = document.getElementById("upload");
+            var row = table.insertRow(0);
+            //var cell1 = row.insertCell(0);
+            //var cell2 = row.insertCell(1);
+            //cell1.innerHTML = "NEW CELL1";
+            //cell2.innerHTML = "NEW CELL2";
+        }
+    </script>*@
+
+@*<script>
+        $(document).ready(function () {
+
+            // Append an element with ID container
+            $("button").click(function () {
+                $("#upload").append("This is demo text.");
+            });
+        });
+    </script>*@
+
+@*<script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("#upload").append("<li>list item <a hrwef='javascript:void(0);' class='remove'>&times;</a></li>");
+            });
+            $(document).on("click", "a.remove", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>*@

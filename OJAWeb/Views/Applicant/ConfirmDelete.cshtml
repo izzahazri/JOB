@@ -1,0 +1,127 @@
+﻿@model OJAWeb.Models.JobAppliedModel
+
+@{
+    ViewBag.Title = "Confirmation";
+}
+
+@{
+    Layout = "~/Views/Shared/_ApplicantLayout.cshtml";
+}
+
+<style>
+    nav.dropdown1 {
+        padding-top: 50px;
+        text-align: center;
+        padding-bottom: 300px;
+    }
+
+    nav ul.itembox {
+        margin-left: 0;
+        padding-left: 0;
+        width: 500px;
+        list-style: none;
+        position: relative;
+        display: inline-table;
+    }
+
+    nav ul ul.itemList {
+        display: none;
+    }
+
+    nav ul li:hover > ul.itemList {
+        display: block;
+    }
+
+    nav ul li.itembox1 {
+        float: left;
+        width: 500px;
+        text-align: left;
+        border-bottom: 3px solid #e96514;
+    }
+
+        nav ul li.itembox1:hover {
+            background: #f2f2f2;
+        }
+
+        nav ul li.itembox1 a {
+            display: block;
+            padding: 5px 5px;
+            color: #2a2a2a;
+            text-decoration: none;
+        }
+
+    nav ul ul.itemList {
+        border-radius: 0px;
+        padding: 0;
+        position: absolute;
+        top: 100%;
+    }
+
+        nav ul ul.itemList li {
+            list-style: none;
+            float: none;
+            border-bottom: 2px solid #eaeaea;
+            position: relative;
+        }
+
+            nav ul ul.itemList li a {
+                padding: 5px 200px;
+                color: #838383;
+            }
+
+                nav ul ul.itemList li a:hover {
+                    background: #e96514;
+                    color: #fff;
+                }
+</style>
+
+@using (Html.BeginForm("ProceedDelete", "Applicant", FormMethod.Post))
+{
+    <div class="container-fluid">
+        @foreach (var model in Model.jobapplied)
+        {
+            <div class="row">
+                @*<div class="col-md-6" style="padding-left: 40px;text-align:end;">
+                        <img style="background-repeat: no-repeat; background-position: bottom center;width:100%" src="~/images/1.jpg" title="Quote" alt="Quote" />
+                    </div>*@
+                <div class="col-md-3"></div>
+
+                <div class="col-md-6" style="padding-left: 50px;padding-top: 10px;padding-right: 50px;margin-top:10px;border:solid;border-color:red">
+                    <h4 class="title" style="text-align:center;padding-bottom: 10px;">Why you want to withdraw this job ? </h4>
+                </div>
+
+                <div class="col-md-3"></div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3"></div>
+
+                @*<div class="col-md-6" style="padding-top: 50px;text-align:center">
+                        @Html.DropDownListFor(text => text.Remark_Withdrawn, new SelectList(@ViewBag.RemarkList, "Value", "Text"), "Select Reason *", new { required = "required", @class = "form-control" })
+                        <button type="submit" class="btn" style="margin-bottom:30px">Choose</button>
+                    </div>*@
+
+                <nav class="dropdown1">
+                    <ul class="itembox">
+                        <li class="itembox1">
+                            @*<a href="#">Please Choose Region<div id="down-triangle"></div></a>*@
+                            @Html.TextBoxFor(modelItem => model.JobApp_ID, new { Style = "display:none" })
+
+                            @Html.DropDownListFor(modelItem => model.Remark_Withdrawn, new SelectList(@ViewBag.RemarkList, "Value", "Text"), "Select Reason *", new { required = "required", @class = "form-control" })
+                            <ul class="itemList">
+                                <li>
+                                    @*<div class="circle"></div>*@
+
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <button type="submit" class="btn" style="margin-bottom:30px">Proceed Withdraw</button>
+                </nav>
+
+                <div class="col-md-3"></div>
+            </div>
+        }
+    </div>
+}

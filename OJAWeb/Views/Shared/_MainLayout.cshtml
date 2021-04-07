@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OJA</title>
+
+    <environment include="Development">
+
+        <link rel="stylesheet" href="~/css/style1.css" />
+        <link rel="stylesheet" href="~/css/font-awesome1.css" />
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet" />
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
+    </environment>
+    @*<environment exclude="Development">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>*@
+
+    <style>
+        body {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            /*font-family: 'WebFont', 'Kanit', tahoma, verdana, arial, sans-serif, "lucida grande";*/
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            padding-bottom: 0px;
+            color: #333333;
+            font-size: 14px;
+        }
+
+        footer {
+            /*font-size: 0.6em;
+            height: auto;
+            position: fixed;
+            width: 100%;
+            bottom: 0;*/
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            /*position: fixed;*/
+        }
+
+        h3 {
+            color: #e96514;
+            font-size: 42px;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .box:hover {
+            color: #ed6d00;
+        }
+
+        .navbar-inverse {
+            background-color: #423c35;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        .navbar {
+            padding: 10px 15px;
+            border-radius: 0;
+            border-bottom: 2px solid #E96515;
+        }
+
+        .form {
+            font-size: 13px;
+        }
+
+        .btn {
+            border-radius: 20px !important;
+            background-color: #e96514;
+            color: #ffffff !important;
+            border: none;
+            padding: 10px 40px;
+            cursor: pointer;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 14px;
+            -webkit-appearance: none;
+            padding: 7px 18px;
+        }
+
+        .form input {
+            outline: 0;
+            background: #f2f2f2;
+            border: 0;
+            margin: 0 0 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .form textarea {
+            /*font-family: "Roboto", sans-serif;*/
+            outline: 0;
+            background: #f2f2f2;
+            width: 100%;
+            border: 0;
+            margin: 0 0 15px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .form .message {
+            margin: 15px 0 0;
+            color: #b3b3b3;
+            font-size: 12px;
+        }
+
+            .form .message a {
+                color: #4CAF50;
+                text-decoration: none;
+            }
+
+        .form .register-form {
+            display: none;
+        }
+
+        .form-control {
+            display: block;
+            height: 34px;
+            line-height: 1.42857143;
+            color: #555;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        }
+        /* Custom, iPhone Retina */
+        @@media only screen and (min-width : 320px) {
+            .right-line {
+                border-right: 0;
+            }
+        }
+        /* Extra Small Devices, Phones */
+        @@media only screen and (min-width : 480px) {
+            .right-line {
+                border-right: 0;
+            }
+        }
+        /* Small Devices, Tablets */
+        @@media only screen and (min-width : 768px) {
+            .right-line {
+                border-right: 1px solid #ddd;
+            }
+        }
+        /* Medium Devices, Desktops */
+        @@media only screen and (min-width : 992px) {
+            .right-line {
+                border-right: 1px solid #ddd;
+            }
+        }
+        /* Large Devices, Wide Screens */
+        @@media only screen and (min-width : 1200px) {
+            .right-line {
+                border-right: 1px solid #ddd;
+            }
+        }
+
+        @@media screen and (max-width: 568px) {
+            .content-bottom {
+                padding: 2em 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    @*<nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" runat="server" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/logo.png" style="height: 37px; margin-top: -6px;" title="ABX" alt="ABX">
+                    </a>
+                </div>
+            </div>
+        </nav>*@
+
+    <nav class="navbar  navbar-inverse navbar-top">
+        <div class="container text-center">
+            <a class="navbar-brand" runat="server" href="@Url.Action("Index", "Home")">
+                <img id="header-logo-text" src="~/images/logo.png" title="ABX Express Malaysia" alt="ABX Express Malaysia" />
+            </a>
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+   <div class="container body-content" style="padding-left: 0px;padding-right: 0px;width: 100%;">
+        @RenderBody()
+        @*<hr />*@
+        <footer style="background-color:#d6d6c2">
+            <center>Copyright &copy; ABX EXPRESS (M) SDN BHD. All Rights Reserved.</center>
+        </footer>
+
+
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿@model OJAWeb.Models.JobDescripModel
+@{
+    ViewBag.Title = "Job Description";
+}
+
+@{
+    Layout = "~/Views/Shared/_ApplicantLayout.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<style>
+    .nav_navbar a {
+        text-decoration: none;
+    }
+
+    body {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding-bottom: 0px;
+    }
+
+    .form textarea {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    @@media (min-width: 768px) {
+        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+    }
+
+
+    h3, .h3 {
+        font-size: 28px;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    h1, h2, h3, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: #e96514;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" style="padding-top: 20px;padding-bottom: 50px;">
+            @foreach (var model in Model.JobDescription)
+            {
+                <h3 class="title" style="text-align:left;padding-bottom: 10px;">
+                    @Html.DisplayFor(modelItem => model.Position_Title)
+                </h3>
+
+                <div class="col-md-8" style="padding-bottom:5px">
+                    <div class="col-md-12" style="background-color:#f5f5f5;padding-top:5px;padding-bottom:5px">
+                        <div class="col-md-6">
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Career Level")<br />
+                                @Html.DisplayFor(modelItem => model.User_Career_Level)
+                            </div>
+
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Experience")<br />
+                                @Html.DisplayFor(modelItem => model.User_Years_Exp)
+                            </div>
+
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Department")<br />
+                                @Html.DisplayFor(modelItem => model.Depart_Name)
+                            </div>
+
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Location")<br />
+                                @Html.DisplayFor(modelItem => model.Location_Job)
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Qualification")<br />
+                                @Html.DisplayFor(modelItem => model.User_Qualification)
+                            </div>
+
+
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Job Type")<br />
+                                @Html.DisplayFor(modelItem => model.Job_Type)
+                            </div>
+
+                            <div class="col-md-12" style="padding-bottom: 12px;">
+                                @Html.Label("Posted on")<br />
+                                @Html.DisplayFor(modelItem => model.Created_Date)
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="padding-top:5px;padding-bottom:5px">
+                        <b>Job Descriptions</b><br />
+                        @Html.Raw(model.Job_Description)
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="col-md-12" style="background-color:#f5f5f5;padding-top:5px;padding-bottom:105px">
+                        <div style="padding-bottom:15px"><b>Apply Now</b></div>
+                        <div style="padding-bottom:12px">Please review all the requirements before applying for the Position.</div>
+                        <div class="col-md-12 row">
+                            <a onclick="myFunction()" href="@Url.Action("Declaration", "Applicant",new { id = model.Position_ID })">
+                                <span class="btn">Apply Now</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*@section scripts {
+
+    <script type="text/javascript">
+        function myFunction() {
+            var answer = window.confirm("Are you sure want to apply this position ?");
+        }
+    </script>
+}*@
