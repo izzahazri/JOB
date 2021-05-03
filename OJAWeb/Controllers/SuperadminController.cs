@@ -920,6 +920,7 @@ namespace OJAWeb.Controllers
                     {
                         string userShortName = reader["User_ShortName"].ToString();
                         ViewBag.User_ShortName = userShortName;
+
                     }
                     con.Close();
                 }
@@ -927,7 +928,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT JA.ID as Job_ID,UL.User_Name,User_Resume,Dep_Name,JA.Created_Date,Status_Application,JA.Position_ID,MP.Position_NAME,JA.User_ID,SS.ID AS System_ID from TblJob_Application JA LEFT JOIN TblMaster_Department MD ON MD.ID = JA.Depart_ID LEFT JOIN TblUser_Login UL ON UL.ID = JA.User_ID LEFT JOIN TblResume R ON R.User_ID = JA.User_ID   LEFT JOIN TblMaster_Position MP ON MP.Position_ID = JA.Position_ID LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.ID ='" + Job_ID + "'";
+                string commandText = "SELECT JA.ID as Job_ID,UL.User_Name,User_Resume,Dep_Name,JA.Created_Date,Status_Application,JA.Position_ID,MP.Position_NAME,JA.User_ID,SS.ID AS System_ID, JA.Status_Application as Status_Code, JA.Interview_Date as Interview_Date, JA.Interview_Time as Interview_Time, JA.Interview_Venue as Interview_Venue from TblJob_Application JA LEFT JOIN TblMaster_Department MD ON MD.ID = JA.Depart_ID LEFT JOIN TblUser_Login UL ON UL.ID = JA.User_ID LEFT JOIN TblResume R ON R.User_ID = JA.User_ID   LEFT JOIN TblMaster_Position MP ON MP.Position_ID = JA.Position_ID LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.ID ='" + Job_ID + "'";
 
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
@@ -951,6 +952,15 @@ namespace OJAWeb.Controllers
                         {
                             s = reader["User_Resume"].ToString();
                         }
+
+                        var date = reader["Interview_Date"].ToString();
+                        var datedt = DateTime.MinValue;
+
+                        if (!string.IsNullOrEmpty(date) && !string.IsNullOrWhiteSpace(date))
+                        {
+                            datedt = Convert.ToDateTime(date);
+                        }
+
                         JobApprovalModel uobj = new JobApprovalModel
                         {
                             Job_ID = reader["Job_ID"].ToString(),
@@ -961,11 +971,18 @@ namespace OJAWeb.Controllers
                             Status_Application = reader["Status_Application"].ToString(),
                             Position_ID = reader["Position_ID"].ToString(),
                             Position_Name = reader["Position_Name"].ToString(),
-                            User_ID = reader["User_ID"].ToString()
+                            User_ID = reader["User_ID"].ToString(),
+                            Status_Code = reader["Status_Code"].ToString() ?? null,
+                            Interview_Date = datedt,
+                            Interview_Time = reader["Interview_Time"].ToString() ?? null,
+                            Interview_Venue = reader["Interview_Venue"].ToString() ?? null
                         };
                         userjob.Add(uobj);
                     }
                     jobapprove.jobapproval = userjob;
+
+                    ViewBag.status = jobapprove.jobapproval.Select(x => x.Status_Application).FirstOrDefault();
+
                     con.Close();
                 }
             }
@@ -1332,34 +1349,46 @@ namespace OJAWeb.Controllers
         public ActionResult SubmitStatus(JobApprovalModel approvalstatus)
         {
             string User_Name = "";
-            string User_Email = "aimy.it@abxexpress.com.my";
+            string User_Email = "";
             string subject = "JOB APPLICATION ABX EXPRESS";
             string Position_Name = "";
-            string dateInterview = approvalstatus.Interview_Date.ToString("dd/MM/yyyy", new CultureInfo("en-US"));
-            string timeinterview = approvalstatus.Interview_Time;
 
-            string hours = timeinterview.Substring(0, 2);
-            if (hours == "00")
-            {
-                hours = "12";
-            }
-            int hourInt = int.Parse(hours);
-
-            string minutes = timeinterview.Substring(3, 2);
-            //int minutesInt = int.Parse(minutes);
-
+            string dateInterview = approvalstatus.Interview_Date.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) ?? null;
+            int hourInt = 0;
             string ampm = String.Empty;
-                   
-            if (hourInt > 12)
+            string minutes = String.Empty;
+
+            if (approvalstatus.Status_Code == "4")
             {
-                ampm = "PM";
-                hourInt = hourInt - 12;
+                
+                string timeinterview = approvalstatus.Interview_Time;
+
+                string hours = timeinterview.Substring(0, 2);
+                if (hours == "00")
+                {
+                    hours = "12";
+                }
+
+                hourInt = int.Parse(hours);
+
+
+                //int minutesInt = int.Parse(minutes);
+
+                minutes = timeinterview.Substring(3, 2);
+
+                if (hourInt > 12)
+                {
+                    ampm = "PM";
+                    hourInt = hourInt - 12;
+                }
+                else
+                {
+                    ampm = "AM";
+                }
             }
-            else
-            {
-                ampm = "AM";
-            }
+
             string newtimeInterview = hourInt + ":" + minutes + " " + ampm;
+
             //string message = "kk";
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
@@ -1379,7 +1408,7 @@ namespace OJAWeb.Controllers
                     if (!(String.IsNullOrEmpty(approvalstatus.Status_Code)))
                     {
                         User_Name = reader["User_Name"].ToString();
-                        //User_Email = reader["User_Email"].ToString();
+                        User_Email = reader["User_Email"].ToString();
                     }
                     con1.Close();
                 }
@@ -1518,7 +1547,7 @@ namespace OJAWeb.Controllers
                     {
                         var senderEmail = new MailAddress("recruitment@abxexpress.com.my", "HR & Admin Department");
                         var receiverEmail = new MailAddress(User_Email, User_Email);
-                        var password = "Your Email Password here";
+                        var password = "Abc123";
 
                         var sub = subject;
 

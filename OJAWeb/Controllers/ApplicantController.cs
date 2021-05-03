@@ -523,7 +523,7 @@ namespace OJAWeb.Controllers
             using (SqlConnection con = new SqlConnection(cs))
             {
                 //string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_Title, User_ID, Status_Application, IsActive) VALUES(@User_Name,@RegionD_Name,@Depart_ID,@DC_ID, @Position_Title, @User_ID, @Status_Application, @IsActive)"; 
-                string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_ID, User_ID, Status_Application, IsActive) VALUES(@User_Name,@Region_Name,@Depart_ID,@DC_ID, @Position_ID, @User_ID, @Status_Application, @IsActive);";
+                string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_ID, User_ID, Status_Application, IsActive) VALUES(@User_Name,@Region_Name,@Depart_ID,@DC_ID, @Position_ID, @User_ID, @Status_Application, @IsActive)";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.Connection = con;
@@ -546,7 +546,7 @@ namespace OJAWeb.Controllers
                         }
                     }
 
-                    var ID = Convert.ToInt32(cmd.ExecuteScalar());
+                    var ID = cmd.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -1479,6 +1479,11 @@ namespace OJAWeb.Controllers
 
                 string UploadPath = ConfigurationManager.AppSettings["UserCertPath"].ToString();
 
+                if (!Directory.Exists(UploadPath))
+                {
+                    Directory.CreateDirectory(UploadPath);
+                }
+
                 string AttachFile = UploadPath + FileName;
                 education.User_Cert_File = FileName;
 
@@ -2359,6 +2364,11 @@ namespace OJAWeb.Controllers
             string dt = DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
 
             string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+
+            if (!Directory.Exists(UploadPath))
+            {
+                Directory.CreateDirectory(UploadPath);
+            }
 
             string AttachFile = UploadPath + FileName;
             resume.User_Resume = FileName;

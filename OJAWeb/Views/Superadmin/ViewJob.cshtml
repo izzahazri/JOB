@@ -307,19 +307,33 @@
                             <div class="col-md-6 form" id="form">
                                 <div class="col-md-12">
                                     @Html.Label("Date of Interview : ")
-                                    @Html.TextBoxFor(modelItem => model.Interview_Date, new { type="date", Style = "width:100%;", required = "required", @class = "form-control dateIn" })
+                                    @Html.TextBoxFor(modelItem => model.Interview_Date, "{0:yyyy-MM-dd}", new { type = "date", Style = "width:100%;", required = "required", @class = "form-control dateIn", @ReadOnly = true, @id = "date" })
                                     @*@Html.TextBoxFor(modelItem => model.Interview_Date, new { @class = "datepicker", @placeholder = "Date From", @required = "required", autocomplete = "off" })*@
                                 </div>
-                                <div class="col-md-12">
-                                    @Html.Label("Time of Interview : ")
-                                    @Html.TextBoxFor(modelItem => model.Interview_Time, new { type = "time", Style = "width:100%;", required = "required", @class = "form-control" })
-                                </div>
+                                @if (ViewBag.status == "4")
+                                {
+                                    <div class="col-md-12">
+                                        @Html.Label("Time of Interview : ")
+                                        @Html.TextBoxFor(modelItem => model.Interview_Time, new { type = "text", Style = "width:100%;", required = "required", @class = "form-control", @Value = model.Interview_Time, @ReadOnly = true, @id = "time" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12">
+                                        @Html.Label("Time of Interview : ")
+                                        @Html.TextBoxFor(modelItem => model.Interview_Time, "{0:HH-mm}", new { type = "time", Style = "width:100%;", required = "required", @class = "form-control", @Value = model.Interview_Time })
+                                    </div>
+                                }
                                 <div class="col-md-12">
                                     @Html.Label("Venue of Interview : ")
-                                    @Html.TextBoxFor(modelItem => model.Interview_Venue, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control" })
+                                    @Html.TextBoxFor(modelItem => model.Interview_Venue, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", @ReadOnly = true, @id = "venue" })
                                 </div>
                             </div>
                         </div>
+                        @if(ViewBag.status == "4")
+                        {
+                            <button type="button" class="btn pull-right" id="btnDL">Edit Interview Details</button>
+                        }
                         <button type="submit" class="btn pull-right">Save Changes</button>
                     </div>
                 }
@@ -331,15 +345,48 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            $(".edit").hide();
+
+            if (@ViewBag.status != "4") {
+                $(".edit").hide();
+
+                var date = document.getElementById('date');
+                date.readOnly = false;
+                date.value = "";
+
+                var venue = document.getElementById('venue');
+                venue.readOnly = false;
+                venue.value = "";
+            }
         });
 
         $(function () {
             $("#status").change(function () {
                 if ($(this).val() == "4") {
                     $(".edit").show();
+
+                } else {
+                    $(".edit").hide();
                 }
             });
+        });
+
+        $(document).on("click", "#btnDL", function () {
+
+            var date = document.getElementById('date');
+            date.readOnly = false;
+            date.value = "";
+
+            var time = document.getElementById('time');
+            time.readOnly = false;
+            time.value = "";
+            time.type = "time";
+
+            var venue = document.getElementById('venue');
+            venue.readOnly = false;
+            venue.value = "";
+
+            var btn = document.getElementById('btnDL');
+            btn.style.display = 'none';
         });
 
         $(document).ready(function () {

@@ -22,7 +22,8 @@ namespace OJAWeb.Models
         public string Status_Code { get; set; }
         public string Position_ID { get; set; }
         public string Position_Name { get; set; }
-        public DateTime Interview_Date { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? Interview_Date { get; set; }
         public string Interview_Time { get; set; }
         public string Interview_Venue { get; set; }
 
