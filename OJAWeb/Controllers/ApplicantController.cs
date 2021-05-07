@@ -274,6 +274,7 @@ namespace OJAWeb.Controllers
                         User_Phone = reader["User_Phone"].ToString();
                         User_Driving_License = reader["User_Driving_License"].ToString();
                         User_Driving_Attach = reader["User_Driving_Attach"].ToString();
+                        User_Driving_Class = reader["User_Driving_Class"].ToString();
                     }
                     con.Close();
                 }
@@ -312,7 +313,7 @@ namespace OJAWeb.Controllers
             {
                 if (User_Driving_License == "Yes")
                 {
-                    if (User_Driving_Attach != "" && User_Driving_Class !="")
+                    if (User_Driving_Attach != "" && User_Driving_Class != "")
                     {
                         using (SqlConnection con = new SqlConnection(cs))
                         {
@@ -341,69 +342,72 @@ namespace OJAWeb.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "If you have a Driving License, please complete the Driving details. Thank you.";
+                        TempData["Message"] = "Please complete the Driving details. Thank you.";
 
-                        InfoModel info = new InfoModel();
+                        return RedirectToAction("AboutMeEdit");
 
-                        using (SqlConnection con = new SqlConnection(cs))
-                        {
-                            string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
 
-                            using (SqlCommand cmd = new SqlCommand(commandText))
-                            {
-                                SqlDataReader reader;
-                                cmd.Connection = con;
-                                con.Open();
-                                reader = cmd.ExecuteReader();
-                                reader.Read();
+                        //InfoModel info = new InfoModel();
 
-                                string userShortName = reader["User_ShortName"].ToString();
-                                ViewBag.User_ShortName = userShortName;
+                        //using (SqlConnection con = new SqlConnection(cs))
+                        //{
+                        //    string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
 
-                                List<InfoModel> userlist = new List<InfoModel>();
-                                if (!(String.IsNullOrEmpty(userID)))
-                                {
-                                    string s;
-                                    if (reader["User_Driving_Attach"].ToString() == "")
-                                    {
-                                        s = "NO LICENSE ATTACHED";
-                                    }
-                                    else
-                                    {
-                                        s = reader["User_Driving_Attach"].ToString();
-                                    }
+                        //    using (SqlCommand cmd = new SqlCommand(commandText))
+                        //    {
+                        //        SqlDataReader reader;
+                        //        cmd.Connection = con;
+                        //        con.Open();
+                        //        reader = cmd.ExecuteReader();
+                        //        reader.Read();
 
-                                    InfoModel uobj = new InfoModel
-                                    {
-                                        User_ShortName = reader["User_ShortName"].ToString(),
-                                        User_Name = reader["User_Name"].ToString(),
-                                        User_Phone = reader["User_Phone"].ToString(),
-                                        User_Tel_Home = reader["User_Tel_Home"].ToString(),
-                                        User_Email = reader["User_Email"].ToString(),
-                                        User_IC = reader["User_IC"].ToString(),
-                                        User_Permanent_Address = reader["User_Permanent_Address"].ToString(),
-                                        User_Correspon_Address = reader["User_Correspon_Address"].ToString(),
-                                        User_Location = reader["User_Location"].ToString(),
-                                        User_Nationality = reader["User_Nationality"].ToString(),
-                                        User_Religion = reader["User_Religion"].ToString(),
-                                        User_Race = reader["User_Race"].ToString(),
-                                        User_Gender = reader["User_Gender"].ToString(),
-                                        User_Age = reader["User_Age"].ToString(),
-                                        User_Marital_Status = reader["User_Marital_Status"].ToString(),
-                                        User_Date_Birth = reader["User_Date_Birth"].ToString(),
-                                        User_Driving_License = reader["User_Driving_License"].ToString(),
-                                        User_Driving_Class = reader["User_Driving_Class"].ToString(),
-                                        User_Driving_Attach = s,
-                                        User_Expected_Salary = reader["User_Expected_Salary"].ToString()
-                                    };
-                                    userlist.Add(uobj);
-                                }
-                                info.usersinfo = userlist;
-                                con.Close();
-                            }
-                        }
+                        //        string userShortName = reader["User_ShortName"].ToString();
+                        //        ViewBag.User_ShortName = userShortName;
 
-                        return View("AboutMe", info);
+                        //        List<InfoModel> userlist = new List<InfoModel>();
+                        //        if (!(String.IsNullOrEmpty(userID)))
+                        //        {
+                        //            string s;
+                        //            if (reader["User_Driving_Attach"].ToString() == "")
+                        //            {
+                        //                s = "NO LICENSE ATTACHED";
+                        //            }
+                        //            else
+                        //            {
+                        //                s = reader["User_Driving_Attach"].ToString();
+                        //            }
+
+                        //            InfoModel uobj = new InfoModel
+                        //            {
+                        //                User_ShortName = reader["User_ShortName"].ToString(),
+                        //                User_Name = reader["User_Name"].ToString(),
+                        //                User_Phone = reader["User_Phone"].ToString(),
+                        //                User_Tel_Home = reader["User_Tel_Home"].ToString(),
+                        //                User_Email = reader["User_Email"].ToString(),
+                        //                User_IC = reader["User_IC"].ToString(),
+                        //                User_Permanent_Address = reader["User_Permanent_Address"].ToString(),
+                        //                User_Correspon_Address = reader["User_Correspon_Address"].ToString(),
+                        //                User_Location = reader["User_Location"].ToString(),
+                        //                User_Nationality = reader["User_Nationality"].ToString(),
+                        //                User_Religion = reader["User_Religion"].ToString(),
+                        //                User_Race = reader["User_Race"].ToString(),
+                        //                User_Gender = reader["User_Gender"].ToString(),
+                        //                User_Age = reader["User_Age"].ToString(),
+                        //                User_Marital_Status = reader["User_Marital_Status"].ToString(),
+                        //                User_Date_Birth = reader["User_Date_Birth"].ToString(),
+                        //                User_Driving_License = reader["User_Driving_License"].ToString(),
+                        //                User_Driving_Class = reader["User_Driving_Class"].ToString(),
+                        //                User_Driving_Attach = s,
+                        //                User_Expected_Salary = reader["User_Expected_Salary"].ToString()
+                        //            };
+                        //            userlist.Add(uobj);
+                        //        }
+                        //        info.usersinfo = userlist;
+                        //        con.Close();
+                        //    }
+                        //}
+
+                        //return View("AboutMe", info);
                     }
                 }
                 else
@@ -1349,29 +1353,148 @@ namespace OJAWeb.Controllers
         public ActionResult AboutMeEdit(InfoModel about)
         {
             string Full_Name = about.User_ShortName + " " + about.User_Last_Name;
+            string userID = Session["ID"].ToString();
+            string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
 
-            if (about.DrivingLicense != null)
+            if (about.User_Driving_License == "Yes")
             {
-                string FileName = Path.GetFileNameWithoutExtension(about.DrivingLicense.FileName);
-                string FileExtension = Path.GetExtension(about.DrivingLicense.FileName);
+                using (SqlConnection con1 = new SqlConnection(cs))
+                {
+                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                    using (SqlCommand cmd = new SqlCommand(query1))
+                    {
+                        cmd.Connection = con1;
+                        con1.Open();
+                        cmd.ExecuteNonQuery();
+                        con1.Close();
+                    }
+                }
 
-                FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+                if (about.User_Driving_Class != null || about.DrivingLicense != null || about.User_Driving_Attach != null)
+                {
+                    if (about.DrivingLicense != null)
+                    {
+                        string FileName = Path.GetFileNameWithoutExtension(about.DrivingLicense.FileName);
+                        string FileExtension = Path.GetExtension(about.DrivingLicense.FileName);
 
-                string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+                        FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
 
-                string AttachFile = UploadPath + FileName;
-                about.User_Driving_Attach = FileName;
+                        string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
 
-                about.DrivingLicense.SaveAs(AttachFile);
+                        string AttachFile = UploadPath + FileName;
+                        about.User_Driving_Attach = FileName;
+
+                        about.DrivingLicense.SaveAs(AttachFile);
+
+                        if (about.User_Driving_Class != null)
+                        {
+                            string User_Driving_Class = about.User_Driving_Class;
+                        }
+                        else
+                        {
+                            using (SqlConnection con1 = new SqlConnection(cs))
+                            {
+                                string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                                using (SqlCommand cmd = new SqlCommand(query1))
+                                {
+                                    cmd.Connection = con1;
+                                    con1.Open();
+                                    cmd.ExecuteNonQuery();
+                                    con1.Close();
+                                }
+                            }
+
+                            TempData["Message"] = "Please fill in Driving Class. Thank you.";
+                            return RedirectToAction("AboutMeEdit");
+                        }
+                    }
+                    else
+                    {
+                        //about.DrivingLicense = null;
+                        if (about.User_Driving_Attach != null)
+                        {
+                            string User_Driving_Attach = about.User_Driving_Attach;
+                            if (about.User_Driving_Class != null)
+                            {
+                                string User_Driving_Class = about.User_Driving_Class;
+                            }
+                            else
+                            {
+                                using (SqlConnection con1 = new SqlConnection(cs))
+                                {
+                                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                                    using (SqlCommand cmd = new SqlCommand(query1))
+                                    {
+                                        cmd.Connection = con1;
+                                        con1.Open();
+                                        cmd.ExecuteNonQuery();
+                                        con1.Close();
+                                    }
+                                }
+
+                                TempData["Message"] = "Please fill in Driving Class. Thank you.";
+                                return RedirectToAction("AboutMeEdit");
+                            }
+                        }
+                        else
+                        {
+                            if (about.User_Driving_Class != null)
+                            {
+                                string User_Driving_Class = about.User_Driving_Class;
+                                using (SqlConnection con1 = new SqlConnection(cs))
+                                {
+                                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                                    using (SqlCommand cmd = new SqlCommand(query1))
+                                    {
+                                        cmd.Connection = con1;
+                                        con1.Open();
+                                        cmd.ExecuteNonQuery();
+                                        con1.Close();
+                                    }
+                                }
+                            }
+
+                            TempData["Message"] = "Please upload Driving License attachment. Thank you.";
+                            return RedirectToAction("AboutMeEdit");
+                        }
+                    }
+
+                    using (SqlConnection con1 = new SqlConnection(cs))
+                    {
+                        string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                        using (SqlCommand cmd = new SqlCommand(query1))
+                        {
+                            cmd.Connection = con1;
+                            con1.Open();
+                            cmd.ExecuteNonQuery();
+                            con1.Close();
+                        }
+                    }
+
+                    //if (about.DrivingLicense == null)
+                    //{
+                    //    TempData["Message"] = "Please upload Driving License attachment. Thank you.";
+                    //    return RedirectToAction("AboutMeEdit");
+                    //}
+                    //if (about.User_Driving_Class == null)
+                    //{
+                    //    TempData["Message"] = "Please fill in Driving Class. Thank you.";
+                    //    return RedirectToAction("AboutMeEdit");
+                    //}
+                }
+                else
+                {
+                    //about.DrivingLicense = null;
+                    TempData["Message"] = "Please fill in Driving Class and Driving License attachment. Thank you.";
+                    return RedirectToAction("AboutMeEdit");
+                }
             }
             else
             {
-                about.DrivingLicense = null;
+                about.User_Driving_Attach = null;
+                about.User_Driving_Class = null;
             }
 
-            string userID = Session["ID"].ToString();
-
-            string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con1 = new SqlConnection(cs))
             {
                 string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";

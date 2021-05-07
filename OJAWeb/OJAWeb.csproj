@@ -658,6 +658,7 @@
     <Content Include="Views\Admin\JobWithdrawn.cshtml" />
     <Content Include="Views\Applicant\ConfirmDelete.cshtml" />
     <Content Include="Views\Superadmin\ListsJob.cshtml" />
+    <Content Include="Views\Admin\ListsJob.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

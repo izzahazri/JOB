@@ -918,6 +918,77 @@ namespace OJAWeb.Controllers
             return View(applyinfo);
         }
 
+        public ActionResult ListsJob(string id)
+        {
+            var Status_Application = id;
+            JobAppliedModel applyinfo = new JobAppliedModel();
+
+            string userID = Session["ID"].ToString();
+
+            string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (!(String.IsNullOrEmpty(userID)))
+                    {
+                        string userShortName = reader["User_ShortName"].ToString();
+                        ViewBag.User_ShortName = userShortName;
+                    }
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT JA.Interview_Date, JA.Interview_Time, JA.Interview_Venue,JA.User_ID, JA.ID AS Job_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID=JA.Status_Application WHERE JA.IsActive=1 and Status_Application='" + Status_Application + "' ORDER BY JA.CREATED_DATE DESC";
+
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    //reader.Read();
+
+                    List<JobAppliedModel> userapplied = new List<JobAppliedModel>();
+                    if (!(String.IsNullOrEmpty(id)))
+                    {
+                        while (reader.Read())
+                        {
+                            JobAppliedModel uobj = new JobAppliedModel
+                            {
+                                User_ID = reader["User_ID"].ToString(),
+                                User_Name = reader["User_Name"].ToString(),
+                                Job_ID = reader["Job_ID"].ToString(),
+                                Region_Name = reader["Region_Name"].ToString(),
+                                Depart_Name = reader["Dep_Name"].ToString(),
+                                DC_Code = reader["DC_Code"].ToString(),
+                                Position_Title = reader["Position_Name"].ToString(),
+                                Status_Application = reader["Status_Code"].ToString(),
+                                Position_ID = reader["Position_ID"].ToString(),
+                                Created_Date = reader["Created_Date"].ToString(),
+                                Interview_Date = reader["Interview_Date"].ToString(),
+                                Interview_Time = reader["Interview_Time"].ToString(),
+                                Interview_Venue = reader["Interview_Venue"].ToString()
+                            };
+                            userapplied.Add(uobj);
+                        }
+                    }
+                    applyinfo.jobapplied = userapplied;
+                    con.Close();
+                }
+            }
+            return View(applyinfo);
+        }
+
         public ActionResult ResumeList()
         {
             string userID = Session["ID"].ToString();

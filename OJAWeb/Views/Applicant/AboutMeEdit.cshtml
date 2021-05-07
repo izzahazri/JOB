@@ -9,6 +9,17 @@
 }
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
+@if (TempData["Message"] != null)
+{
+    @*<span style="color:red;">@TempData["Message"].ToString()</span>*@
+    <script type="text/javascript">
+            window.onload = function () {
+                alert('@TempData["Message"].ToString()');
+            };
+    </script>
+
+}
+
 <style>
 
     .nav_navbar a {
@@ -245,7 +256,7 @@
             {
                $(".upload").hide();
             }
-         
+
             $(".drive").change(function () {
 
                 var val = $(".drive:checked").val();

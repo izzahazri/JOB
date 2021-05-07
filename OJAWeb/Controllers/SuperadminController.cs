@@ -1068,7 +1068,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT JA.ID AS Job_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID=JA.Status_Application WHERE JA.IsActive=1 and Status_Application='" + Status_Application + "' ORDER BY JA.CREATED_DATE DESC";
+                string commandText = "SELECT JA.ID AS Job_ID,JA.User_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID=JA.Status_Application WHERE JA.IsActive=1 and Status_Application='" + Status_Application + "' ORDER BY JA.CREATED_DATE DESC";
 
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
@@ -1085,6 +1085,7 @@ namespace OJAWeb.Controllers
                         {
                             JobAppliedModel uobj = new JobAppliedModel
                             {
+                                User_ID = reader["User_ID"].ToString(),
                                 User_Name = reader["User_Name"].ToString(),
                                 Job_ID = reader["Job_ID"].ToString(),
                                 Region_Name = reader["Region_Name"].ToString(),
@@ -1135,7 +1136,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT JA.Interview_Date, JA.Interview_Time, JA.Interview_Venue, JA.ID AS Job_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID=JA.Status_Application WHERE JA.IsActive=1 and Status_Application='" + Status_Application + "' ORDER BY JA.CREATED_DATE DESC";
+                string commandText = "SELECT JA.Interview_Date, JA.Interview_Time, JA.Interview_Venue,JA.User_ID, JA.ID AS Job_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID=JA.Status_Application WHERE JA.IsActive=1 and Status_Application='" + Status_Application + "' ORDER BY JA.CREATED_DATE DESC";
 
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
@@ -1152,6 +1153,7 @@ namespace OJAWeb.Controllers
                         {
                             JobAppliedModel uobj = new JobAppliedModel
                             {
+                                User_ID = reader["User_ID"].ToString(),
                                 User_Name = reader["User_Name"].ToString(),
                                 Job_ID = reader["Job_ID"].ToString(),
                                 Region_Name = reader["Region_Name"].ToString(),

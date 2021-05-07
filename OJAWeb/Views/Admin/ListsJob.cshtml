@@ -5,7 +5,7 @@
 }
 
 @{
-    Layout = "~/Views/Shared/_SuperadminLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <style>
@@ -65,7 +65,7 @@
                                         @(++a)
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("Info", "Superadmin",new { id = model.User_ID })">
+                                        <a href="@Url.Action("Info", "Admin",new { id = model.User_ID })">
                                             @Html.DisplayFor(modelItem => model.User_Name)
                                         </a>
                                     </td>
@@ -100,11 +100,11 @@
                                         @*@Html.TextBoxFor(modelItem => model.Position_ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })*@
                                         @Html.TextBoxFor(modelItem => model.Position_ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })
 
-                                        <a href="@Url.Action("ViewJob", "Superadmin",new { id = model.Job_ID })">
+                                        <a href="@Url.Action("ViewJob", "Admin",new { id = model.Job_ID })">
                                             <span class="icon"><i class="fa fa-search" style="color: #ed6d00;" title="View Application"></i></span>
                                         </a>
                                         &nbsp;
-                                        <a onclick="myFunction()" href="@Url.Action("ConfirmDelete", "Superadmin",new { id = model.Position_ID, id2 = model.User_Name })">
+                                        <a onclick="myFunction()" href="@Url.Action("ConfirmDelete", "Admin",new { id = model.Position_ID, id2 = model.User_Name })">
                                             <span class="icon"><i class="fa fa-user-times" style="color: #ed6d00;" title="Withdraw Application"></i></span>
                                         </a>
                                     </td>
