@@ -11,6 +11,7 @@
 
 <style>
 
+
     .institute {
         text-transform: uppercase;
         font-weight: bold;
@@ -267,7 +268,7 @@
                                     @Html.Label("Status")
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.DropDownListFor(text => text.Status_Code, new SelectList(@ViewBag.SystemList, "Value", "Text", ViewBag.SelectedSystemID), "Select Status *", new { required = "required", @class = "form-control" })
+                                    @Html.DropDownListFor(text => text.Status_Code, new SelectList(@ViewBag.SystemList, "Value", "Text", ViewBag.SelectedSystemID), "Select Status *", new { required = "required", @class = "form-control", @id = "status" })
                                 </div>
                             </div>
 
@@ -276,12 +277,72 @@
                             <div class="col-md-12 row" style="padding-top:20px">
                                 @Html.TextBoxFor(modelItem => model.User_ID, new { Style = "width:100%;display:none" })
                                 @Html.TextBoxFor(modelItem => model.Position_ID, new { Style = "width:100%;display:none" })
-                                <button type="submit" class="btn pull-right">Save Changes</button>
                             </div>
                         </div>
+
+                        <div class="col-md-12 edit" style="padding-top: 20px;padding-bottom: 80px;">
+                            <div class="col-md-6 form" id="form"></div>
+
+                            <div class="col-md-6 form" id="form">
+                                <div class="col-md-12">
+                                    @Html.Label("Date of Interview : ")
+                                    @Html.TextBoxFor(modelItem => model.Interview_Date, "{0:yyyy-MM-dd}", new { type = "date", Style = "width:100%;", required = "required", @class = "form-control dateIn", @ReadOnly = true, @id = "date" })
+                                    @*@Html.TextBoxFor(modelItem => model.Interview_Date, new { @class = "datepicker", @placeholder = "Date From", @required = "required", autocomplete = "off" })*@
+                                </div>
+                                @if (ViewBag.status == "4")
+                                {
+                                    <div class="col-md-12">
+                                        @Html.Label("Time of Interview : ")
+                                        @Html.TextBoxFor(modelItem => model.Interview_Time, new { type = "text", Style = "width:100%;", required = "required", @class = "form-control", @Value = model.Interview_Time, @ReadOnly = true, @id = "time" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12">
+                                        @Html.Label("Time of Interview : ")
+                                        @Html.TextBoxFor(modelItem => model.Interview_Time, "{0:HH-mm}", new { type = "time", Style = "width:100%;", required = "required", @class = "form-control", @Value = model.Interview_Time })
+                                    </div>
+                                }
+                                <div class="col-md-12">
+                                    @Html.Label("Venue of Interview : ")
+                                    @Html.TextBoxFor(modelItem => model.Interview_Venue, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", @ReadOnly = true, @id = "venue" })
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn pull-right">Save Changes</button>
                     </div>
                 }
             </div>
         </div>
     }
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if (@ViewBag.status != "4") {
+                $(".edit").hide();
+
+                var date = document.getElementById('date');
+                date.readOnly = false;
+                date.value = "";
+
+                var venue = document.getElementById('venue');
+                venue.readOnly = false;
+                venue.value = "";
+            }
+        });
+
+        $(function () {
+            $("#status").change(function () {
+                if ($(this).val() == "4") {
+                    $(".edit").show();
+
+                } else {
+                    $(".edit").hide();
+                }
+            });
+        });
+    </script>
+}

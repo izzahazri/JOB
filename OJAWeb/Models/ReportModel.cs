@@ -24,6 +24,7 @@ namespace OJAWeb.Models
         public string Keep_In_View { get; set; }
         public string Accepted { get; set; }
         public string Rejected { get; set; }
+        public string Withdrawn { get; set; }
         public List<ReportModel> reportinfo { get; set; }
 
     }

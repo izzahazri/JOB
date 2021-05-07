@@ -12,6 +12,8 @@ using System.Web.Security;
 using System.IO;
 using System.Data;
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OJAWeb.Controllers
 {
@@ -246,6 +248,7 @@ namespace OJAWeb.Controllers
             string User_Phone = "";
             string User_Driving_License = "";
             string User_Driving_Attach = "";
+            string User_Driving_Class = "";
 
             DeclarationModel jobDeclare = new DeclarationModel();
             List<DeclarationModel> userdeclare = new List<DeclarationModel>();
@@ -309,7 +312,7 @@ namespace OJAWeb.Controllers
             {
                 if (User_Driving_License == "Yes")
                 {
-                    if (User_Driving_Attach != "")
+                    if (User_Driving_Attach != "" && User_Driving_Class !="")
                     {
                         using (SqlConnection con = new SqlConnection(cs))
                         {
@@ -338,7 +341,7 @@ namespace OJAWeb.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "Please upload your Driving License document. Thank you.";
+                        TempData["Message"] = "If you have a Driving License, please complete the Driving details. Thank you.";
 
                         InfoModel info = new InfoModel();
 
@@ -1333,6 +1336,9 @@ namespace OJAWeb.Controllers
                         userlist.Add(uobj);
                     }
                     info.usersinfo = userlist;
+
+                    ViewBag.license = info.usersinfo.Select(x => x.User_Driving_License).FirstOrDefault();
+
                     con.Close();
                 }
             }
@@ -2468,7 +2474,7 @@ namespace OJAWeb.Controllers
                         {
                             CredentialModel uobj = new CredentialModel();
                             uobj.User_LoginID = reader["User_LoginID"].ToString();
-                            uobj.User_Password2 = reader["User_Password2"].ToString();
+                            uobj.User_Password2 = Decrypt(reader["User_Password2"].ToString());
                             acclist.Add(uobj);
                         }
                         infoacc.usersacc = acclist;
@@ -2497,7 +2503,7 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con1 = new SqlConnection(cs))
             {
-                string query3 = "UPDATE TblUser_Login SET User_LoginID = '" + account.User_LoginID + "', User_Email = '" + account.User_LoginID + "', User_Password2 = '" + account.User_Password2 + "' WHERE ID='" + userID + "'";
+                string query3 = "UPDATE TblUser_Login SET User_LoginID = '" + account.User_LoginID + "', User_Email = '" + account.User_LoginID + "', User_Password2 = '" + Encrypt(account.User_Password2) + "' WHERE ID='" + userID + "'";
                 using (SqlCommand cmd1 = new SqlCommand(query3))
                 {
                     con1.Open();
@@ -2808,6 +2814,50 @@ namespace OJAWeb.Controllers
             }
 
             return View(infodetail);
+        }
+
+        private string Encrypt(string clearText)
+        {
+            string EncryptionKey = "MAKV2SPBNI99212";
+            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Close();
+                    }
+                    clearText = Convert.ToBase64String(ms.ToArray());
+                }
+            }
+            return clearText;
+        }
+
+        private string Decrypt(string cipherText)
+        {
+            string EncryptionKey = "MAKV2SPBNI99212";
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(cipherBytes, 0, cipherBytes.Length);
+                        cs.Close();
+                    }
+                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
+                }
+            }
+            return cipherText;
         }
     }
 }

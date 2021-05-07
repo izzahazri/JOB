@@ -11,6 +11,10 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using System.Net;
 
+using System.Security.Cryptography;
+using System.Text;
+using System.IO;
+
 namespace OJAWeb.Controllers
 {
     public class HomeController : Controller
@@ -47,7 +51,7 @@ namespace OJAWeb.Controllers
                     cmd.Parameters.AddWithValue("@User_Phone", register.User_Phone);
                     cmd.Parameters.AddWithValue("@User_Tel_Home", register.User_Tel_Home);
                     cmd.Parameters.AddWithValue("@User_Email", register.User_Email);
-                    cmd.Parameters.AddWithValue("@User_Password2", register.User_Password2);
+                    cmd.Parameters.AddWithValue("@User_Password2", Encrypt(register.User_Password2));
                     cmd.Parameters.AddWithValue("@User_Permanent_Address", register.User_Permanent_Address);
                     cmd.Parameters.AddWithValue("@User_Correspon_Address", register.User_Correspon_Address);
                     cmd.Parameters.AddWithValue("@User_Location", register.User_Location);
@@ -129,7 +133,7 @@ namespace OJAWeb.Controllers
                 string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(cs))
                 {
-                    string query = "UPDATE TblUser_Login SET User_Password2='" + user.New_Password + "' WHERE User_LoginID = '" + user.User_LoginID + "'";
+                    string query = "UPDATE TblUser_Login SET User_Password2='" + Encrypt(user.New_Password) + "' WHERE User_LoginID = '" + user.User_LoginID + "'";
                     using (SqlCommand cmd = new SqlCommand(query))
                     {
                         con.Open();
@@ -150,12 +154,13 @@ namespace OJAWeb.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel user)
         {
+            string pass = Encrypt(user.User_Password2);
             try
             {
                 string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(cs))
                 {
-                    string commandText = "SELECT * FROM TblUser_Login WHERE User_LoginID=@User_LoginID AND User_Password2 = @User_Password2 AND IsActive=1";
+                    string commandText = "SELECT * FROM TblUser_Login WHERE User_LoginID=@User_LoginID AND User_Password2 = '" + pass + "' AND IsActive=1";
                     using (SqlCommand cmd = new SqlCommand(commandText))
                     {
                         SqlDataReader reader;
@@ -341,6 +346,50 @@ namespace OJAWeb.Controllers
             FormsAuthentication.SignOut();
             Session.Abandon(); // it will clear the session at the end of request
             return View("Login");
+        }
+
+        private string Encrypt(string clearText)
+        {
+            string EncryptionKey = "MAKV2SPBNI99212";
+            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Close();
+                    }
+                    clearText = Convert.ToBase64String(ms.ToArray());
+                }
+            }
+            return clearText;
+        }
+
+        private string Decrypt(string cipherText)
+        {
+            string EncryptionKey = "MAKV2SPBNI99212";
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(cipherBytes, 0, cipherBytes.Length);
+                        cs.Close();
+                    }
+                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
+                }
+            }
+            return cipherText;
         }
 
         //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

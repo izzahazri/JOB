@@ -330,10 +330,10 @@
                                 </div>
                             </div>
                         </div>
-                        @if(ViewBag.status == "4")
+                        @*@if(ViewBag.status == "4")
                         {
                             <button type="button" class="btn pull-right" id="btnDL">Edit Interview Details</button>
-                        }
+                        }*@
                         <button type="submit" class="btn pull-right">Save Changes</button>
                     </div>
                 }
@@ -367,33 +367,6 @@
                 } else {
                     $(".edit").hide();
                 }
-            });
-        });
-
-        $(document).on("click", "#btnDL", function () {
-
-            var date = document.getElementById('date');
-            date.readOnly = false;
-            date.value = "";
-
-            var time = document.getElementById('time');
-            time.readOnly = false;
-            time.value = "";
-            time.type = "time";
-
-            var venue = document.getElementById('venue');
-            venue.readOnly = false;
-            venue.value = "";
-
-            var btn = document.getElementById('btnDL');
-            btn.style.display = 'none';
-        });
-
-        $(document).ready(function () {
-            $(".datepicker").datepicker({
-                dateFormat: "yy-mm-dd",
-                changemonth: true,
-                changeyear: true
             });
         });
     </script>

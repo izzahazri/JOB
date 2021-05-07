@@ -64,6 +64,7 @@
                                 <th>Keep In View</th>
                                 <th>Accepted</th>
                                 <th>Rejected</th>
+                                <th>Withdrawn</th>
                             </tr>
                         </thead>
                         @foreach (var model in Model.reportinfo)
@@ -99,6 +100,9 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => model.Rejected)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Withdrawn)
                                     </td>
                                 </tr>
                             </tbody>

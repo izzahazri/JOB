@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
 <style>
+
     .nav_navbar a {
         text-decoration: none;
     }
@@ -28,6 +29,8 @@
         padding: 15px;
         box-sizing: border-box;
         font-size: 14px;
+        border: 1px solid #ccc;
+        background-color: #fff;
     }
 
     textarea.form-control {
@@ -168,29 +171,17 @@
                         </div>
                         <div class="col-md-4">
                             @Html.Label("Driving License : ")<br />
-                            @Html.RadioButtonFor(modelItem => model.User_Driving_License, "Yes", new { required = "required" })
+                            @Html.RadioButtonFor(modelItem => model.User_Driving_License, "Yes", new { required = "required", @id = "drive", value = "a", @class = "drive", name = "drive" })
                             Yes
                             <span>&nbsp;</span>
                             <span>&nbsp;</span>
                             <span>&nbsp;</span>
                             <span>&nbsp;</span>
                             <span>&nbsp;</span>
-                            @Html.RadioButtonFor(modelItem => model.User_Driving_License, "No", new { required = "required" })
+                            @Html.RadioButtonFor(modelItem => model.User_Driving_License, "No", new { required = "required", @id = "drive", value = "b", @class = "drive", name = "drive" })
                             No
                         </div>
                         <div class="col-md-4">
-                            @Html.Label("Driving Class : ")
-                            @Html.TextBoxFor(modelItem => model.User_Driving_Class, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control" })
-
-                            @*@Html.CheckBoxFor(model => model.User_Name1, new { @class = "form-control", Name = "SomeProperty" })*@
-                        </div>
-
-                        <div class="col-md-6">
-                            @Html.Label("Upload Driving License : ")
-                            @Html.TextBoxFor(modelItem => model.User_Driving_Attach, new { @class = "form-control", @readonly = "readonly" })
-                            <input type="file" accept=".PDF,.png,.jpg,.jpeg" name="DrivingLicense" class="file form-control" />
-                        </div>
-                        <div class="col-md-6">
                             @Html.Label("Expected Salary : ")
                             @if (model.User_Expected_Salary != "RM ")
                             {
@@ -201,6 +192,22 @@
                                 @Html.TextBoxFor(modelItem => model.User_Expected_Salary, new { type = "text", Value = "RM ", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control" })
                             }
                         </div>
+
+                        <div class="col-md-12 upload" style="padding-top: 20px;padding-bottom: 80px;">
+                            <div class="col-md-4">
+                                @Html.Label("Driving Class : ")
+                                @Html.TextBoxFor(modelItem => model.User_Driving_Class, new { type = "text", placeholder = "Please Fill In *", Style = "width:100%;", @class = "form-control" })
+
+                                @*@Html.CheckBoxFor(model => model.User_Name1, new { @class = "form-control", Name = "SomeProperty" })*@
+                            </div>
+
+                            <div class="col-md-6">
+                                @Html.Label("Upload Driving License : ")
+                                @Html.TextBoxFor(modelItem => model.User_Driving_Attach, new { @class = "form-control", placeholder = "Please Upload Attachment *", @readonly = "readonly", required = "required" })
+                                <input type="file" accept=".PDF,.png,.jpg,.jpeg" name="DrivingLicense" class="file form-control" />
+                            </div>
+                        </div>
+
                         <div class="col-md-12 row" style="padding-top:10px">
                             <button type="submit" class="btn pull-right">Save Changes</button>
                         </div>
@@ -232,5 +239,25 @@
             }
             return true;
         }
+
+        $(document).ready(function () {
+            if ("@ViewBag.license" == "No")
+            {
+               $(".upload").hide();
+            }
+         
+            $(".drive").change(function () {
+
+                var val = $(".drive:checked").val();
+                if (val == "Yes")
+                {
+                    $(".upload").show();
+
+                } else
+                {
+                    $(".upload").hide();
+                }
+            });
+        });
     </script>
 }

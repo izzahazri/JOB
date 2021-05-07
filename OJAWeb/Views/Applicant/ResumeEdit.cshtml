@@ -80,7 +80,7 @@
                     <div class="form" id="form">
                         <div class="col-md-12" id="upload">
                             @Html.Label("Upload Resume : ")
-                            @Html.TextBoxFor(modelItem => model.User_Resume, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(modelItem => model.User_Resume, new { @class = "form-control", @readonly = "readonly", placeholder = "Please Upload Attachment *", })
                             <input type="file" accept=".PDF,.png,.jpg,.jpeg" name="ResumeFile" class="file form-control" required/>
                         </div>
                         <div class="col-md-12 row" style="padding-top:10px">

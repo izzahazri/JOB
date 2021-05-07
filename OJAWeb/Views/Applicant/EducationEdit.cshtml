@@ -161,7 +161,7 @@
 
                         <div class="col-md-12" id="upload" style="padding-top:30px">
                             @Html.Label("Certificates / Achievements (if any) : ")
-                            @Html.TextBoxFor(modelItem => model.User_Cert_File, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(modelItem => model.User_Cert_File, new { @class = "form-control", placeholder = "Please Upload Attachment *", @readonly = "readonly" })
                             <input type="file" accept=".PDF,.png,.jpg,.jpeg" name="CertFile" class="file form-control" />
                         </div>
 
