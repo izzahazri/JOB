@@ -440,7 +440,7 @@ namespace OJAWeb.Controllers
             }
             else
             {
-                TempData["Message"] = "Please complete ALL profile details before applying job. Thank you.";
+                TempData["Message"] = "Please upload your RESUME before applying job. Thank you.";
 
                 ResumeModel uobj = new ResumeModel
                 {

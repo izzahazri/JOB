@@ -1499,7 +1499,7 @@ namespace OJAWeb.Controllers
                     {
                         var senderEmail = new MailAddress("recruitment@abxexpress.com.my", "HR & Admin Department");
                         var receiverEmail = new MailAddress(User_Email, User_Email);
-                        var password = "Your Email Password here";
+                        var password = "abc123";
 
                         var sub = subject;
 
@@ -1540,7 +1540,7 @@ namespace OJAWeb.Controllers
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     ViewBag.Error = "Some Error";
                 }
@@ -1553,7 +1553,7 @@ namespace OJAWeb.Controllers
                     {
                         var senderEmail = new MailAddress("recruitment@abxexpress.com.my", "HR & Admin Department");
                         var receiverEmail = new MailAddress(User_Email, User_Email);
-                        var password = "Abc123";
+                        var password = "abc123";
 
                         var sub = subject;
 
