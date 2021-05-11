@@ -1168,6 +1168,7 @@ namespace OJAWeb.Controllers
             string User_Email = "";
             string subject = "JOB APPLICATION ABX EXPRESS";
             string Position_Name = "";
+            string Dep_Name = "";
             //string message = "kk";
             string dateInterview = "";
             string newtimeInterview = "";
@@ -1232,7 +1233,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con1 = new SqlConnection(cs))
             {
-                string commandText = "SELECT MP.Position_Name from TblMaster_Position MP LEFT JOIN TblJob_Application JA ON JA.Position_ID = MP.Position_ID WHERE JA.ID='" + approvalstatus.Job_ID + "'";
+                string commandText = "SELECT MP.Position_Name,MD.Dep_Name from TblMaster_Position MP LEFT JOIN TblJob_Application JA ON JA.Position_ID = MP.Position_ID LEFT JOIN TblMaster_Department MD ON MD.ID = MP.Depart_ID WHERE JA.ID='" + approvalstatus.Job_ID + "'";
 
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
@@ -1245,6 +1246,7 @@ namespace OJAWeb.Controllers
                     if (!(String.IsNullOrEmpty(approvalstatus.Status_Code)))
                     {
                         Position_Name = reader["Position_Name"].ToString();
+                        Dep_Name = reader["Dep_Name"].ToString();
                         //User_Email = reader["User_Email"].ToString();
                     }
                     con1.Close();
@@ -1309,7 +1311,7 @@ namespace OJAWeb.Controllers
                     {
                         var senderEmail = new MailAddress("recruitment@abxexpress.com.my", "HR & Admin Department");
                         var receiverEmail = new MailAddress(User_Email, User_Email);
-                        var password = "abc123";
+                        var password = "Abc123";
 
                         var sub = subject;
 
@@ -1321,7 +1323,7 @@ namespace OJAWeb.Controllers
                         //body += "<b> Status Application </b><br /> " + approvalstatus.Status_Code + " <br /><br />";
                         //body += "</p>";
                         body += "Thank you for your interest in joining ABX Express (M) Sdn Bhd. ";
-                        body += "We appreciate the time you have taken to apply for the position of <b>" + Position_Name + "</b>.<br /><br />";
+                        body += "We appreciate the time you have taken to apply for the position of <b>" + Position_Name + "</b> (<b>" + Dep_Name + "</b>).<br /><br />";
                         body += "After reviewing your profile, we would like to extend an interview invitation so that we can further discuss on";
                         body += " the above opportunity. The details of interview as follow :<br /><br />";
                         body += "Date of interview : <b>" + dateInterview + "</b><br />";
@@ -1334,9 +1336,9 @@ namespace OJAWeb.Controllers
                         {
                             Host = "mail.abxexpress.com.my",
                             Port = 587,
-                            EnableSsl = false,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false,
+                            EnableSsl = true,
+                            //DeliveryMethod = SmtpDeliveryMethod.Network,
+                            //UseDefaultCredentials = false,
                             Credentials = new NetworkCredential(senderEmail.Address, password)
                         };
                         using (var mess = new MailMessage(senderEmail, receiverEmail)
@@ -1363,12 +1365,12 @@ namespace OJAWeb.Controllers
                     {
                         var senderEmail = new MailAddress("recruitment@abxexpress.com.my", "HR & Admin Department");
                         var receiverEmail = new MailAddress(User_Email, User_Email);
-                        var password = "abc123";
+                        var password = "Abc123";
 
                         var sub = subject;
 
                         var body = "Dear " + User_Name + ",<br /><br />";
-                        body += "Thank you for your interest in applying for the position of <b>" + Position_Name + "</b>.<br /><br />";
+                        body += "Thank you for your interest in applying for the position of <b>" + Position_Name + "</b> (<b>" + Dep_Name + "</b>).<br /><br />";
                         body += "Your interest in this position is most appreciated. While your working experience and skills are impressive,";
                         body += " due to high volume of competition of other potential applications, we regret to inform you that your job application";
                         body += " not been successful.<br /><br />";
@@ -1381,9 +1383,9 @@ namespace OJAWeb.Controllers
                         {
                             Host = "mail.abxexpress.com.my",
                             Port = 587,
-                            EnableSsl = false,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false,
+                            EnableSsl = true,
+                            //DeliveryMethod = SmtpDeliveryMethod.Network,
+                            //UseDefaultCredentials = false,
                             Credentials = new NetworkCredential(senderEmail.Address, password)
                         };
                         using (var mess = new MailMessage(senderEmail, receiverEmail)
