@@ -85,7 +85,7 @@
                                         @(++a)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => model.User_LoginID)
+                                        @Html.DisplayFor(modelItem => model.User_Email)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => model.Profile_Name)
@@ -138,8 +138,8 @@
                     </div>
 
                     <div class="col-md-12">
-                        @Html.Label("User Login : ")
-                        @Html.TextBoxFor(text => text.User_LoginID, new { type = "email", placeholder = "Email *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
+                        @Html.Label("User Email : ")
+                        @Html.TextBoxFor(text => text.User_Email, new { type = "email", placeholder = "Email *", Style = "width:100%;", required = "required", @class = "form-control", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-12">

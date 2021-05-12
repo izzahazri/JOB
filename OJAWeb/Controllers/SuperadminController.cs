@@ -1927,7 +1927,7 @@ namespace OJAWeb.Controllers
                             LoginModel uobj = new LoginModel
                             {
                                 ID = reader["ID"].ToString(),
-                                User_LoginID = reader["User_Email"].ToString(),
+                                User_Email = reader["User_Email"].ToString(),
                                 Profile_Name = reader["Profile_Name"].ToString(),
                                 Created_Date = reader["Created_Date"].ToString(),
                                 IsActive = s
@@ -1973,15 +1973,16 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "INSERT INTO TblUser_Login (User_Name,User_ShortName,User_LoginID,User_Password2,Profile_ID) VALUES(@User_Name,@User_ShortName,@User_LoginID,@User_Password2,@Profile_ID)";
+                string query = "INSERT INTO TblUser_Login (User_Email,User_Name,User_ShortName,User_LoginID,User_Password2,Profile_ID) VALUES(@User_Email,@User_Name,@User_ShortName,@User_Email,@User_Password2,@Profile_ID)";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.Connection = con;
                     con.Open();
                     cmd.Parameters.AddWithValue("@User_Name", submituser.User_Name);
                     cmd.Parameters.AddWithValue("@User_ShortName", submituser.User_ShortName);
-                    cmd.Parameters.AddWithValue("@User_LoginID", submituser.User_LoginID);
-                    cmd.Parameters.AddWithValue("@User_Password2", submituser.User_Password2);
+                    cmd.Parameters.AddWithValue("@User_LoginID", submituser.User_Email);
+                    cmd.Parameters.AddWithValue("@User_Email", submituser.User_Email);
+                    cmd.Parameters.AddWithValue("@User_Password2", Encrypt(submituser.User_Password2));
                     cmd.Parameters.AddWithValue("@Profile_ID", submituser.Profile_ID);
 
                     foreach (SqlParameter Parameter in cmd.Parameters)
@@ -2059,7 +2060,7 @@ namespace OJAWeb.Controllers
                         {
                             User_Name = reader["User_Name"].ToString(),
                             User_ShortName = reader["User_ShortName"].ToString(),
-                            User_LoginID = reader["User_LoginID"].ToString(),
+                            User_Email = reader["User_Email"].ToString(),
                             User_Password2 = Decrypt(reader["User_Password2"].ToString()),
                             Profile_Name = reader["Profile_Name"].ToString()
                         };
@@ -2138,7 +2139,7 @@ namespace OJAWeb.Controllers
                     updateUser.IsActive = "0";
                 }
 
-                string query3 = "UPDATE TblUser_Login SET User_Name ='" + updateUser.User_Name + "', User_ShortName ='" + updateUser.User_ShortName + "',User_LoginID ='" + updateUser.User_LoginID + "',User_Password2 ='" + Encrypt(updateUser.User_Password2) + "',Profile_ID ='" + updateUser.Profile_Name + "',IsActive ='" + updateUser.IsActive + "' WHERE ID='" + updateUser.ID + "'";
+                string query3 = "UPDATE TblUser_Login SET User_Name ='" + updateUser.User_Name + "', User_ShortName ='" + updateUser.User_ShortName + "',User_LoginID ='" + updateUser.User_Email + "',User_Email ='" + updateUser.User_Email + "',User_Password2 ='" + Encrypt(updateUser.User_Password2) + "',Profile_ID ='" + updateUser.Profile_Name + "',IsActive ='" + updateUser.IsActive + "' WHERE ID='" + updateUser.ID + "'";
                 using (SqlCommand cmd1 = new SqlCommand(query3))
                 {
                     cmd1.Connection = con1;

@@ -16,6 +16,7 @@ namespace OJAWeb.Models
         public string ID { get; set; }
         public int Profile_ID { get; set; }
         public string User_LoginID { get; set; }
+        public string User_Email { get; set; }
         public string User_ShortName { get; set; }
         public string User_Name { get; set; }
         public string User_Password2 { get; set; }
