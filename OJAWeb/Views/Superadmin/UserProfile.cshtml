@@ -69,7 +69,7 @@
                                 <th>No.</th>
                                 <th>User Profile</th>
                                 <th>Active</th>
-                                <th>Date Created</th>
+                                @*<th>Date Created</th>*@
                                 <th></th>
                             </tr>
                         </thead>
@@ -87,9 +87,9 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => model.IsActive)
                                     </td>
-                                    <td>
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => model.Created_Date)
-                                    </td>
+                                    </td>*@
                                     <td>
                                         <a href="@Url.Action("EditProfile", "Superadmin",new { id = model.ID })">
                                             <span class="icon"><i class="fa fa-pencil" style="color: #ed6d00;" title="View Profile"></i></span>

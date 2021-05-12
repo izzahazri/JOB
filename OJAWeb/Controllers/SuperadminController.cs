@@ -1900,7 +1900,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT UL.ID,User_Name,Profile_Name,UL.Created_Date,UL.IsActive from TblUser_Login UL LEFT JOIN TblUser_Profile UP ON UL.Profile_ID = UP.ID where UL.Profile_ID in ('2','3') ORDER BY UP.Profile_Name asc";
+                string commandText = "SELECT UL.ID,User_Email,Profile_Name,UL.Created_Date,UL.IsActive from TblUser_Login UL LEFT JOIN TblUser_Profile UP ON UL.Profile_ID = UP.ID where UL.Profile_ID in ('2','3') ORDER BY UP.Profile_Name asc";
 
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
@@ -1927,7 +1927,7 @@ namespace OJAWeb.Controllers
                             LoginModel uobj = new LoginModel
                             {
                                 ID = reader["ID"].ToString(),
-                                User_Name = reader["User_Name"].ToString(),
+                                User_LoginID = reader["User_Email"].ToString(),
                                 Profile_Name = reader["Profile_Name"].ToString(),
                                 Created_Date = reader["Created_Date"].ToString(),
                                 IsActive = s
@@ -2060,7 +2060,7 @@ namespace OJAWeb.Controllers
                             User_Name = reader["User_Name"].ToString(),
                             User_ShortName = reader["User_ShortName"].ToString(),
                             User_LoginID = reader["User_LoginID"].ToString(),
-                            User_Password2 = reader["User_Password2"].ToString(),
+                            User_Password2 = Decrypt(reader["User_Password2"].ToString()),
                             Profile_Name = reader["Profile_Name"].ToString()
                         };
                         Edit.Add(uobj);
@@ -2138,7 +2138,7 @@ namespace OJAWeb.Controllers
                     updateUser.IsActive = "0";
                 }
 
-                string query3 = "UPDATE TblUser_Login SET User_Name ='" + updateUser.User_Name + "', User_ShortName ='" + updateUser.User_ShortName + "',User_LoginID ='" + updateUser.User_LoginID + "',User_Password2 ='" + updateUser.User_Password2 + "',Profile_ID ='" + updateUser.Profile_Name + "',IsActive ='" + updateUser.IsActive + "' WHERE ID='" + updateUser.ID + "'";
+                string query3 = "UPDATE TblUser_Login SET User_Name ='" + updateUser.User_Name + "', User_ShortName ='" + updateUser.User_ShortName + "',User_LoginID ='" + updateUser.User_LoginID + "',User_Password2 ='" + Encrypt(updateUser.User_Password2) + "',Profile_ID ='" + updateUser.Profile_Name + "',IsActive ='" + updateUser.IsActive + "' WHERE ID='" + updateUser.ID + "'";
                 using (SqlCommand cmd1 = new SqlCommand(query3))
                 {
                     cmd1.Connection = con1;

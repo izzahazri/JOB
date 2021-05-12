@@ -68,7 +68,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>User Name</th>
+                                <th>User Email</th>
                                 <th>User Profile</th>
                                 <th>Active</th>
                                 <th>Date Registered</th>
@@ -85,7 +85,7 @@
                                         @(++a)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => model.User_Name)
+                                        @Html.DisplayFor(modelItem => model.User_LoginID)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => model.Profile_Name)
