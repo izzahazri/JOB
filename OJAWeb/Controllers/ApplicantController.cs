@@ -2509,7 +2509,7 @@ namespace OJAWeb.Controllers
             var dataProcess = false;
             string userID = Session["ID"].ToString();
 
-            string updateDate = DateTime.Now.ToString("dd/MM/yyyy h:mm tt");
+            string updateDate = DateTime.Now.ToString("dd/MM/yyyy h:mm");
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con1 = new SqlConnection(cs))
@@ -2532,7 +2532,8 @@ namespace OJAWeb.Controllers
 
                 if (dataProcess == true)
                 {
-                    string query3 = "UPDATE TblResume SET User_Resume = '" + resume.User_Resume + "',Uploaded_Resume = '" + resume.Uploaded_Resume + "',Created_Date = '" + updateDate + "' WHERE User_ID='" + userID + "'";
+                    //string query3 = "UPDATE TblResume SET User_Resume = '" + resume.User_Resume + "',Uploaded_Resume = '" + resume.Uploaded_Resume + "',Created_Date = '" + updateDate + "' WHERE User_ID='" + userID + "'";
+                    string query3 = "UPDATE TblResume SET User_Resume = '" + resume.User_Resume + "',Uploaded_Resume = '" + resume.Uploaded_Resume + "' WHERE User_ID='" + userID + "'";
                     using (SqlCommand cmd1 = new SqlCommand(query3))
                     {
                         cmd1.Connection = con1;
