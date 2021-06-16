@@ -8,6 +8,17 @@
     Layout = "~/Views/Shared/_ApplicantLayout.cshtml";
 }
 
+@if (TempData["Message"] != null)
+{
+    @*<span style="color:red;">@TempData["Message"].ToString()</span>*@
+    <script type="text/javascript">
+            window.onload = function () {
+                alert('@TempData["Message"].ToString()');
+            };
+    </script>
+
+}
+
 <style>
     td {
         text-align: center;

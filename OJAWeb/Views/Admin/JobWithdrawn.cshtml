@@ -51,6 +51,7 @@
                                 <th>Status</th>
                                 <th>Reason</th>
                                 <th>Withdrawn Date</th>
+                                <th>Withdrawn By</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -87,6 +88,9 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => model.Withdrawn_Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => model.Withdrawn_By)
                                     </td>
                                     @*<td>
                                             @Html.TextBoxFor(modelItem => model.Position_ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })

@@ -271,7 +271,7 @@ namespace OJAWeb.Controllers
             using (SqlConnection con = new SqlConnection(cs))
             {
                 //string query = "Select ID, Region_Name From TblMaster_Region";
-                string query = "Select DISTINCT R.ID, R.Region_Name from TblMaster_Region R LEFT JOIN TblMaster_DC DC ON R.ID = DC.Region_ID LEFT JOIN TblMaster_Position P ON DC.ID = P.DC_ID where P.IsOffer = 1 order by Region_Name asc";
+                string query = "Select DISTINCT R.ID, R.Region_Name from TblMaster_Region R LEFT JOIN TblMaster_DC DC ON R.ID = DC.Region_ID LEFT JOIN TblMaster_Position P ON DC.ID = P.DC_ID where P.IsOffer = 1 and P.Total_Vacancy >=1 order by Region_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.Connection = con;

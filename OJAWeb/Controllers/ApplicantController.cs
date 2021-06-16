@@ -154,7 +154,7 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "Select DISTINCT R.ID, R.Region_Name from TblMaster_Region R LEFT JOIN TblMaster_DC DC ON R.ID = DC.Region_ID LEFT JOIN TblMaster_Position P ON DC.ID = P.DC_ID where P.IsOffer = 1 order by Region_Name asc";
+                string query = "Select DISTINCT R.ID, R.Region_Name from TblMaster_Region R LEFT JOIN TblMaster_DC DC ON R.ID = DC.Region_ID LEFT JOIN TblMaster_Position P ON DC.ID = P.DC_ID where P.IsOffer = 1 and P.Total_Vacancy >=1 order by Region_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.Connection = con;
@@ -249,6 +249,7 @@ namespace OJAWeb.Controllers
             string User_Driving_License = "";
             string User_Driving_Attach = "";
             string User_Driving_Class = "";
+            string Status_Code = "";
 
             DeclarationModel jobDeclare = new DeclarationModel();
             List<DeclarationModel> userdeclare = new List<DeclarationModel>();
@@ -258,7 +259,7 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT *, User_Phone FROM TblUser_Login WHERE ID='" + userID + "'";
+                string commandText = "  SELECT TOP 1 SS.Status_Code AS Status_Code,* FROM TblJob_Application JA LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.Position_ID ='" + Position_ID + "'";
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
                     SqlDataReader reader;
@@ -267,53 +268,182 @@ namespace OJAWeb.Controllers
                     reader = cmd.ExecuteReader();
                     reader.Read();
 
-                    if (!(String.IsNullOrEmpty(userID)))
+                    if (reader.HasRows == false)
                     {
-                        string userShortName = reader["User_ShortName"].ToString();
-                        ViewBag.User_ShortName = userShortName;
-                        User_Phone = reader["User_Phone"].ToString();
-                        User_Driving_License = reader["User_Driving_License"].ToString();
-                        User_Driving_Attach = reader["User_Driving_Attach"].ToString();
-                        User_Driving_Class = reader["User_Driving_Class"].ToString();
-                    }
-                    con.Close();
-                }
-            }
-
-            using (SqlConnection con = new SqlConnection(cs))
-            {
-                string commandText = "select User_Resume FROM TblResume R LEFT JOIN TblUser_Login UL ON UL.ID = R.User_ID WHERE UL.ID = '" + userID + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
-                {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
-                    {
-                        if (!(String.IsNullOrEmpty(userID)))
-                        {
-                            User_Resume = reader["User_Resume"].ToString();
-                        }
+                        Status_Code = null;
                     }
                     else
                     {
-                        User_Resume = null;
+                        Status_Code = reader["Status_Code"].ToString();
                     }
                     con.Close();
                 }
             }
 
-            ResumeModel inforesume = new ResumeModel();
-            List<ResumeModel> resumelist = new List<ResumeModel>();
-
-            if (User_Resume != null && User_Phone != null)
+            if (Status_Code == "In Progress")
             {
-                if (User_Driving_License == "Yes")
+                TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
+
+                return RedirectToAction("MyJob");
+            }
+            else
+            {
+
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    if (User_Driving_Attach != "" && User_Driving_Class != "")
+                    string commandText = "SELECT *, User_Phone FROM TblUser_Login WHERE ID='" + userID + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
+                    {
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
+                            string userShortName = reader["User_ShortName"].ToString();
+                            ViewBag.User_ShortName = userShortName;
+                            User_Phone = reader["User_Phone"].ToString();
+                            User_Driving_License = reader["User_Driving_License"].ToString();
+                            User_Driving_Attach = reader["User_Driving_Attach"].ToString();
+                            User_Driving_Class = reader["User_Driving_Class"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    string commandText = "select User_Resume FROM TblResume R LEFT JOIN TblUser_Login UL ON UL.ID = R.User_ID WHERE UL.ID = '" + userID + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
+                    {
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+
+                        if (reader.HasRows == true)
+                        {
+                            if (!(String.IsNullOrEmpty(userID)))
+                            {
+                                User_Resume = reader["User_Resume"].ToString();
+                            }
+                        }
+                        else
+                        {
+                            User_Resume = null;
+                        }
+                        con.Close();
+                    }
+                }
+
+                ResumeModel inforesume = new ResumeModel();
+                List<ResumeModel> resumelist = new List<ResumeModel>();
+
+                if (User_Resume != null && User_Phone != null)
+                {
+                    if (User_Driving_License == "Yes")
+                    {
+                        if (User_Driving_Attach != "" && User_Driving_Class != "")
+                        {
+                            using (SqlConnection con = new SqlConnection(cs))
+                            {
+                                string commandText = "SELECT * FROM TblMaster_Position WHERE Position_ID ='" + Position_ID + "'";
+
+                                using (SqlCommand cmd = new SqlCommand(commandText))
+                                {
+                                    SqlDataReader reader;
+                                    cmd.Connection = con;
+                                    con.Open();
+                                    reader = cmd.ExecuteReader();
+                                    reader.Read();
+
+                                    if (!(String.IsNullOrEmpty(Position_ID)))
+                                    {
+                                        DeclarationModel uobj = new DeclarationModel
+                                        {
+                                            Position_ID = reader["Position_ID"].ToString(),
+                                        };
+                                        userdeclare.Add(uobj);
+                                    }
+                                    jobDeclare.getDataDeclare = userdeclare;
+                                    con.Close();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Please complete the Driving details. Thank you.";
+
+                            return RedirectToAction("AboutMeEdit");
+
+
+                            //InfoModel info = new InfoModel();
+
+                            //using (SqlConnection con = new SqlConnection(cs))
+                            //{
+                            //    string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+
+                            //    using (SqlCommand cmd = new SqlCommand(commandText))
+                            //    {
+                            //        SqlDataReader reader;
+                            //        cmd.Connection = con;
+                            //        con.Open();
+                            //        reader = cmd.ExecuteReader();
+                            //        reader.Read();
+
+                            //        string userShortName = reader["User_ShortName"].ToString();
+                            //        ViewBag.User_ShortName = userShortName;
+
+                            //        List<InfoModel> userlist = new List<InfoModel>();
+                            //        if (!(String.IsNullOrEmpty(userID)))
+                            //        {
+                            //            string s;
+                            //            if (reader["User_Driving_Attach"].ToString() == "")
+                            //            {
+                            //                s = "NO LICENSE ATTACHED";
+                            //            }
+                            //            else
+                            //            {
+                            //                s = reader["User_Driving_Attach"].ToString();
+                            //            }
+
+                            //            InfoModel uobj = new InfoModel
+                            //            {
+                            //                User_ShortName = reader["User_ShortName"].ToString(),
+                            //                User_Name = reader["User_Name"].ToString(),
+                            //                User_Phone = reader["User_Phone"].ToString(),
+                            //                User_Tel_Home = reader["User_Tel_Home"].ToString(),
+                            //                User_Email = reader["User_Email"].ToString(),
+                            //                User_IC = reader["User_IC"].ToString(),
+                            //                User_Permanent_Address = reader["User_Permanent_Address"].ToString(),
+                            //                User_Correspon_Address = reader["User_Correspon_Address"].ToString(),
+                            //                User_Location = reader["User_Location"].ToString(),
+                            //                User_Nationality = reader["User_Nationality"].ToString(),
+                            //                User_Religion = reader["User_Religion"].ToString(),
+                            //                User_Race = reader["User_Race"].ToString(),
+                            //                User_Gender = reader["User_Gender"].ToString(),
+                            //                User_Age = reader["User_Age"].ToString(),
+                            //                User_Marital_Status = reader["User_Marital_Status"].ToString(),
+                            //                User_Date_Birth = reader["User_Date_Birth"].ToString(),
+                            //                User_Driving_License = reader["User_Driving_License"].ToString(),
+                            //                User_Driving_Class = reader["User_Driving_Class"].ToString(),
+                            //                User_Driving_Attach = s,
+                            //                User_Expected_Salary = reader["User_Expected_Salary"].ToString()
+                            //            };
+                            //            userlist.Add(uobj);
+                            //        }
+                            //        info.usersinfo = userlist;
+                            //        con.Close();
+                            //    }
+                            //}
+
+                            //return View("AboutMe", info);
+                        }
+                    }
+                    else
                     {
                         using (SqlConnection con = new SqlConnection(cs))
                         {
@@ -340,119 +470,23 @@ namespace OJAWeb.Controllers
                             }
                         }
                     }
-                    else
-                    {
-                        TempData["Message"] = "Please complete the Driving details. Thank you.";
-
-                        return RedirectToAction("AboutMeEdit");
-
-
-                        //InfoModel info = new InfoModel();
-
-                        //using (SqlConnection con = new SqlConnection(cs))
-                        //{
-                        //    string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
-
-                        //    using (SqlCommand cmd = new SqlCommand(commandText))
-                        //    {
-                        //        SqlDataReader reader;
-                        //        cmd.Connection = con;
-                        //        con.Open();
-                        //        reader = cmd.ExecuteReader();
-                        //        reader.Read();
-
-                        //        string userShortName = reader["User_ShortName"].ToString();
-                        //        ViewBag.User_ShortName = userShortName;
-
-                        //        List<InfoModel> userlist = new List<InfoModel>();
-                        //        if (!(String.IsNullOrEmpty(userID)))
-                        //        {
-                        //            string s;
-                        //            if (reader["User_Driving_Attach"].ToString() == "")
-                        //            {
-                        //                s = "NO LICENSE ATTACHED";
-                        //            }
-                        //            else
-                        //            {
-                        //                s = reader["User_Driving_Attach"].ToString();
-                        //            }
-
-                        //            InfoModel uobj = new InfoModel
-                        //            {
-                        //                User_ShortName = reader["User_ShortName"].ToString(),
-                        //                User_Name = reader["User_Name"].ToString(),
-                        //                User_Phone = reader["User_Phone"].ToString(),
-                        //                User_Tel_Home = reader["User_Tel_Home"].ToString(),
-                        //                User_Email = reader["User_Email"].ToString(),
-                        //                User_IC = reader["User_IC"].ToString(),
-                        //                User_Permanent_Address = reader["User_Permanent_Address"].ToString(),
-                        //                User_Correspon_Address = reader["User_Correspon_Address"].ToString(),
-                        //                User_Location = reader["User_Location"].ToString(),
-                        //                User_Nationality = reader["User_Nationality"].ToString(),
-                        //                User_Religion = reader["User_Religion"].ToString(),
-                        //                User_Race = reader["User_Race"].ToString(),
-                        //                User_Gender = reader["User_Gender"].ToString(),
-                        //                User_Age = reader["User_Age"].ToString(),
-                        //                User_Marital_Status = reader["User_Marital_Status"].ToString(),
-                        //                User_Date_Birth = reader["User_Date_Birth"].ToString(),
-                        //                User_Driving_License = reader["User_Driving_License"].ToString(),
-                        //                User_Driving_Class = reader["User_Driving_Class"].ToString(),
-                        //                User_Driving_Attach = s,
-                        //                User_Expected_Salary = reader["User_Expected_Salary"].ToString()
-                        //            };
-                        //            userlist.Add(uobj);
-                        //        }
-                        //        info.usersinfo = userlist;
-                        //        con.Close();
-                        //    }
-                        //}
-
-                        //return View("AboutMe", info);
-                    }
                 }
                 else
                 {
-                    using (SqlConnection con = new SqlConnection(cs))
+                    TempData["Message"] = "Please upload your RESUME before applying job. Thank you.";
+
+                    ResumeModel uobj = new ResumeModel
                     {
-                        string commandText = "SELECT * FROM TblMaster_Position WHERE Position_ID ='" + Position_ID + "'";
+                        User_Resume = null
+                    };
+                    resumelist.Add(uobj);
+                    inforesume.usersresume = resumelist;
 
-                        using (SqlCommand cmd = new SqlCommand(commandText))
-                        {
-                            SqlDataReader reader;
-                            cmd.Connection = con;
-                            con.Open();
-                            reader = cmd.ExecuteReader();
-                            reader.Read();
-
-                            if (!(String.IsNullOrEmpty(Position_ID)))
-                            {
-                                DeclarationModel uobj = new DeclarationModel
-                                {
-                                    Position_ID = reader["Position_ID"].ToString(),
-                                };
-                                userdeclare.Add(uobj);
-                            }
-                            jobDeclare.getDataDeclare = userdeclare;
-                            con.Close();
-                        }
-                    }
+                    return View("ResumeEdit", inforesume);
                 }
+
+                return View(jobDeclare);
             }
-            else
-            {
-                TempData["Message"] = "Please upload your RESUME before applying job. Thank you.";
-
-                ResumeModel uobj = new ResumeModel
-                {
-                    User_Resume = null
-                };
-                resumelist.Add(uobj);
-                inforesume.usersresume = resumelist;
-
-                return View("ResumeEdit", inforesume);
-            }
-
-            return View(jobDeclare);
         }
 
         //public ActionResult ThankYou(DeclarationModel data)
@@ -465,11 +499,13 @@ namespace OJAWeb.Controllers
             string regionName = "";
             string DepartID = "";
             string dcID = "";
+            string Status_Code = "";
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
+
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                string commandText = "  SELECT TOP 1 SS.Status_Code AS Status_Code,* FROM TblJob_Application JA LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.Position_ID ='" + Position_ID + "'";
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
                     SqlDataReader reader;
@@ -478,87 +514,119 @@ namespace OJAWeb.Controllers
                     reader = cmd.ExecuteReader();
                     reader.Read();
 
-                    if (!(String.IsNullOrEmpty(userID)))
+                    if (reader.HasRows == false)
                     {
-                        string userShortName = reader["User_ShortName"].ToString();
-                        ViewBag.User_ShortName = userShortName;
+                        Status_Code = null;
+                    }
+                    else
+                    {
+                        Status_Code = reader["Status_Code"].ToString();
                     }
                     con.Close();
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Status_Code == "In Progress")
             {
-                string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
-                {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
+                TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
 
-                    if (!(String.IsNullOrEmpty(userID)))
-                    {
-                        userName = reader["User_Name"].ToString();
-                    }
-                    con.Close();
-                }
+                return RedirectToAction("MyJob");
             }
-
-            using (SqlConnection con = new SqlConnection(cs))
+            else
             {
-                string commandText = "SELECT Region_Name, Depart_ID, DC_ID from TblJob_Description D LEFT JOIN TblMaster_Position P ON D.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID WHERE D.Position_ID = '" + id + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (!(String.IsNullOrEmpty(userID)))
+                    string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        regionName = reader["Region_Name"].ToString();
-                        DepartID = reader["Depart_ID"].ToString();
-                        dcID = reader["DC_ID"].ToString();
-                    }
-                    con.Close();
-                }
-            }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-            using (SqlConnection con = new SqlConnection(cs))
-            {
-                //string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_Title, User_ID, Status_Application, IsActive) VALUES(@User_Name,@RegionD_Name,@Depart_ID,@DC_ID, @Position_Title, @User_ID, @Status_Application, @IsActive)"; 
-                string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_ID, User_ID, Status_Application, IsActive) VALUES(@User_Name,@Region_Name,@Depart_ID,@DC_ID, @Position_ID, @User_ID, @Status_Application, @IsActive)";
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Connection = con;
-                    con.Open();
-
-                    cmd.Parameters.AddWithValue("@User_Name", userName);
-                    cmd.Parameters.AddWithValue("@Region_Name", regionName);
-                    cmd.Parameters.AddWithValue("@Depart_ID", DepartID);
-                    cmd.Parameters.AddWithValue("@DC_ID", dcID);
-                    cmd.Parameters.AddWithValue("@Position_ID", id);
-                    cmd.Parameters.AddWithValue("@Status_Application", "1");
-                    cmd.Parameters.AddWithValue("@User_ID", userID);
-                    cmd.Parameters.AddWithValue("@IsActive", "1");
-
-                    foreach (SqlParameter Parameter in cmd.Parameters)
-                    {
-                        if (Parameter.Value == null)
+                        if (!(String.IsNullOrEmpty(userID)))
                         {
-                            Parameter.Value = "NA";
+                            string userShortName = reader["User_ShortName"].ToString();
+                            ViewBag.User_ShortName = userShortName;
                         }
+                        con.Close();
                     }
-
-                    var ID = cmd.ExecuteNonQuery();
-                    con.Close();
                 }
-            }
 
-            return View();
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
+                    {
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
+                            userName = reader["User_Name"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    string commandText = "SELECT Region_Name, Depart_ID, DC_ID from TblJob_Description D LEFT JOIN TblMaster_Position P ON D.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID WHERE D.Position_ID = '" + id + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
+                    {
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
+                            regionName = reader["Region_Name"].ToString();
+                            DepartID = reader["Depart_ID"].ToString();
+                            dcID = reader["DC_ID"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    //string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_Title, User_ID, Status_Application, IsActive) VALUES(@User_Name,@RegionD_Name,@Depart_ID,@DC_ID, @Position_Title, @User_ID, @Status_Application, @IsActive)"; 
+                    string query = "INSERT INTO TblJob_Application (User_Name,Region_Name,Depart_ID,DC_ID, Position_ID, User_ID, Status_Application, IsActive) VALUES(@User_Name,@Region_Name,@Depart_ID,@DC_ID, @Position_ID, @User_ID, @Status_Application, @IsActive)";
+                    using (SqlCommand cmd = new SqlCommand(query))
+                    {
+                        cmd.Connection = con;
+                        con.Open();
+
+                        cmd.Parameters.AddWithValue("@User_Name", userName);
+                        cmd.Parameters.AddWithValue("@Region_Name", regionName);
+                        cmd.Parameters.AddWithValue("@Depart_ID", DepartID);
+                        cmd.Parameters.AddWithValue("@DC_ID", dcID);
+                        cmd.Parameters.AddWithValue("@Position_ID", id);
+                        cmd.Parameters.AddWithValue("@Status_Application", "1");
+                        cmd.Parameters.AddWithValue("@User_ID", userID);
+                        cmd.Parameters.AddWithValue("@IsActive", "1");
+
+                        foreach (SqlParameter Parameter in cmd.Parameters)
+                        {
+                            if (Parameter.Value == null)
+                            {
+                                Parameter.Value = "NA";
+                            }
+                        }
+
+                        var ID = cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+
+                return View();
+            }
         }
 
         public ActionResult JobApp(string id)
@@ -677,7 +745,29 @@ namespace OJAWeb.Controllers
 
             jobapp.Withdrawn_Date = ViewBag.FromDate;
 
+            string fullname = "";
+
+            string userID = Session["ID"].ToString();
+
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (!(String.IsNullOrEmpty(userID)))
+                    {
+                        fullname = reader["User_Name"].ToString();
+                    }
+                    con.Close();
+                }
+            }
 
             using (SqlConnection con = new SqlConnection(cs))
             {
@@ -698,7 +788,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "UPDATE TblJob_Application SET Withdrawn_By=1, IsActive =0, Remark_Withdrawn ='" + Remark + "',Withdrawn_Date ='" + jobapp.Withdrawn_Date + "' WHERE ID='" + jobapp.JobApp_ID + "'";
+                string query = "UPDATE TblJob_Application SET Withdrawn_By='" + fullname + "', IsActive =0, Remark_Withdrawn ='" + Remark + "',Withdrawn_Date ='" + jobapp.Withdrawn_Date + "' WHERE ID='" + jobapp.JobApp_ID + "'";
                 using (SqlCommand cmd1 = new SqlCommand(query))
                 {
                     con.Open();

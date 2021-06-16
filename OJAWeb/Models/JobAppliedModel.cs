@@ -24,6 +24,7 @@ namespace OJAWeb.Models
         public string Status_Code { get; set; }
         public string Created_Date { get; set; }
         public string Withdrawn_Date { get; set; }
+        public string Withdrawn_By { get; set; }
         public string Position_ID { get; set; }
         public string User_ID { get; set; }
         public string Job_ID { get; set; }

@@ -173,7 +173,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = " SELECT COUNT(JA.Status_Application) TotalOrders FROM TblJob_Application JA WHERE JA.IsActive=0 AND JA.Withdrawn_By=1";
+                string query = " SELECT COUNT(JA.Status_Application) TotalOrders FROM TblJob_Application JA WHERE JA.IsActive=0";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     SqlDataReader reader;
@@ -375,7 +375,7 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "Select DISTINCT R.ID, R.Region_Name from TblMaster_Region R LEFT JOIN TblMaster_DC DC ON R.ID = DC.Region_ID LEFT JOIN TblMaster_Position P ON DC.ID = P.DC_ID where P.IsOffer = 1 order by Region_Name asc";
+                string query = "Select DISTINCT R.ID, R.Region_Name from TblMaster_Region R LEFT JOIN TblMaster_DC DC ON R.ID = DC.Region_ID LEFT JOIN TblMaster_Position P ON DC.ID = P.DC_ID where P.IsOffer = 1 and P.Total_Vacancy >=1 order by Region_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.Connection = con;
@@ -857,7 +857,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT JA.ID as Job_ID,JA.User_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID, JA.Remark_Withdrawn, JA.Withdrawn_Date, JA.User_ID as ID_User from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.IsActive=0 AND JA.Withdrawn_By=1 ORDER BY JA.Withdrawn_Date DESC";
+                string commandText = "SELECT JA.ID as Job_ID,JA.User_ID, User_Name, MR.Region_Name,Dep_Name, DC_Code, Position_Name, SS.Status_Code,JA.Created_Date,JA.Position_ID, JA.Remark_Withdrawn, JA.Withdrawn_Date,JA.Withdrawn_By, JA.User_ID as ID_User from TblJob_Application JA LEFT JOIN TblMaster_Position P ON JA.Position_ID = P.Position_ID LEFT JOIN TblMaster_DC MD ON P.DC_ID = MD.ID LEFT JOIN TblMaster_Region MR ON MD.Region_ID = MR.ID LEFT JOIN TblMaster_Department MP ON P.Depart_ID = MP.ID LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.IsActive=0 ORDER BY JA.Withdrawn_Date DESC";
 
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
@@ -886,6 +886,7 @@ namespace OJAWeb.Controllers
                                 Position_ID = reader["Position_ID"].ToString(),
                                 Created_Date = reader["Created_Date"].ToString(),
                                 Withdrawn_Date = reader["Withdrawn_Date"].ToString(),
+                                Withdrawn_By = reader["Withdrawn_By"].ToString(),
                                 Remark_Withdrawn = reader["Remark_Withdrawn"].ToString()
                             };
                             userapplied.Add(uobj);
@@ -1022,11 +1023,34 @@ namespace OJAWeb.Controllers
         {
             var Position_ID = id;
             var User_Name = id2;
+            string fullname = "";
+            string withdrawn_date = DateTime.Now.ToString("dd-MM-yyyy", new CultureInfo("en-US"));
+
+            string userID = Session["ID"].ToString();
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "UPDATE TblJob_Application SET Withdrawn_By=0, IsActive = 0 WHERE User_Name='" + User_Name + "' and Position_ID ='" + Position_ID + "'";
+                string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (!(String.IsNullOrEmpty(userID)))
+                    {
+                        fullname = reader["User_Name"].ToString();
+                    }
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "UPDATE TblJob_Application SET Withdrawn_By='" + fullname + "',Withdrawn_Date ='" + withdrawn_date + "', IsActive = 0 WHERE User_Name='" + User_Name + "' and Position_ID ='" + Position_ID + "'";
                 using (SqlCommand cmd1 = new SqlCommand(query))
                 {
                     con.Open();

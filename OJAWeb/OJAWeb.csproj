@@ -642,9 +642,6 @@
     <Content Include="Scripts\summernote\summernote-lite.min.js.map" />
     <Content Include="Scripts\summernote\summernote.js.map" />
     <Content Include="Scripts\summernote\summernote.min.js.map" />
-    <Content Include="UserFile\20201019-RESUME NOOR AIMY AMYRA.pdf" />
-    <Content Include="UserFile20201012-Okta FirstTimeLogin Guideline.pdf" />
-    <Content Include="UserFile20201019-RESUME NOOR AIMY AMYRA.pdf" />
     <Content Include="Views\Applicant\Info.cshtml" />
     <Content Include="Views\Admin\Info.cshtml" />
     <Content Include="Views\Superadmin\Info.cshtml" />
