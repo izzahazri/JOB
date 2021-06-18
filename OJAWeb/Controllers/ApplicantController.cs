@@ -250,6 +250,7 @@ namespace OJAWeb.Controllers
             string User_Driving_Attach = "";
             string User_Driving_Class = "";
             string Status_Code = "";
+            string IsActive = "";
 
             DeclarationModel jobDeclare = new DeclarationModel();
             List<DeclarationModel> userdeclare = new List<DeclarationModel>();
@@ -259,7 +260,7 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "  SELECT TOP 1 SS.Status_Code AS Status_Code,* FROM TblJob_Application JA LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.Position_ID ='" + Position_ID + "'";
+                string commandText = "  SELECT TOP 1 SS.Status_Code AS Status_Code,* FROM TblJob_Application JA LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.Position_ID ='" + Position_ID + "' and User_ID ='" + userID + "'";
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
                     SqlDataReader reader;
@@ -271,16 +272,18 @@ namespace OJAWeb.Controllers
                     if (reader.HasRows == false)
                     {
                         Status_Code = null;
+                        IsActive = null;
                     }
                     else
                     {
                         Status_Code = reader["Status_Code"].ToString();
+                        IsActive = reader["IsActive"].ToString();
                     }
                     con.Close();
                 }
             }
 
-            if (Status_Code == "In Progress")
+            if (Status_Code == "In Progress" && IsActive == "1")
             {
                 TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
 
@@ -500,12 +503,13 @@ namespace OJAWeb.Controllers
             string DepartID = "";
             string dcID = "";
             string Status_Code = "";
+            string IsActive = "";
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "  SELECT TOP 1 SS.Status_Code AS Status_Code,* FROM TblJob_Application JA LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.Position_ID ='" + Position_ID + "'";
+                string commandText = "  SELECT TOP 1 SS.Status_Code AS Status_Code,* FROM TblJob_Application JA LEFT JOIN TblSystem_Status SS ON SS.ID = JA.Status_Application WHERE JA.Position_ID ='" + Position_ID + "' and User_ID ='" + userID + "'";
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
                     SqlDataReader reader;
@@ -517,16 +521,18 @@ namespace OJAWeb.Controllers
                     if (reader.HasRows == false)
                     {
                         Status_Code = null;
+                        IsActive = null;
                     }
                     else
                     {
                         Status_Code = reader["Status_Code"].ToString();
+                        IsActive = reader["IsActive"].ToString();
                     }
                     con.Close();
                 }
             }
 
-            if (Status_Code == "In Progress")
+            if (Status_Code == "In Progress" && IsActive =="1")
             {
                 TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
 

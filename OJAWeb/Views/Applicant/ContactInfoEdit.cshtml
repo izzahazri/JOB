@@ -97,10 +97,10 @@
                         <div class="col-md-6">
                             @Html.Label("Relation : ")
                             @Html.DropDownListFor(modelItem => model.User_RRelation1, new List<SelectListItem>
-                                                { new SelectListItem{Text="Parent", Value="Parent"},
-                                                new SelectListItem{Text="Sibling", Value="Sibling"},
-                                                new SelectListItem{Text="Relative", Value="Relative"},
-                                                new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
+                                                { new SelectListItem{Text="Friend", Value="Friend"},
+                                                new SelectListItem{Text="Lecturer", Value="Lecturer"},
+                                                new SelectListItem{Text="Internship Supervisor", Value="Internship Supervisor"},
+                                                new SelectListItem{Text="Manager", Value="Manager"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
 
                         </div>
 
@@ -127,10 +127,10 @@
                         <div class="col-md-6">
                             @Html.Label("Relation : ")
                             @Html.DropDownListFor(modelItem => model.User_RRelation2, new List<SelectListItem>
-                                                { new SelectListItem{Text="Parent", Value="Parent"},
-                                                new SelectListItem{Text="Sibling", Value="Sibling"},
-                                                new SelectListItem{Text="Relative", Value="Relative"},
-                                                new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
+                                                 { new SelectListItem{Text="Friend", Value="Friend"},
+                                                new SelectListItem{Text="Lecturer", Value="Lecturer"},
+                                                new SelectListItem{Text="Internship Supervisor", Value="Internship Supervisor"},
+                                                new SelectListItem{Text="Manager", Value="Manager"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
 
                         </div>
 
