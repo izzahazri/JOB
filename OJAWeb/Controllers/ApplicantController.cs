@@ -283,7 +283,7 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            if (Status_Code == "In Progress" && IsActive == "1")
+            if (Status_Code == "In Progress" && IsActive == "True")
             {
                 TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
 
@@ -532,7 +532,7 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            if (Status_Code == "In Progress" && IsActive =="1")
+            if (Status_Code == "In Progress" && IsActive =="True")
             {
                 TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
 

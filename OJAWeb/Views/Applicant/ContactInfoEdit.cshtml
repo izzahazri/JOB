@@ -146,17 +146,17 @@
 
                         <div class="col-md-12">
                             @Html.Label("Address : ")
-                            @Html.TextAreaFor(modelItem => model.User_EPhone1, new { type = "text", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
+                            @Html.TextAreaFor(modelItem => model.User_EAddress1, new { type = "text", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
                         </div>
 
                         <div class="col-md-12">
                             @Html.Label("Occupation : ")
-                            @Html.TextBoxFor(modelItem => model.User_EAddress1, new { type = "tel", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
+                            @Html.TextBoxFor(modelItem => model.User_EOccu1, new { type = "tel", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
                         </div>
 
                         <div class="col-md-6">
                             @Html.Label("Phone No : ")
-                            @Html.TextBoxFor(modelItem => model.User_EOccu1, new { onkeypress = "return isNumber(event)", type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", @title = "Please enter without (-)" })
+                            @Html.TextBoxFor(modelItem => model.User_EPhone1, new { onkeypress = "return isNumber(event)", type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", @title = "Please enter without (-)" })
                         </div>
 
                         <div class="col-md-6">
@@ -176,17 +176,17 @@
 
                         <div class="col-md-12">
                             @Html.Label("Address : ")
-                            @Html.TextAreaFor(modelItem => model.User_EPhone2, new { type = "text", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
+                            @Html.TextAreaFor(modelItem => model.User_EAddress2, new { type = "text", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
                         </div>
 
                         <div class="col-md-12">
                             @Html.Label("Occupation : ")
-                            @Html.TextBoxFor(modelItem => model.User_EAddress2, new { type = "tel", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
+                            @Html.TextBoxFor(modelItem => model.User_EOccu2, new { type = "tel", placeholder = "Please Fill In *", required = "required", Style = "width:100%;", @class = "form-control" })
                         </div>
 
                         <div class="col-md-6">
                             @Html.Label("Phone No : ")
-                            @Html.TextBoxFor(modelItem => model.User_EOccu2, new { onkeypress = "return isNumber(event)", type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", @title = "Please enter without (-)" })
+                            @Html.TextBoxFor(modelItem => model.User_EPhone2, new { onkeypress = "return isNumber(event)", type = "text", placeholder = "Please Fill In *", Style = "width:100%;", required = "required", @class = "form-control", @title = "Please enter without (-)" })
                         </div>
 
                         <div class="col-md-6">
