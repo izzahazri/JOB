@@ -72,30 +72,64 @@
                     <div class="col-md-12">
                         <div style="background-color:#d6d6c2">Membership of Trade OR Professional Bodies</div>
                     </div>
-                    <div class="about col-md-12">
-                        <div class="col-md-3">
-                            @Html.Label("Name Professional Bodies")
-                        </div>
-                        <div class="col-md-9">
-                            : @Html.DisplayFor(modelItem => model.User_Profess1)
-                        </div>
-                    </div>
 
-                    <div class="about col-md-12">
-                        <div class="col-md-3">
-                            @Html.Label("Date of Registered")
-                        </div>
-                        <div class="col-md-9">
-                            : @Html.DisplayFor(modelItem => model.User_Date_Registered1)
-                        </div>
-                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Name Professional Bodies")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.User_Profess1)
+                                </div>
+                            </div>
 
-                    <div class="about col-md-12">
-                        <div class="col-md-3">
-                            @Html.Label("Status of Membership")
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Date of Registered")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.User_Date_Registered1)
+                                </div>
+                            </div>
+
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Status of Membership")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Status_Member1)
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-9">
-                            : @Html.DisplayFor(modelItem => model.Status_Member1)
+
+                        <div class="col-md-6">
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Name Professional Bodies")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.User_Profess2)
+                                </div>
+                            </div>
+
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Date of Registered")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.User_Date_Registered2)
+                                </div>
+                            </div>
+
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Status of Membership")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Status_Member2)
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,30 +138,64 @@
                     <div class="col-md-12">
                         <div style="background-color:#d6d6c2">Relatives / Friends Working in ABX Express (M) SDN BHD &#38; UTS Group of Companies OR its Subsidiaries</div>
                     </div>
-                    <div class="about col-md-12">
-                        <div class="col-md-3">
-                            @Html.Label("Name")
-                        </div>
-                        <div class="col-md-9">
-                            : @Html.DisplayFor(modelItem => model.Name_Relative_Friend1)
-                        </div>
-                    </div>
 
-                    <div class="about col-md-12">
-                        <div class="col-md-3">
-                            @Html.Label("Designation / Department")
-                        </div>
-                        <div class="col-md-9">
-                            : @Html.DisplayFor(modelItem => model.Name_Relative_Friend_Depart1)
-                        </div>
-                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Name")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Name_Relative_Friend1)
+                                </div>
+                            </div>
 
-                    <div class="about col-md-12">
-                        <div class="col-md-3">
-                            @Html.Label("Relationship")
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Designation / Department")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Name_Relative_Friend_Depart1)
+                                </div>
+                            </div>
+
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Relationship")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Name_Relative_Friend_Status1)
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-9">
-                            : @Html.DisplayFor(modelItem => model.Name_Relative_Friend_Status1)
+
+                        <div class="col-md-6">
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Name")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Name_Relative_Friend2)
+                                </div>
+                            </div>
+
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Designation / Department")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Name_Relative_Friend_Depart2)
+                                </div>
+                            </div>
+
+                            <div class="about col-md-12">
+                                <div class="col-md-3">
+                                    @Html.Label("Relationship")
+                                </div>
+                                <div class="col-md-9">
+                                    : @Html.DisplayFor(modelItem => model.Name_Relative_Friend_Status2)
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

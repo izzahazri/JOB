@@ -84,12 +84,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Status of Membership : ")
-                            @Html.DropDownListFor(modelItem => model.Status_Member1, new List<SelectListItem>
-                                                         { new SelectListItem{Text="Chairman", Value="Chairman"},
-                                                         new SelectListItem{Text="Vice Chairman", Value="Vice Chairman"},
-                                                         new SelectListItem{Text="Secretary", Value="Secretary"},
-                                                         new SelectListItem{Text="Ordinary", Value="Ordinary"}}, "Select Status", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.Status_Member1, new List<SelectListItem>
+        { new SelectListItem{Text="Chairman", Value="Chairman"},
+        new SelectListItem{Text="Vice Chairman", Value="Vice Chairman"},
+        new SelectListItem{Text="Secretary", Value="Secretary"},
+        new SelectListItem{Text="Ordinary", Value="Ordinary"}}, "Select Status", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.Status_Member1, new SelectList(@ViewBag.MemberList, "Value", "Text", ViewBag.SelectedMember), "Select Status *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top:20px">
@@ -103,12 +103,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Status of Membership : ")
-                            @Html.DropDownListFor(modelItem => model.Status_Member2, new List<SelectListItem>
-                                                         { new SelectListItem{Text="Chairman", Value="Chairman"},
-                                                         new SelectListItem{Text="Vice Chairman", Value="Vice Chairman"},
-                                                         new SelectListItem{Text="Secretary", Value="Secretary"},
-                                                         new SelectListItem{Text="Ordinary", Value="Ordinary"}}, "Select Status", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.Status_Member2, new List<SelectListItem>
+        { new SelectListItem{Text="Chairman", Value="Chairman"},
+        new SelectListItem{Text="Vice Chairman", Value="Vice Chairman"},
+        new SelectListItem{Text="Secretary", Value="Secretary"},
+        new SelectListItem{Text="Ordinary", Value="Ordinary"}}, "Select Status", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.Status_Member2, new SelectList(@ViewBag.MemberList, "Value", "Text", ViewBag.SelectedMember2), "Select Status *", new { @class = "form-control" })
                         </div>
 
 
@@ -128,12 +128,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Relationship : ")
-                            @Html.DropDownListFor(modelItem => model.Name_Relative_Friend_Status1, new List<SelectListItem>
-                                                         { new SelectListItem{Text="Parent", Value="Parent"},
-                                                         new SelectListItem{Text="Sibling", Value="Sibling"},
-                                                         new SelectListItem{Text="Relative", Value="Relative"},
-                                                         new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relationship", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.Name_Relative_Friend_Status1, new List<SelectListItem>
+        { new SelectListItem{Text="Parent", Value="Parent"},
+        new SelectListItem{Text="Sibling", Value="Sibling"},
+        new SelectListItem{Text="Relative", Value="Relative"},
+        new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relationship", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.Name_Relative_Friend_Status1, new SelectList(@ViewBag.OtherList, "Value", "Text", ViewBag.SelectedOther), "Select Relationship *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top:20px">
@@ -147,12 +147,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Relationship : ")
-                            @Html.DropDownListFor(modelItem => model.Name_Relative_Friend_Status2, new List<SelectListItem>
-                                                         { new SelectListItem{Text="Parent", Value="Parent"},
-                                                         new SelectListItem{Text="Sibling", Value="Sibling"},
-                                                         new SelectListItem{Text="Relative", Value="Relative"},
-                                                         new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relationship", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.Name_Relative_Friend_Status2, new List<SelectListItem>
+        { new SelectListItem{Text="Parent", Value="Parent"},
+        new SelectListItem{Text="Sibling", Value="Sibling"},
+        new SelectListItem{Text="Relative", Value="Relative"},
+        new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relationship", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.Name_Relative_Friend_Status2, new SelectList(@ViewBag.OtherList, "Value", "Text", ViewBag.SelectedOther2), "Select Relationship *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top:50px">

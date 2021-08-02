@@ -85,6 +85,8 @@
                             @Html.TextAreaFor(text => text.User_Correspon_Address, new { autocomplete = "off", placeholder = "Correspondence Address *", Style = "width:100%;", required = "required", @class = "form-control" })
                         </div>
                         <div class="col-md-12" style="padding-bottom: 10px;">
+                            @*@Html.DropDownListFor(text => text.Region_ID, new SelectList(@ViewBag.RegionList, "Value", "Text"), "Select State *", new { required = "required", @class = "form-control" })*@
+
                             @Html.DropDownListFor(text => text.User_Location, new List<SelectListItem>
                                                { new SelectListItem{Text="Johor", Value="Johor"},
                                                new SelectListItem{Text="Kedah", Value="Kedah"},

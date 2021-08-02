@@ -95,161 +95,194 @@
             </h3>
             @foreach (var model in Model.usersemployment)
             {
-                <div class="col-md-12 form" id="form" style="padding-top: 20px;">
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                            @Html.DisplayFor(modelItem => model.User_From_Year1)
-                        </div>
-                        <div class="col-md-10 institute">
-                            @Html.DisplayFor(modelItem => model.User_LastPosition1)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-10">
-                            @Html.DisplayFor(modelItem => model.User_Company1)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Company Address
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_CompanyAddress1)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Year End
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_To_Year1)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Reason for Leaving
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_Reason1)
-                        </div>
-                    </div>
+        <div class="col-md-12 form" id="form" style="padding-top: 20px;">
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                    @Html.DisplayFor(modelItem => model.User_From_Year1)
                 </div>
-
-                <div class="col-md-12 form" id="form" style="padding-top: 50px;">
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                            @Html.DisplayFor(modelItem => model.User_From_Year2)
-                        </div>
-                        <div class="col-md-10 institute">
-                            @Html.DisplayFor(modelItem => model.User_LastPosition2)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-10">
-                            @Html.DisplayFor(modelItem => model.User_Company2)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Company Address
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_CompanyAddress2)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Year End
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_To_Year2)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Reason for Leaving
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_Reason2)
-                        </div>
-                    </div>
+                <div class="col-md-10 institute">
+                    @Html.DisplayFor(modelItem => model.User_LastPosition1)
                 </div>
+            </div>
 
-                <div class="col-md-12 form" id="form" style="padding-top: 50px;">
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                            @Html.DisplayFor(modelItem => model.User_From_Year3)
-                        </div>
-                        <div class="col-md-10 institute">
-                            @Html.DisplayFor(modelItem => model.User_LastPosition3)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-10">
-                            @Html.DisplayFor(modelItem => model.User_Company3)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Company Address
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_CompanyAddress3)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Year End
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_To_Year3)
-                        </div>
-                    </div>
-
-                    <div class="about col-md-12">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2 side">
-                            Reason for Leaving
-                        </div>
-                        <div class="col-md-8">
-                            @Html.DisplayFor(modelItem => model.User_Reason3)
-                        </div>
-                    </div>
+            <div class="about col-md-12">
+                <div class="col-md-2">
                 </div>
+                <div class="col-md-10">
+                    @Html.DisplayFor(modelItem => model.User_Company1)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Company Address
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_CompanyAddress1)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Status Employment
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_Status_Employ1)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Year End
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_To_Year1)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Reason for Leaving
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_Reason1)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form" id="form" style="padding-top: 50px;">
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                    @Html.DisplayFor(modelItem => model.User_From_Year2)
+                </div>
+                <div class="col-md-10 institute">
+                    @Html.DisplayFor(modelItem => model.User_LastPosition2)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10">
+                    @Html.DisplayFor(modelItem => model.User_Company2)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Company Address
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_CompanyAddress2)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Status Employment
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_Status_Employ2)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Year End
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_To_Year2)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Reason for Leaving
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_Reason2)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form" id="form" style="padding-top: 50px;">
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                    @Html.DisplayFor(modelItem => model.User_From_Year3)
+                </div>
+                <div class="col-md-10 institute">
+                    @Html.DisplayFor(modelItem => model.User_LastPosition3)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10">
+                    @Html.DisplayFor(modelItem => model.User_Company3)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Company Address
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_CompanyAddress3)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Status Employment
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_Status_Employ3)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Year End
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_To_Year3)
+                </div>
+            </div>
+
+            <div class="about col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 side">
+                    Reason for Leaving
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(modelItem => model.User_Reason3)
+                </div>
+            </div>
+        </div>
 
                 <div class="col-md-12 form" id="form" style="padding-top: 30px;">
                     <div class="about col-md-12">

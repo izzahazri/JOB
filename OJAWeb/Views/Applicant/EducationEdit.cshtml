@@ -73,16 +73,16 @@
 
                         <div class="col-md-12">
                             @Html.Label("School 1 : ")
-                            @Html.DropDownListFor(modelItem => model.User_School1, new List<SelectListItem>
-                                               { new SelectListItem{Text="Primary (Standard 1 to 6)", Value="Primary (Standard 1 to 6)"},
-                                               new SelectListItem{Text="Secondary (Form 1 to 3)", Value="Secondary (Form 1 to 3)"},
-                                               new SelectListItem{Text="Secondary (Form 4 to 6)", Value="Secondary (Form 4 to 6)"},
-                                               new SelectListItem{Text="Form 6 / Pre-University", Value="Form 6 / Pre-University"},
-                                               new SelectListItem{Text="Institute", Value="Institute"},
-                                               new SelectListItem{Text="College", Value="College"},
-                                               new SelectListItem{Text="University", Value="University"},
-                                               new SelectListItem{Text="Others", Value="Others"}}, "Select School *", new { Style = "width:100%;", required = "required", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_School1, new List<SelectListItem>
+                                { new SelectListItem{Text="Primary (Standard 1 to 6)", Value="Primary (Standard 1 to 6)"},
+                                new SelectListItem{Text="Secondary (Form 1 to 3)", Value="Secondary (Form 1 to 3)"},
+                                new SelectListItem{Text="Secondary (Form 4 to 6)", Value="Secondary (Form 4 to 6)"},
+                                new SelectListItem{Text="Form 6 / Pre-University", Value="Form 6 / Pre-University"},
+                                new SelectListItem{Text="Institute", Value="Institute"},
+                                new SelectListItem{Text="College", Value="College"},
+                                new SelectListItem{Text="University", Value="University"},
+                                new SelectListItem{Text="Others", Value="Others"}}, "Select School *", new { Style = "width:100%;", required = "required", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_School1, new SelectList(@ViewBag.SchoolList, "Value", "Text", ViewBag.SelectedSchool), "Select School *", new { required = "required", @class = "form-control" })
                         </div>
 
                         <div class="col-md-12">
@@ -91,42 +91,42 @@
                         </div>
 
                         <div class="col-md-3">
-                            @Html.Label("From Month/Year : ")
+                            @Html.Label("Month/Year Start : ")
                             @Html.TextBoxFor(modelItem => model.User_From_Year1, new { type = "month", Style = "width:100%;", required = "required", @class = "form-control" })
                         </div>
 
                         <div class="col-md-3">
-                            @Html.Label("To Month/Year : ")
+                            @Html.Label("Month/Year End : ")
                             @Html.TextBoxFor(modelItem => model.User_To_Year1, new { type = "month", Style = "width:100%;", required = "required", @class = "form-control" })
                         </div>
 
                         <div class="col-md-6">
                             @Html.Label("Qualification / Certificate : ")
-                            @Html.DropDownListFor(modelItem => model.User_Qualification1, new List<SelectListItem>
-                                               { new SelectListItem{Text="UPSR", Value="UPSR"},
-                                               new SelectListItem{Text="PMR", Value="PMR"},
-                                               new SelectListItem{Text="SPM", Value="SPM"},
-                                               new SelectListItem{Text="STPM", Value="STPM"},
-                                               new SelectListItem{Text="Diploma", Value="Diploma"},
-                                               new SelectListItem{Text="Bachelor's Degree", Value="Bachelor Degree"},
-                                               new SelectListItem{Text="Master's Degree", Value="Master Degree"},
-                                               new SelectListItem{Text="Doctorate (PhD)", Value="Doctorate (PhD)"},
-                                               new SelectListItem{Text="Professional Certificate", Value="Professional Certificate"}}, "Select Qualification *", new { Style = "width:100%;", required = "required", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_Qualification1, new List<SelectListItem>
+                                { new SelectListItem{Text="UPSR", Value="UPSR"},
+                                new SelectListItem{Text="PMR", Value="PMR"},
+                                new SelectListItem{Text="SPM", Value="SPM"},
+                                new SelectListItem{Text="STPM", Value="STPM"},
+                                new SelectListItem{Text="Diploma", Value="Diploma"},
+                                new SelectListItem{Text="Bachelor's Degree", Value="Bachelor Degree"},
+                                new SelectListItem{Text="Master's Degree", Value="Master Degree"},
+                                new SelectListItem{Text="Doctorate (PhD)", Value="Doctorate (PhD)"},
+                                new SelectListItem{Text="Professional Certificate", Value="Professional Certificate"}}, "Select Qualification *", new { Style = "width:100%;", required = "required", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_Qualification1, new SelectList(@ViewBag.QuaList, "Value", "Text", ViewBag.SelectedQua), "Select Qualification *", new { required = "required", @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top: 30px ">
                             @Html.Label("School 2 : ")
-                            @Html.DropDownListFor(modelItem => model.User_School2, new List<SelectListItem>
-                                               { new SelectListItem{Text="Primary (Standard 1 to 6)", Value="Primary (Standard 1 to 6)"},
-                                               new SelectListItem{Text="Secondary (Form 1 to 3)", Value="Secondary (Form 1 to 3)"},
-                                               new SelectListItem{Text="Secondary (Form 4 to 6)", Value="Secondary (Form 4 to 6)"},
-                                               new SelectListItem{Text="Form 6 / Pre-University", Value="Form 6 / Pre-University"},
-                                               new SelectListItem{Text="Institute", Value="Institute"},
-                                               new SelectListItem{Text="College", Value="College"},
-                                               new SelectListItem{Text="University", Value="University"},
-                                               new SelectListItem{Text="Others", Value="Others"}}, "Select School *", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_School2, new List<SelectListItem>
+                                { new SelectListItem{Text="Primary (Standard 1 to 6)", Value="Primary (Standard 1 to 6)"},
+                                new SelectListItem{Text="Secondary (Form 1 to 3)", Value="Secondary (Form 1 to 3)"},
+                                new SelectListItem{Text="Secondary (Form 4 to 6)", Value="Secondary (Form 4 to 6)"},
+                                new SelectListItem{Text="Form 6 / Pre-University", Value="Form 6 / Pre-University"},
+                                new SelectListItem{Text="Institute", Value="Institute"},
+                                new SelectListItem{Text="College", Value="College"},
+                                new SelectListItem{Text="University", Value="University"},
+                                new SelectListItem{Text="Others", Value="Others"}}, "Select School *", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_School2, new SelectList(@ViewBag.SchoolList, "Value", "Text", ViewBag.SelectedSchool2), "Select School *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12">
@@ -135,28 +135,28 @@
                         </div>
 
                         <div class="col-md-3">
-                            @Html.Label("From Month/Year : ")
+                            @Html.Label("Month/Year Start : ")
                             @Html.TextBoxFor(modelItem => model.User_From_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
                         </div>
 
                         <div class="col-md-3">
-                            @Html.Label("To Month/Year : ")
+                            @Html.Label("Month/Year End : ")
                             @Html.TextBoxFor(modelItem => model.User_To_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
                         </div>
 
                         <div class="col-md-6">
                             @Html.Label("Qualification / Certificate : ")
-                            @Html.DropDownListFor(modelItem => model.User_Qualification2, new List<SelectListItem>
-                                               { new SelectListItem{Text="UPSR", Value="UPSR"},
-                                               new SelectListItem{Text="PMR", Value="PMR"},
-                                               new SelectListItem{Text="SPM", Value="SPM"},
-                                               new SelectListItem{Text="STPM", Value="STPM"},
-                                               new SelectListItem{Text="Diploma", Value="Diploma"},
-                                               new SelectListItem{Text="Bachelor's Degree", Value="Bachelor Degree"},
-                                               new SelectListItem{Text="Master's Degree", Value="Master Degree"},
-                                               new SelectListItem{Text="Doctorate (PhD)", Value="Doctorate (PhD)"},
-                                               new SelectListItem{Text="Professional Certificate", Value="Professional Certificate"}}, "Select Qualification *", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_Qualification2, new List<SelectListItem>
+                                { new SelectListItem{Text="UPSR", Value="UPSR"},
+                                new SelectListItem{Text="PMR", Value="PMR"},
+                                new SelectListItem{Text="SPM", Value="SPM"},
+                                new SelectListItem{Text="STPM", Value="STPM"},
+                                new SelectListItem{Text="Diploma", Value="Diploma"},
+                                new SelectListItem{Text="Bachelor's Degree", Value="Bachelor Degree"},
+                                new SelectListItem{Text="Master's Degree", Value="Master Degree"},
+                                new SelectListItem{Text="Doctorate (PhD)", Value="Doctorate (PhD)"},
+                                new SelectListItem{Text="Professional Certificate", Value="Professional Certificate"}}, "Select Qualification *", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_Qualification2, new SelectList(@ViewBag.QuaList, "Value", "Text", ViewBag.SelectedQua2), "Select Qualification *", new {@class = "form-control" })
                         </div>
 
                         <div class="col-md-12" id="upload" style="padding-top:30px">

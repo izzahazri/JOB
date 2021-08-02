@@ -532,7 +532,7 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            if (Status_Code == "In Progress" && IsActive =="True")
+            if (Status_Code == "In Progress" && IsActive == "True")
             {
                 TempData["Message"] = "Job had applied. Kindly wait for next response from us. Thank you.";
 
@@ -908,6 +908,16 @@ namespace OJAWeb.Controllers
 
         public ActionResult Education()
         {
+            string School_ID = "";
+            string School_ID2 = "";
+            string Qua_ID = "";
+            string Qua_ID2 = "";
+
+            string Type_School = "";
+            string Type_School2 = "";
+            string Type_Qua = "";
+            string Type_Qua2 = "";
+
             string userID = Session["ID"].ToString();
 
             EducationModel infoedu = new EducationModel();
@@ -949,6 +959,132 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            School_ID = reader["User_School1"].ToString();
+                            School_ID2 = reader["User_School2"].ToString();
+                            Qua_ID = reader["User_Qualification1"].ToString();
+                            Qua_ID2 = reader["User_Qualification2"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("EducationEdit", "Applicant");
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_School WHERE ID='" + School_ID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Type_School = reader["Type_School"].ToString();
+                    }
+                    else
+                    {
+                        Type_School = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Qualification WHERE ID='" + Qua_ID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Type_Qua = reader["Type_Qualification"].ToString();
+                    }
+                    else
+                    {
+                        Type_Qua = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_School WHERE ID='" + School_ID2 + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Type_School2 = reader["Type_School"].ToString();
+                    }
+                    else
+                    {
+                        Type_School2 = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Qualification WHERE ID='" + Qua_ID2 + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Type_Qua2 = reader["Type_Qualification"].ToString();
+                    }
+                    else
+                    {
+                        Type_Qua2 = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblEducation WHERE User_ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
                             string s;
                             if (reader["User_Cert_File"].ToString() == "NA")
                             {
@@ -961,17 +1097,17 @@ namespace OJAWeb.Controllers
 
                             EducationModel uobj = new EducationModel
                             {
-                                User_School1 = reader["User_School1"].ToString(),
+                                User_School1 = Type_School,
                                 User_Institute1 = reader["User_Institute1"].ToString(),
                                 User_From_Year1 = reader["User_From_Year1"].ToString(),
                                 User_To_Year1 = reader["User_To_Year1"].ToString(),
-                                User_Qualification1 = reader["User_Qualification1"].ToString(),
+                                User_Qualification1 = Type_Qua,
                                 User_Cert_File = s,
-                                User_School2 = reader["User_School2"].ToString(),
+                                User_School2 = Type_School2,
                                 User_Institute2 = reader["User_Institute2"].ToString(),
                                 User_From_Year2 = reader["User_From_Year2"].ToString(),
                                 User_To_Year2 = reader["User_To_Year2"].ToString(),
-                                User_Qualification2 = reader["User_Qualification2"].ToString(),
+                                User_Qualification2 = Type_Qua2,
                             };
                             edulist.Add(uobj);
                         }
@@ -989,6 +1125,8 @@ namespace OJAWeb.Controllers
 
         public ActionResult Employment()
         {
+            string Period_ID = ""; ;
+            string Type_Period = "";
             string userID = Session["ID"].ToString();
 
             EmploymentModel infoemp = new EmploymentModel();
@@ -1030,10 +1168,62 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            Period_ID = reader["User_Period"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("EmploymentEdit", "Applicant");
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Period WHERE ID='" + Period_ID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Type_Period = reader["Type_Period"].ToString();
+                    }
+                    else
+                    {
+                        Type_Period = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblEmployment WHERE User_ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
                             EmploymentModel uobj = new EmploymentModel
                             {
                                 User_Company1 = reader["User_Company1"].ToString(),
                                 User_CompanyAddress1 = reader["User_CompanyAddress1"].ToString(),
+                                User_Status_Employ1 = reader["User_Status_Employ1"].ToString(),
                                 User_From_Year1 = reader["User_From_Year1"].ToString(),
                                 User_To_Year1 = reader["User_To_Year1"].ToString(),
                                 User_LastPosition1 = reader["User_LastPosition1"].ToString(),
@@ -1041,6 +1231,7 @@ namespace OJAWeb.Controllers
 
                                 User_Company2 = reader["User_Company2"].ToString(),
                                 User_CompanyAddress2 = reader["User_CompanyAddress2"].ToString(),
+                                User_Status_Employ2 = reader["User_Status_Employ2"].ToString(),
                                 User_From_Year2 = reader["User_From_Year2"].ToString(),
                                 User_To_Year2 = reader["User_To_Year2"].ToString(),
                                 User_LastPosition2 = reader["User_LastPosition2"].ToString(),
@@ -1048,12 +1239,13 @@ namespace OJAWeb.Controllers
 
                                 User_Company3 = reader["User_Company3"].ToString(),
                                 User_CompanyAddress3 = reader["User_CompanyAddress3"].ToString(),
+                                User_Status_Employ3 = reader["User_Status_Employ3"].ToString(),
                                 User_From_Year3 = reader["User_From_Year3"].ToString(),
                                 User_To_Year3 = reader["User_To_Year3"].ToString(),
                                 User_LastPosition3 = reader["User_LastPosition3"].ToString(),
                                 User_Reason3 = reader["User_Reason3"].ToString(),
 
-                                User_Period = reader["User_Period"].ToString(),
+                                User_Period = Type_Period,
                                 User_Emp_Phone = reader["User_Emp_Phone"].ToString(),
                             };
                             emplist.Add(uobj);
@@ -1141,6 +1333,16 @@ namespace OJAWeb.Controllers
         }
         public ActionResult AddInfo()
         {
+            string Member_ID = "";
+            string Member_ID2 = "";
+            string Relay_ID = "";
+            string Relay_ID2 = "";
+
+            string Member_Status = "";
+            string Member_Status2 = "";
+            string Relay_Status = "";
+            string Relay_Status2 = "";
+
             string userID = Session["ID"].ToString();
 
             AddInfoModel infoadd = new AddInfoModel();
@@ -1182,21 +1384,147 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            Member_ID = reader["Status_Member1"].ToString();
+                            Member_ID2 = reader["Status_Member2"].ToString();
+
+                            Relay_ID = reader["Name_Relative_Friend_Status1"].ToString();
+                            Relay_ID2 = reader["Name_Relative_Friend_Status2"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("AddInfoEdit", "Applicant");
+                    }
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Member_ID + "' AND Status='Membership'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Member_Status = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        Member_Status = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Member_ID2 + "' AND Status='Membership'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Member_Status2 = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        Member_Status2 = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Relay_ID + "' AND Status='Other'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Relay_Status = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        Relay_Status = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Relay_ID2 + "' AND Status='Other'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        Relay_Status2 = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        Relay_Status2 = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblAdditional_Info WHERE User_ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
                             AddInfoModel uobj = new AddInfoModel
                             {
                                 User_Profess1 = reader["User_Profess1"].ToString(),
                                 User_Date_Registered1 = reader["User_Date_Registered1"].ToString(),
-                                Status_Member1 = reader["Status_Member1"].ToString(),
+                                Status_Member1 = Member_Status,
                                 User_Profess2 = reader["User_Profess2"].ToString(),
                                 User_Date_Registered2 = reader["User_Date_Registered2"].ToString(),
-                                Status_Member2 = reader["Status_Member2"].ToString(),
+                                Status_Member2 = Member_Status2,
 
                                 Name_Relative_Friend1 = reader["Name_Relative_Friend1"].ToString(),
                                 Name_Relative_Friend_Depart1 = reader["Name_Relative_Friend_Depart1"].ToString(),
-                                Name_Relative_Friend_Status1 = reader["Name_Relative_Friend_Status1"].ToString(),
+                                Name_Relative_Friend_Status1 = Relay_Status,
                                 Name_Relative_Friend2 = reader["Name_Relative_Friend2"].ToString(),
                                 Name_Relative_Friend_Depart2 = reader["Name_Relative_Friend_Depart2"].ToString(),
-                                Name_Relative_Friend_Status2 = reader["Name_Relative_Friend_Status2"].ToString(),
+                                Name_Relative_Friend_Status2 = Relay_Status2,
 
                                 User_Pregnant = reader["User_Pregnant"].ToString(),
                                 User_Misconduct = reader["User_Misconduct"].ToString(),
@@ -1219,6 +1547,16 @@ namespace OJAWeb.Controllers
         }
         public ActionResult ContactInfo()
         {
+            string RRelay_ID = "";
+            string RRelay_ID2 = "";
+            string ERelay_ID = "";
+            string ERelay_ID2 = "";
+
+            string RRelay_Status = "";
+            string RRelay_Status2 = "";
+            string ERelay_Status = "";
+            string ERelay_Status2 = "";
+
             string userID = Session["ID"].ToString();
 
             ContactModel infocontact = new ContactModel();
@@ -1260,29 +1598,155 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            RRelay_ID = reader["User_RRelation1"].ToString();
+                            RRelay_ID2 = reader["User_RRelation2"].ToString();
+
+                            ERelay_ID = reader["User_ERelation1"].ToString();
+                            ERelay_ID2 = reader["User_ERelation2"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("ContactInfoEdit", "Applicant");
+                    }
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + RRelay_ID + "' AND Status='NotBlooded'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        RRelay_Status = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        RRelay_Status = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + RRelay_ID2 + "' AND Status='NotBlooded'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        RRelay_Status2 = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        RRelay_Status2 = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + ERelay_ID + "' AND Status='Other'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        ERelay_Status = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        ERelay_Status = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + ERelay_ID2 + "' AND Status='Other'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        ERelay_Status2 = reader["Type_Relation"].ToString();
+                    }
+                    else
+                    {
+                        ERelay_Status2 = null;
+                    }
+
+                    con.Close();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblContact WHERE User_ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.HasRows == true)
+                    {
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
                             ContactModel uobj = new ContactModel
                             {
                                 User_RName1 = reader["User_RName1"].ToString(),
                                 User_RPhone1 = reader["User_RPhone1"].ToString(),
                                 User_ROccu1 = reader["User_ROccu1"].ToString(),
                                 User_Known_Year1 = reader["User_KnowN_Year1"].ToString(),
-                                User_RRelation1 = reader["User_RRelation1"].ToString(),
+                                User_RRelation1 = RRelay_Status,
                                 User_RName2 = reader["User_RName2"].ToString(),
                                 User_RPhone2 = reader["User_RPhone2"].ToString(),
                                 User_ROccu2 = reader["User_ROccu2"].ToString(),
                                 User_Known_Year2 = reader["User_KnowN_Year2"].ToString(),
-                                User_RRelation2 = reader["User_RRelation2"].ToString(),
+                                User_RRelation2 = RRelay_Status2,
 
                                 User_EName1 = reader["User_EName1"].ToString(),
                                 User_EPhone1 = reader["User_EPhone1"].ToString(),
                                 User_EAddress1 = reader["User_EAddress1"].ToString(),
                                 User_EOccu1 = reader["User_EOccu1"].ToString(),
-                                User_ERelation1 = reader["User_ERelation1"].ToString(),
+                                User_ERelation1 = ERelay_Status,
                                 User_EName2 = reader["User_EName2"].ToString(),
                                 User_EPhone2 = reader["User_EPhone2"].ToString(),
                                 User_EAddress2 = reader["User_EAddress2"].ToString(),
                                 User_EOccu2 = reader["User_EOccu2"].ToString(),
-                                User_ERelation2 = reader["User_ERelation2"].ToString()
+                                User_ERelation2 = ERelay_Status2
 
                             };
                             contactlist.Add(uobj);
@@ -1367,6 +1831,9 @@ namespace OJAWeb.Controllers
         public ActionResult AboutMeEdit()
         {
             string userID = Session["ID"].ToString();
+            string Region_Name = "";
+            string Region_ID = "";
+
             List<InfoModel> userlist = new List<InfoModel>();
             InfoModel info = new InfoModel();
 
@@ -1390,6 +1857,8 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            Region_Name = reader["User_Location"].ToString();
+
                             InfoModel uobj = new InfoModel();
                             uobj.User_ShortName = reader["User_ShortName"].ToString();
                             uobj.User_Last_Name = reader["User_Last_Name"].ToString();
@@ -1442,6 +1911,52 @@ namespace OJAWeb.Controllers
                     con.Close();
                 }
             }
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Region WHERE Region_Name='" + Region_Name + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (!(String.IsNullOrEmpty(userID)))
+                    {
+                        Region_ID = reader["ID"].ToString();
+                    }
+                    con.Close();
+                }
+            }
+
+            List<SelectListItem> regions = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT ID, Region_Name FROM TblMaster_Region WHERE IsActive=1 ORDER BY Region_Name Asc";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            regions.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Region_Name"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.RegionList = regions;
+            ViewBag.SelectedRegion = Region_ID;
+
             return View(info);
         }
 
@@ -1450,13 +1965,33 @@ namespace OJAWeb.Controllers
         {
             string Full_Name = about.User_ShortName + " " + about.User_Last_Name;
             string userID = Session["ID"].ToString();
+            string Region_Name = "";
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblMaster_Region WHERE ID='" + about.User_Location + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (!(String.IsNullOrEmpty(userID)))
+                    {
+                        Region_Name = reader["Region_Name"].ToString();
+                    }
+                    con.Close();
+                }
+            }
 
             if (about.User_Driving_License == "Yes")
             {
                 using (SqlConnection con1 = new SqlConnection(cs))
                 {
-                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + Region_Name + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
                     using (SqlCommand cmd = new SqlCommand(query1))
                     {
                         cmd.Connection = con1;
@@ -1490,7 +2025,7 @@ namespace OJAWeb.Controllers
                         {
                             using (SqlConnection con1 = new SqlConnection(cs))
                             {
-                                string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                                string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + Region_Name + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
                                 using (SqlCommand cmd = new SqlCommand(query1))
                                 {
                                     cmd.Connection = con1;
@@ -1518,7 +2053,7 @@ namespace OJAWeb.Controllers
                             {
                                 using (SqlConnection con1 = new SqlConnection(cs))
                                 {
-                                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + Region_Name + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
                                     using (SqlCommand cmd = new SqlCommand(query1))
                                     {
                                         cmd.Connection = con1;
@@ -1539,7 +2074,7 @@ namespace OJAWeb.Controllers
                                 string User_Driving_Class = about.User_Driving_Class;
                                 using (SqlConnection con1 = new SqlConnection(cs))
                                 {
-                                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                                    string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + Region_Name + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
                                     using (SqlCommand cmd = new SqlCommand(query1))
                                     {
                                         cmd.Connection = con1;
@@ -1557,7 +2092,7 @@ namespace OJAWeb.Controllers
 
                     using (SqlConnection con1 = new SqlConnection(cs))
                     {
-                        string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                        string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + Region_Name + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
                         using (SqlCommand cmd = new SqlCommand(query1))
                         {
                             cmd.Connection = con1;
@@ -1593,7 +2128,7 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con1 = new SqlConnection(cs))
             {
-                string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + about.User_Location + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
+                string query1 = "UPDATE TblUser_Login SET User_ShortName = '" + about.User_ShortName + "',User_Last_Name = '" + about.User_Last_Name + "',User_Name = '" + Full_Name + "',User_Phone = '" + about.User_Phone + "',User_Tel_Home = '" + about.User_Tel_Home + "',User_Email = '" + about.User_Email + "',User_IC = '" + about.User_IC + "',User_Permanent_Address = '" + about.User_Permanent_Address + "',User_Correspon_Address = '" + about.User_Correspon_Address + "',User_Location = '" + Region_Name + "',User_Nationality = '" + about.User_Nationality + "',User_Religion = '" + about.User_Religion + "',User_Race = '" + about.User_Race + "',User_Gender = '" + about.User_Gender + "',User_Age = '" + about.User_Age + "',User_Marital_Status = '" + about.User_Marital_Status + "',User_Date_Birth = '" + about.User_Date_Birth + "',User_Driving_Class = '" + about.User_Driving_Class + "',User_Driving_License = '" + about.User_Driving_License + "',User_Driving_Attach = '" + about.User_Driving_Attach + "',User_Expected_Salary = '" + about.User_Expected_Salary + "' WHERE ID='" + userID + "'";
                 using (SqlCommand cmd = new SqlCommand(query1))
                 {
                     cmd.Connection = con1;
@@ -1610,6 +2145,10 @@ namespace OJAWeb.Controllers
         public ActionResult EducationEdit()
         {
             string userID = Session["ID"].ToString();
+            string School_ID = "";
+            string School_ID2 = "";
+            string Qua_ID = "";
+            string Qua_ID2 = "";
 
             EducationModel infoedu = new EducationModel();
             List<EducationModel> edulist = new List<EducationModel>();
@@ -1651,6 +2190,11 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            School_ID = reader["User_School1"].ToString();
+                            School_ID2 = reader["User_School2"].ToString();
+                            Qua_ID = reader["User_Qualification1"].ToString();
+                            Qua_ID2 = reader["User_Qualification2"].ToString();
+
                             EducationModel uobj = new EducationModel();
                             uobj.User_School1 = reader["User_School1"].ToString();
                             uobj.User_Institute1 = reader["User_Institute1"].ToString();
@@ -1689,6 +2233,61 @@ namespace OJAWeb.Controllers
                     con.Close();
                 }
             }
+
+            List<SelectListItem> school = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_School ORDER BY ID Asc";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            school.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_School"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.SchoolList = school;
+            ViewBag.SelectedSchool = School_ID;
+            ViewBag.SelectedSchool2 = School_ID2;
+
+            List<SelectListItem> qua = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_Qualification ORDER BY ID Asc";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            qua.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_Qualification"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.QuaList = qua;
+            ViewBag.SelectedQua = Qua_ID;
+            ViewBag.SelectedQua2 = Qua_ID2;
+
             return View(infoedu);
         }
 
@@ -1792,6 +2391,7 @@ namespace OJAWeb.Controllers
         [HttpGet]
         public ActionResult EmploymentEdit()
         {
+            string Period_ID = "";
             string userID = Session["ID"].ToString();
 
             EmploymentModel infoemp = new EmploymentModel();
@@ -1834,9 +2434,12 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            Period_ID = reader["User_Period"].ToString();
+
                             EmploymentModel uobj = new EmploymentModel();
                             uobj.User_Company1 = reader["User_Company1"].ToString();
                             uobj.User_CompanyAddress1 = reader["User_CompanyAddress1"].ToString();
+                            uobj.User_Status_Employ1 = reader["User_Status_Employ1"].ToString();
                             uobj.User_From_Year1 = reader["User_From_Year1"].ToString();
                             uobj.User_To_Year1 = reader["User_To_Year1"].ToString();
                             uobj.User_LastPosition1 = reader["User_LastPosition1"].ToString();
@@ -1844,6 +2447,7 @@ namespace OJAWeb.Controllers
 
                             uobj.User_Company2 = reader["User_Company2"].ToString();
                             uobj.User_CompanyAddress2 = reader["User_CompanyAddress2"].ToString();
+                            uobj.User_Status_Employ2 = reader["User_Status_Employ2"].ToString();
                             uobj.User_From_Year2 = reader["User_From_Year2"].ToString();
                             uobj.User_To_Year2 = reader["User_To_Year2"].ToString();
                             uobj.User_LastPosition2 = reader["User_LastPosition2"].ToString();
@@ -1851,6 +2455,7 @@ namespace OJAWeb.Controllers
 
                             uobj.User_Company3 = reader["User_Company3"].ToString();
                             uobj.User_CompanyAddress3 = reader["User_CompanyAddress3"].ToString();
+                            uobj.User_Status_Employ3 = reader["User_Status_Employ3"].ToString();
                             uobj.User_From_Year3 = reader["User_From_Year3"].ToString();
                             uobj.User_To_Year3 = reader["User_To_Year3"].ToString();
                             uobj.User_LastPosition3 = reader["User_LastPosition3"].ToString();
@@ -1868,6 +2473,7 @@ namespace OJAWeb.Controllers
                         {
                             User_Company1 = null,
                             User_CompanyAddress1 = null,
+                            User_Status_Employ1 = null,
                             User_From_Year1 = null,
                             User_To_Year1 = null,
                             User_LastPosition1 = null,
@@ -1875,6 +2481,7 @@ namespace OJAWeb.Controllers
 
                             User_Company2 = null,
                             User_CompanyAddress2 = null,
+                            User_Status_Employ2 = null,
                             User_From_Year2 = null,
                             User_To_Year2 = null,
                             User_LastPosition2 = null,
@@ -1882,6 +2489,7 @@ namespace OJAWeb.Controllers
 
                             User_Company3 = null,
                             User_CompanyAddress3 = null,
+                            User_Status_Employ3 = null,
                             User_From_Year3 = null,
                             User_To_Year3 = null,
                             User_LastPosition3 = null,
@@ -1893,9 +2501,41 @@ namespace OJAWeb.Controllers
                         emplist.Add(uobj);
                     }
                     infoemp.usersemployment = emplist;
+
+                    ViewBag.status1 = infoemp.usersemployment.Select(x => x.User_Status_Employ1).FirstOrDefault();
+                    ViewBag.status2 = infoemp.usersemployment.Select(x => x.User_Status_Employ2).FirstOrDefault();
+                    ViewBag.status3 = infoemp.usersemployment.Select(x => x.User_Status_Employ3).FirstOrDefault();
+
                     con.Close();
                 }
             }
+
+            List<SelectListItem> period = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_Period ORDER BY ID Asc";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            period.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_Period"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.PeriodList = period;
+            ViewBag.SelectedPeriod = Period_ID;
+
             return View(infoemp);
         }
 
@@ -1922,11 +2562,24 @@ namespace OJAWeb.Controllers
 
             using (SqlConnection con1 = new SqlConnection(cs))
             {
+                if (employment.User_Status_Employ1 == "Employed")
+                {
+                    employment.User_To_Year1 = null;
+                }
+                else if (employment.User_Status_Employ2 == "Employed")
+                {
+                    employment.User_To_Year2 = null;
+                }
+                else if (employment.User_Status_Employ3 == "Employed")
+                {
+                    employment.User_To_Year3 = null;
+                }
+
                 con1.Open();
 
                 if (dataProcess == true)
                 {
-                    string query3 = "UPDATE TblEmployment SET User_Company1 = '" + employment.User_Company1 + "',User_CompanyAddress1 = '" + employment.User_CompanyAddress1 + "',User_From_Year1 = '" + employment.User_From_Year1 + "',User_To_Year1 = '" + employment.User_To_Year1 + "',User_LastPosition1 = '" + employment.User_LastPosition1 + "',User_Reason1 = '" + employment.User_Reason1 + "', User_Company2 = '" + employment.User_Company2 + "',User_CompanyAddress2 = '" + employment.User_CompanyAddress2 + "',User_From_Year2 = '" + employment.User_From_Year2 + "',User_To_Year2 = '" + employment.User_To_Year2 + "',User_LastPosition2 = '" + employment.User_LastPosition2 + "',User_Reason2 = '" + employment.User_Reason2 + "',User_Company3 = '" + employment.User_Company3 + "',User_CompanyAddress3 = '" + employment.User_CompanyAddress3 + "',User_From_Year3 = '" + employment.User_From_Year3 + "',User_To_Year3 = '" + employment.User_To_Year3 + "',User_LastPosition3 = '" + employment.User_LastPosition3 + "',User_Reason3 = '" + employment.User_Reason3 + "',User_Period = '" + employment.User_Period + "',User_Emp_Phone = '" + employment.User_Emp_Phone + "' WHERE User_ID='" + userID + "'";
+                    string query3 = "UPDATE TblEmployment SET User_Company1 = '" + employment.User_Company1 + "',User_CompanyAddress1 = '" + employment.User_CompanyAddress1 + "',User_Status_Employ1 = '" + employment.User_Status_Employ1 + "', User_From_Year1 = '" + employment.User_From_Year1 + "',User_To_Year1 = '" + employment.User_To_Year1 + "',User_LastPosition1 = '" + employment.User_LastPosition1 + "',User_Reason1 = '" + employment.User_Reason1 + "', User_Company2 = '" + employment.User_Company2 + "',User_CompanyAddress2 = '" + employment.User_CompanyAddress2 + "',User_Status_Employ2 = '" + employment.User_Status_Employ2 + "',User_From_Year2 = '" + employment.User_From_Year2 + "',User_To_Year2 = '" + employment.User_To_Year2 + "',User_LastPosition2 = '" + employment.User_LastPosition2 + "',User_Reason2 = '" + employment.User_Reason2 + "',User_Company3 = '" + employment.User_Company3 + "',User_CompanyAddress3 = '" + employment.User_CompanyAddress3 + "',User_Status_Employ3 = '" + employment.User_Status_Employ3 + "',User_From_Year3 = '" + employment.User_From_Year3 + "',User_To_Year3 = '" + employment.User_To_Year3 + "',User_LastPosition3 = '" + employment.User_LastPosition3 + "',User_Reason3 = '" + employment.User_Reason3 + "',User_Period = '" + employment.User_Period + "',User_Emp_Phone = '" + employment.User_Emp_Phone + "' WHERE User_ID='" + userID + "'";
                     using (SqlCommand cmd1 = new SqlCommand(query3))
                     {
                         cmd1.Connection = con1;
@@ -1935,13 +2588,27 @@ namespace OJAWeb.Controllers
                 }
                 else
                 {
-                    string query2 = "INSERT INTO TblEmployment (User_Company1,User_CompanyAddress1, User_From_Year1, User_To_Year1, User_LastPosition1, User_Reason1,User_Company2,User_CompanyAddress2, User_From_Year2, User_To_Year2, User_LastPosition2, User_Reason2,User_Company3,User_CompanyAddress3, User_From_Year3, User_To_Year3, User_LastPosition3, User_Reason3, User_Period,User_Emp_Phone, User_ID) VALUES(@User_Company1,@User_CompanyAddress1, @User_From_Year1, @User_To_Year1, @User_LastPosition1, @User_Reason1,@User_Company2,@User_CompanyAddress2, @User_From_Year2, @User_To_Year2, @User_LastPosition2, @User_Reason2,@User_Company3,@User_CompanyAddress3, @User_From_Year3, @User_To_Year3, @User_LastPosition3, @User_Reason3, @User_Period,@User_Emp_Phone, @User_ID)";
+                    if (employment.User_Status_Employ1 == "Employed")
+                    {
+                        employment.User_To_Year1 = null;
+                    }
+                    else if (employment.User_Status_Employ2 == "Employed")
+                    {
+                        employment.User_To_Year2 = null;
+                    }
+                    else if (employment.User_Status_Employ3 == "Employed")
+                    {
+                        employment.User_To_Year3 = null;
+                    }
+
+                    string query2 = "INSERT INTO TblEmployment (User_Company1,User_CompanyAddress1, User_Status_Employ1, User_From_Year1, User_To_Year1, User_LastPosition1, User_Reason1,User_Company2,User_CompanyAddress2, User_Status_Employ2, User_From_Year2, User_To_Year2, User_LastPosition2, User_Reason2,User_Company3,User_CompanyAddress3, User_Status_Employ3, User_From_Year3, User_To_Year3, User_LastPosition3, User_Reason3, User_Period,User_Emp_Phone, User_ID) VALUES(@User_Company1,@User_CompanyAddress1, @User_Status_Employ1, @User_From_Year1, @User_To_Year1, @User_LastPosition1, @User_Reason1,@User_Company2,@User_CompanyAddress2, @User_Status_Employ2, @User_From_Year2, @User_To_Year2, @User_LastPosition2, @User_Reason2,@User_Company3,@User_CompanyAddress3, @User_Status_Employ3, @User_From_Year3, @User_To_Year3, @User_LastPosition3, @User_Reason3, @User_Period,@User_Emp_Phone, @User_ID)";
                     using (SqlCommand cmd2 = new SqlCommand(query2))
                     {
                         cmd2.Connection = con1;
 
                         cmd2.Parameters.AddWithValue("@User_Company1", employment.User_Company1);
                         cmd2.Parameters.AddWithValue("@User_CompanyAddress1", employment.User_CompanyAddress1);
+                        cmd2.Parameters.AddWithValue("@User_Status_Employ1", employment.User_Status_Employ1);
                         cmd2.Parameters.AddWithValue("@User_From_Year1", employment.User_From_Year1);
                         cmd2.Parameters.AddWithValue("@User_To_Year1", employment.User_To_Year1);
                         cmd2.Parameters.AddWithValue("@User_LastPosition1", employment.User_LastPosition1);
@@ -1949,6 +2616,7 @@ namespace OJAWeb.Controllers
 
                         cmd2.Parameters.AddWithValue("@User_Company2", employment.User_Company2);
                         cmd2.Parameters.AddWithValue("@User_CompanyAddress2", employment.User_CompanyAddress2);
+                        cmd2.Parameters.AddWithValue("@User_Status_Employ2", employment.User_Status_Employ2);
                         cmd2.Parameters.AddWithValue("@User_From_Year2", employment.User_From_Year2);
                         cmd2.Parameters.AddWithValue("@User_To_Year2", employment.User_To_Year2);
                         cmd2.Parameters.AddWithValue("@User_LastPosition2", employment.User_LastPosition2);
@@ -1956,6 +2624,7 @@ namespace OJAWeb.Controllers
 
                         cmd2.Parameters.AddWithValue("@User_Company3", employment.User_Company3);
                         cmd2.Parameters.AddWithValue("@User_CompanyAddress3", employment.User_CompanyAddress3);
+                        cmd2.Parameters.AddWithValue("@User_Status_Employ3", employment.User_Status_Employ3);
                         cmd2.Parameters.AddWithValue("@User_From_Year3", employment.User_From_Year3);
                         cmd2.Parameters.AddWithValue("@User_To_Year3", employment.User_To_Year3);
                         cmd2.Parameters.AddWithValue("@User_LastPosition3", employment.User_LastPosition3);
@@ -2144,6 +2813,11 @@ namespace OJAWeb.Controllers
         [HttpGet]
         public ActionResult AddInfoEdit()
         {
+            string Member_ID = "";
+            string Member_ID2 = "";
+            string Relay_ID = "";
+            string Relay_ID2 = "";
+
             string userID = Session["ID"].ToString();
 
             AddInfoModel infoadd = new AddInfoModel();
@@ -2186,6 +2860,12 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            Member_ID = reader["Status_Member1"].ToString();
+                            Member_ID2 = reader["Status_Member2"].ToString();
+
+                            Relay_ID = reader["Name_Relative_Friend_Status1"].ToString();
+                            Relay_ID2 = reader["Name_Relative_Friend_Status2"].ToString();
+
                             AddInfoModel uobj = new AddInfoModel();
                             uobj.User_Profess1 = reader["User_Profess1"].ToString();
                             uobj.User_Date_Registered1 = reader["User_Date_Registered1"].ToString();
@@ -2240,6 +2920,61 @@ namespace OJAWeb.Controllers
                     con.Close();
                 }
             }
+
+            List<SelectListItem> relation1 = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'Membership'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            relation1.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_Relation"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.MemberList = relation1;
+            ViewBag.SelectedMember = Member_ID;
+            ViewBag.SelectedMember2 = Member_ID2;
+
+            List<SelectListItem> relation2 = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'Other'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            relation2.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_Relation"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.OtherList = relation2;
+            ViewBag.SelectedOther = Relay_ID;
+            ViewBag.SelectedOther2 = Relay_ID2;
+
             return View(infoadd);
         }
 
@@ -2326,6 +3061,11 @@ namespace OJAWeb.Controllers
         [HttpGet]
         public ActionResult ContactInfoEdit()
         {
+            string RRelay_ID = "";
+            string RRelay_ID2 = "";
+            string ERelay_ID = "";
+            string ERelay_ID2 = "";
+
             string userID = Session["ID"].ToString();
 
             ContactModel infocontact = new ContactModel();
@@ -2368,6 +3108,12 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
+                            RRelay_ID = reader["User_RRelation1"].ToString();
+                            RRelay_ID2 = reader["User_RRelation2"].ToString();
+
+                            ERelay_ID = reader["User_ERelation1"].ToString();
+                            ERelay_ID2 = reader["User_ERelation2"].ToString();
+
                             ContactModel uobj = new ContactModel();
                             uobj.User_RName1 = reader["User_RName1"].ToString();
                             uobj.User_RPhone1 = reader["User_RPhone1"].ToString();
@@ -2426,6 +3172,61 @@ namespace OJAWeb.Controllers
                     con.Close();
                 }
             }
+
+            List<SelectListItem> relation1 = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'NotBlooded'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            relation1.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_Relation"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.NotBloodList = relation1;
+            ViewBag.SelectedNotBlood = RRelay_ID;
+            ViewBag.SelectedNotBlood2 = RRelay_ID2;
+
+            List<SelectListItem> relation2 = new List<SelectListItem>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'Other'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            relation2.Add(new SelectListItem
+                            {
+                                Value = sdr["ID"].ToString(),
+                                Text = sdr["Type_Relation"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            ViewBag.OtherList = relation2;
+            ViewBag.SelectedOther = ERelay_ID;
+            ViewBag.SelectedOther2 = ERelay_ID2;
+
             return View(infocontact);
 
         }

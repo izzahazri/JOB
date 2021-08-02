@@ -111,22 +111,23 @@
                         </div>
                         <div class="col-md-12">
                             @Html.Label("Location : ")
-                            @Html.DropDownListFor(modelItem => model.User_Location, new List<SelectListItem>
-                                               { new SelectListItem{Text="Johor", Value="Johor"},
-                                               new SelectListItem{Text="Kedah", Value="Kedah"},
-                                               new SelectListItem{Text="Kelantan", Value="Kelantan"},
-                                               new SelectListItem{Text="Kuala Lumpur", Value="Kuala Lumpur"},
-                                               new SelectListItem{Text="Melaka", Value="Melaka"},
-                                               new SelectListItem{Text="Negeri Sembilan", Value="Negeri Sembilan"},
-                                               new SelectListItem{Text="Pahang", Value="Pahang"},
-                                               new SelectListItem{Text="Perak", Value="Perak"},
-                                               new SelectListItem{Text="Perlis", Value="Perlis"},
-                                               new SelectListItem{Text="Pulau Pinang", Value="Pulau Pinang"},
-                                               new SelectListItem{Text="Sabah", Value="Sabah"},
-                                               new SelectListItem{Text="Sarawak", Value="Sarawak"},
-                                               new SelectListItem{Text="Selangor", Value="Selangor"},
-                                               new SelectListItem{Text="Terengganu", Value="Terengganu"},
-                                               new SelectListItem{Text="Putrajaya", Value="Putrajaya"}}, "Select Location *", new { required = "required", Style = "width:100%;", @class = "form-control" })
+                            @*@Html.DropDownListFor(modelItem => model.User_Location, new List<SelectListItem>
+                                { new SelectListItem{Text="Johor", Value="Johor"},
+                                new SelectListItem{Text="Kedah", Value="Kedah"},
+                                new SelectListItem{Text="Kelantan", Value="Kelantan"},
+                                new SelectListItem{Text="Kuala Lumpur", Value="Kuala Lumpur"},
+                                new SelectListItem{Text="Melaka", Value="Melaka"},
+                                new SelectListItem{Text="Negeri Sembilan", Value="Negeri Sembilan"},
+                                new SelectListItem{Text="Pahang", Value="Pahang"},
+                                new SelectListItem{Text="Perak", Value="Perak"},
+                                new SelectListItem{Text="Perlis", Value="Perlis"},
+                                new SelectListItem{Text="Pulau Pinang", Value="Pulau Pinang"},
+                                new SelectListItem{Text="Sabah", Value="Sabah"},
+                                new SelectListItem{Text="Sarawak", Value="Sarawak"},
+                                new SelectListItem{Text="Selangor", Value="Selangor"},
+                                new SelectListItem{Text="Terengganu", Value="Terengganu"},
+                                new SelectListItem{Text="Putrajaya", Value="Putrajaya"}}, "Select Location *", new { required = "required", Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_Location, new SelectList(@ViewBag.RegionList, "Value", "Text", ViewBag.SelectedRegion), "Select Location *", new { required = "required", @class = "form-control" })
                         </div>
                         <div class="col-md-4">
                             @Html.Label("Email : ")

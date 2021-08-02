@@ -22,6 +22,10 @@ namespace OJAWeb.Models
         public string User_Location { get; set; }
         public string User_Phone { get; set; }
         public string User_Tel_Home { get; set; }
+
+        public string Region_ID { get; set; }
+        public List<RegisterModel> register { get; set; }
+
     }
-  
+
 }

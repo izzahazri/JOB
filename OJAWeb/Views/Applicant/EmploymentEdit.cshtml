@@ -68,7 +68,7 @@
                 {
                     <div class="form" id="form">
                         <div class="col-md-12">
-                            <div style="color:red; font-size:12px">** Option to add 3 latest employment records</div>
+                            <div style="color:red; font-size:12px">** Option to add 3 latest employment records. Please add current employer (if any)</div>
                             <div style="background-color:#d6d6c2">Employment Record</div>
                         </div>
 
@@ -82,14 +82,29 @@
                             @Html.TextAreaFor(modelItem => model.User_CompanyAddress1, new { type = "text", placeholder = "Please Fill In", Style = "width:100%;", @class = "form-control" })
                         </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("From Month/Year : ")
-                            @Html.TextBoxFor(modelItem => model.User_From_Year1, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        <div class="col-md-4">
+                            @Html.Label("Status Employment : ")<br />
+                            @Html.RadioButtonFor(modelItem => model.User_Status_Employ1, "Employed", new { @id = "status", value = "a", @class = "status", name = "status" })
+                            Employed
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            @Html.RadioButtonFor(modelItem => model.User_Status_Employ1, "Retired", new { @id = "status", value = "b", @class = "status", name = "status" })
+                            Retired
                         </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("To Month/Year : ")
-                            @Html.TextBoxFor(modelItem => model.User_To_Year1, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        <div class="col-md-12 dateYear1" style="padding-top: 20px;padding-bottom: 20px;">
+                            <div class="col-md-3 dateYear1">
+                                @Html.Label("Month/Year Start : ")
+                                @Html.TextBoxFor(modelItem => model.User_From_Year1, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-3 dateYear2">
+                                @Html.Label("Month/Year End : ")
+                                @Html.TextBoxFor(modelItem => model.User_To_Year1, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -111,14 +126,29 @@
                             @Html.TextAreaFor(modelItem => model.User_CompanyAddress2, new { type = "text", placeholder = "Please Fill In", Style = "width:100%;", @class = "form-control" })
                         </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("From Month/Year : ")
-                            @Html.TextBoxFor(modelItem => model.User_From_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        <div class="col-md-4">
+                            @Html.Label("Status Employment : ")<br />
+                            @Html.RadioButtonFor(modelItem => model.User_Status_Employ2, "Employed", new { @id = "status", value = "a", @class = "status2", name = "status" })
+                            Employed
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            @Html.RadioButtonFor(modelItem => model.User_Status_Employ2, "Retired", new { @id = "status", value = "b", @class = "status2", name = "status" })
+                            Retired
                         </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("To Month/Year : ")
-                            @Html.TextBoxFor(modelItem => model.User_To_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        <div class="col-md-12 dateYear3" style="padding-top: 20px;padding-bottom: 20px;">
+                            <div class="col-md-3 dateYear3">
+                                @Html.Label("Month/Year Start : ")
+                                @Html.TextBoxFor(modelItem => model.User_From_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-3 dateYear4">
+                                @Html.Label("Month/Year End : ")
+                                @Html.TextBoxFor(modelItem => model.User_To_Year2, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -140,14 +170,29 @@
                             @Html.TextAreaFor(modelItem => model.User_CompanyAddress3, new { type = "text", placeholder = "Please Fill In", Style = "width:100%;", @class = "form-control" })
                         </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("From Month/Year : ")
-                            @Html.TextBoxFor(modelItem => model.User_From_Year3, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        <div class="col-md-4">
+                            @Html.Label("Status Employment : ")<br />
+                            @Html.RadioButtonFor(modelItem => model.User_Status_Employ3, "Employed", new { @id = "status", value = "a", @class = "status3", name = "status" })
+                            Employed
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            @Html.RadioButtonFor(modelItem => model.User_Status_Employ3, "Retired", new { @id = "status", value = "b", @class = "status3", name = "status" })
+                            Retired
                         </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("To Month/Year : ")
-                            @Html.TextBoxFor(modelItem => model.User_To_Year3, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                        <div class="col-md-12 dateYear5" style="padding-top: 20px;padding-bottom: 20px;">
+                            <div class="col-md-3 dateYear5">
+                                @Html.Label("Month/Year Start : ")
+                                @Html.TextBoxFor(modelItem => model.User_From_Year3, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-3 dateYear6">
+                                @Html.Label("Month/Year End : ")
+                                @Html.TextBoxFor(modelItem => model.User_To_Year3, new { type = "month", Style = "width:100%;", @class = "form-control" })
+                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -162,15 +207,15 @@
 
                         <div class="col-md-6">
                             @Html.Label("If currently employed, state notice required to terminate employment : ")
-                            @Html.DropDownListFor(modelItem => model.User_Period, new List<SelectListItem>
-                                                        { new SelectListItem{Text="1 Week", Value="1 Week"},
-                                                        new SelectListItem{Text="2 Weeks", Value="2 Weeks"},
-                                                        new SelectListItem{Text="3 Weeks", Value="3 Weeks"},
-                                                        new SelectListItem{Text="1 Month", Value="1 Month"},
-                                                        new SelectListItem{Text="2 Months", Value="2 Months"},
-                                                        new SelectListItem{Text="3 Months", Value="3 Months"},
-                                                        new SelectListItem{Text="More than 4 Months", Value="More than 4 Months"}}, "Select Period", new { Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_Period, new List<SelectListItem>
+                                { new SelectListItem{Text="1 Week", Value="1 Week"},
+                                new SelectListItem{Text="2 Weeks", Value="2 Weeks"},
+                                new SelectListItem{Text="3 Weeks", Value="3 Weeks"},
+                                new SelectListItem{Text="1 Month", Value="1 Month"},
+                                new SelectListItem{Text="2 Months", Value="2 Months"},
+                                new SelectListItem{Text="3 Months", Value="3 Months"},
+                                new SelectListItem{Text="More than 4 Months", Value="More than 4 Months"}}, "Select Period", new { Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_Period, new SelectList(@ViewBag.PeriodList, "Value", "Text", ViewBag.SelectedPeriod), "Select Period *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-6">
@@ -194,5 +239,62 @@
                  alert('@ViewBag.Message');
                  @*window.location.href = "@Url.Action("AboutMe", "Applicant")";*@
             };
+    </script>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ("@ViewBag.status1" == "Employed") {
+                $(".dateYear1").show();
+                $(".dateYear2").hide();
+            }
+
+            else if ("@ViewBag.status2" == "Employed") {
+                $(".dateYear3").show();
+                $(".dateYear4").hide();
+            }
+
+            else if ("@ViewBag.statu3" == "Employed") {
+                $(".dateYear5").show();
+                $(".dateYear6").hide();
+            }
+
+            $(".status").change(function () {
+                var val = $(".status:checked").val();
+                if (val == "Retired") {
+                    $(".dateYear1").show();
+                    $(".dateYear2").show();
+
+                } else {
+                    $(".dateYear1").show();
+                    $(".dateYear2").hide();
+                }
+            });
+
+            $(".status2").change(function () {
+                var val = $(".status2:checked").val();
+                if (val == "Retired") {
+                    $(".dateYear3").show();
+                    $(".dateYear4").show();
+
+                } else {
+                    $(".dateYear3").show();
+                    $(".dateYear4").hide();
+                }
+            });
+
+            $(".status3").change(function () {
+                var val = $(".status3:checked").val();
+                if (val == "Retired") {
+                    $(".dateYear5").show();
+                    $(".dateYear6").show();
+
+                } else {
+                    $(".dateYear5").show();
+                    $(".dateYear6").hide();
+                }
+            });
+        });
     </script>
 }

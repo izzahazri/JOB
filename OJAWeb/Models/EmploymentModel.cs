@@ -15,6 +15,7 @@ namespace OJAWeb.Models
         public int ID { get; set; }
         public string User_Company1 { get; set; }
         public string User_CompanyAddress1 { get; set; }
+        public string User_Status_Employ1 { get; set; }
         public string User_From_Year1 { get; set; }
         public string User_To_Year1 { get; set; }
         public string User_LastPosition1 { get; set; }
@@ -22,6 +23,7 @@ namespace OJAWeb.Models
 
         public string User_Company2 { get; set; }
         public string User_CompanyAddress2 { get; set; }
+        public string User_Status_Employ2 { get; set; }
         public string User_From_Year2 { get; set; }
         public string User_To_Year2 { get; set; }
         public string User_LastPosition2 { get; set; }
@@ -29,6 +31,7 @@ namespace OJAWeb.Models
 
         public string User_Company3 { get; set; }
         public string User_CompanyAddress3 { get; set; }
+        public string User_Status_Employ3 { get; set; }
         public string User_From_Year3 { get; set; }
         public string User_To_Year3 { get; set; }
         public string User_LastPosition3 { get; set; }

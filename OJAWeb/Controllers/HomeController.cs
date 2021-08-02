@@ -14,6 +14,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using System.Data;
 
 namespace OJAWeb.Controllers
 {
@@ -27,6 +28,35 @@ namespace OJAWeb.Controllers
         [HttpGet]
         public ActionResult Register()
         {
+            //RegisterModel region = new RegisterModel();
+
+            //string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
+
+            //List<SelectListItem> regions = new List<SelectListItem>();
+            //using (SqlConnection con = new SqlConnection(cs))
+            //{
+            //    string query = "SELECT ID, Region_Name FROM TblMaster_Region WHERE IsActive=1 ORDER BY Region_Name Asc";
+            //    using (SqlCommand cmd = new SqlCommand(query))
+            //    {
+            //        cmd.CommandType = CommandType.Text;
+            //        cmd.Connection = con;
+            //        con.Open();
+            //        using (SqlDataReader sdr = cmd.ExecuteReader())
+            //        {
+            //            while (sdr.Read())
+            //            {
+            //                regions.Add(new SelectListItem
+            //                {
+            //                    Value = sdr["ID"].ToString(),
+            //                    Text = sdr["Region_Name"].ToString()
+            //                });
+            //            }
+            //        }
+            //        con.Close();
+            //    }
+            //}
+            //ViewBag.RegionList = regions;
+
             return View();
         }
 

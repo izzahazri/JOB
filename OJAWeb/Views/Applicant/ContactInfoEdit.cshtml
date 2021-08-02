@@ -70,7 +70,7 @@
                 {
                     <div class="form" id="form">
                         <div class="col-md-12">
-                            <div style="color:red; font-size:12px">** State two(2) referees who are not blood-related to you</div>
+                            <div style="color:red; font-size:12px">** Please state two(2) referees who are not blood-related to you</div>
                             <div style="background-color:#d6d6c2">Reference</div>
                         </div>
 
@@ -96,12 +96,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Relation : ")
-                            @Html.DropDownListFor(modelItem => model.User_RRelation1, new List<SelectListItem>
-                                                { new SelectListItem{Text="Friend", Value="Friend"},
-                                                new SelectListItem{Text="Lecturer", Value="Lecturer"},
-                                                new SelectListItem{Text="Internship Supervisor", Value="Internship Supervisor"},
-                                                new SelectListItem{Text="Manager", Value="Manager"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_RRelation1, new List<SelectListItem>
+        { new SelectListItem{Text="Friend", Value="Friend"},
+        new SelectListItem{Text="Lecturer", Value="Lecturer"},
+        new SelectListItem{Text="Internship Supervisor", Value="Internship Supervisor"},
+        new SelectListItem{Text="Manager", Value="Manager"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_RRelation1, new SelectList(@ViewBag.NotBloodList, "Value", "Text", ViewBag.SelectedNotBlood), "Select Relation *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top:30px">
@@ -126,16 +126,16 @@
 
                         <div class="col-md-6">
                             @Html.Label("Relation : ")
-                            @Html.DropDownListFor(modelItem => model.User_RRelation2, new List<SelectListItem>
-                                                 { new SelectListItem{Text="Friend", Value="Friend"},
-                                                new SelectListItem{Text="Lecturer", Value="Lecturer"},
-                                                new SelectListItem{Text="Internship Supervisor", Value="Internship Supervisor"},
-                                                new SelectListItem{Text="Manager", Value="Manager"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_RRelation2, new List<SelectListItem>
+         { new SelectListItem{Text="Friend", Value="Friend"},
+        new SelectListItem{Text="Lecturer", Value="Lecturer"},
+        new SelectListItem{Text="Internship Supervisor", Value="Internship Supervisor"},
+        new SelectListItem{Text="Manager", Value="Manager"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_RRelation2, new SelectList(@ViewBag.NotBloodList, "Value", "Text", ViewBag.SelectedNotBlood2), "Select Relation *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top:50px">
-                            <div style="color:red; font-size:12px">** State two(2) person not provided in Section above</div>
+                            <div style="color:red; font-size:12px">** Please state two(2) person not provided in Section above</div>
                             <div style="background-color:#d6d6c2">Emergency Contact</div>
                         </div>
 
@@ -161,12 +161,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Relation : ")
-                            @Html.DropDownListFor(modelItem => model.User_ERelation1, new List<SelectListItem>
-                                                { new SelectListItem{Text="Parent", Value="Parent"},
-                                                new SelectListItem{Text="Sibling", Value="Sibling"},
-                                                new SelectListItem{Text="Relative", Value="Relative"},
-                                                new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_ERelation1, new List<SelectListItem>
+        { new SelectListItem{Text="Parent", Value="Parent"},
+        new SelectListItem{Text="Sibling", Value="Sibling"},
+        new SelectListItem{Text="Relative", Value="Relative"},
+        new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_ERelation1, new SelectList(@ViewBag.OtherList, "Value", "Text", ViewBag.SelectedOther), "Select Relation *", new { @class = "form-control" })
                         </div>
 
                         <div class="col-md-12" style="padding-top:30px">
@@ -191,12 +191,12 @@
 
                         <div class="col-md-6">
                             @Html.Label("Relation : ")
-                            @Html.DropDownListFor(modelItem => model.User_ERelation2, new List<SelectListItem>
-                                                { new SelectListItem{Text="Parent", Value="Parent"},
-                                                new SelectListItem{Text="Sibling", Value="Sibling"},
-                                                new SelectListItem{Text="Relative", Value="Relative"},
-                                                new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })
-
+                            @*@Html.DropDownListFor(modelItem => model.User_ERelation2, new List<SelectListItem>
+        { new SelectListItem{Text="Parent", Value="Parent"},
+        new SelectListItem{Text="Sibling", Value="Sibling"},
+        new SelectListItem{Text="Relative", Value="Relative"},
+        new SelectListItem{Text="Friend", Value="Friend"}}, "Select Relation *", new { required = "required", Style = "width:100%;", @class = "form-control" })*@
+                            @Html.DropDownListFor(modelitem => model.User_ERelation2, new SelectList(@ViewBag.OtherList, "Value", "Text", ViewBag.SelectedOther2), "Select Relation *", new { @class = "form-control" })
                         </div>
                         <div class="col-md-12 row" style="padding-top:10px">
                             <button type="submit" class="btn pull-right">Save Changes</button>
