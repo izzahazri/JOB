@@ -29,6 +29,26 @@
 
 
     <style>
+        .center1 {
+            text-align: center;
+            /*border: 3px solid green;*/
+            margin: auto;
+            width: 40%;
+            left: 0;
+            right: 0;
+            position: fixed;
+            top: 40px;
+            z-index: 9999;
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin-top: 150px;
+        }
+
         body {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             padding-bottom: 0px;
@@ -115,7 +135,7 @@
             display: block;
         }
 
-        .btn1 {
+        .btn {
             border-radius: 20px !important;
             background-color: #e96514;
             color: #ffffff !important;
@@ -128,11 +148,11 @@
             padding: 7px 18px;
         }
 
-            .btn1:hover, .btn1 button:active, .btn1:focus {
+            .btn:hover, .btn button:active, .btn:focus {
                 background: #ffa31a;
             }
 
-        a.btn1 {
+        a.btn {
             padding: 4px 12px 4px 12px;
             margin-top: 10px;
             margin-bottom: 12px
@@ -251,7 +271,7 @@
                             @Html.ActionLink("My Account", "Credential", "Superadmin")
                         </div>
                     </div>
-                    @Html.ActionLink("Logout", "Logout", "Applicant", new { Style = "background-color: #ed6d00" }, new { @class = "btn1" })
+                    @Html.ActionLink("Logout", "Logout", "Applicant", new { Style = "background-color: #ed6d00" }, new { @class = "btn" })
                 </div>
             </div>
 
@@ -288,24 +308,24 @@
 
 
         @*DataTables
-        <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-        <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+            <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+            <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+            <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
-        <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-         DataTables  & Plugins
-        <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-        <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-        <script src="~/plugins/jszip/jszip.min.js"></script>
-        <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
-        <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
-        <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-        <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-        <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>*@
+            <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+             DataTables  & Plugins
+            <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+            <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+            <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+            <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+            <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+            <script src="~/plugins/jszip/jszip.min.js"></script>
+            <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+            <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+            <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+            <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+            <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>*@
 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
@@ -319,3 +339,92 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+<div id="divPopupTimeOut" class="center1">
+    Your session is about to expire!
+    <br />
+    <span id="CountDownHolder"></span>
+    <br />
+    Click OK to continue your session.
+    <div class="row">
+        <div class="text-center button-block" style="text-align:center; margin-top:20px;">
+            <button type="button" class="btn btn-default btn-sm" onclick="SessionTimeout.sendKeepAlive();">OK</button>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public int PopupShowDelay
+    {
+        get
+        {
+            return 1000 * (Convert.ToInt32(FormsAuthentication.Timeout.TotalSeconds) - 130);
+        }
+    }
+}
+
+<script type="text/javascript">
+    var loginUrl='@Url.Action("Login", "Home")';
+    var extendMethodUrl='@Url.Action("ExtendSession","Home")';
+    $(document).ready(function(){
+            SessionTimeout.schedulePopup();
+        });
+
+    window.SessionTimeout = (function() {
+            var _timeLeft, _popupTimer, _countDownTimer;
+            var stopTimers = function() {
+                window.clearTimeout(_popupTimer);
+                window.clearTimeout(_countDownTimer);
+            };
+            var updateCountDown = function() {
+                var min = Math.floor(_timeLeft / 60);
+                var sec = _timeLeft % 60;
+                if(sec < 10)
+                    sec = "0" + sec;
+
+                document.getElementById("CountDownHolder").innerHTML = min + ":" + sec;
+
+                if(_timeLeft > 0) {
+                    _timeLeft--;
+                    _countDownTimer = window.setTimeout(updateCountDown, 1000);
+                } else  {
+                    document.location = loginUrl;
+                }
+            };
+            var showPopup = function() {
+            $("#divPopupTimeOut").show();
+                _timeLeft = 120;
+                updateCountDown();
+            };
+            var schedulePopup = function() {
+            $("#divPopupTimeOut").hide();
+                stopTimers();
+                _popupTimer = window.setTimeout(showPopup, @PopupShowDelay);
+            };
+            var hidePopup=function(){
+            $("#divPopupTimeOut").hide();
+            };
+            var sendKeepAlive = function() {
+                stopTimers();
+                $("#divPopupTimeOut").hide();
+                $.ajax({
+                    type: "GET",
+                    url: extendMethodUrl,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function successFunc(response) {
+                        SessionTimeout.schedulePopup();
+                    },
+                    error:function(){
+                    }
+                });
+            };
+            return {
+                schedulePopup: schedulePopup,
+                sendKeepAlive: sendKeepAlive,
+                hidePopup:hidePopup,
+                stopTimers:stopTimers,
+            };
+
+        })();
+</script>

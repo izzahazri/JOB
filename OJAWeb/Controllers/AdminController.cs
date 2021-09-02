@@ -22,6 +22,14 @@ namespace OJAWeb.Controllers
 {
     public class AdminController : Controller
     {
+        [HttpGet]
+        public ActionResult ExtendSession()
+        {
+            System.Web.Security.FormsAuthentication.SetAuthCookie(User.Identity.Name, false);
+            var data = new { IsSuccess = true };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Admin
         public ActionResult Index()
         {

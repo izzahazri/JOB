@@ -19,6 +19,14 @@ namespace OJAWeb.Controllers
 {
     public class ApplicantController : Controller
     {
+        [HttpGet]
+        public ActionResult ExtendSession()
+        {
+            System.Web.Security.FormsAuthentication.SetAuthCookie(User.Identity.Name, false);
+            var data = new { IsSuccess = true };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Index()
         {
             string userID = Session["ID"].ToString();
@@ -1126,7 +1134,7 @@ namespace OJAWeb.Controllers
         public ActionResult Employment()
         {
             string Period_ID = ""; ;
-            string Type_Period = "";
+            //string Type_Period = "";
             string userID = Session["ID"].ToString();
 
             EmploymentModel infoemp = new EmploymentModel();
@@ -1180,29 +1188,29 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
-            {
-                string commandText = "SELECT * FROM TblMaster_Period WHERE ID='" + Period_ID + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
-                {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
+            //using (SqlConnection con = new SqlConnection(cs))
+            //{
+            //    string commandText = "SELECT * FROM TblMaster_Period WHERE ID='" + Period_ID + "'";
+            //    using (SqlCommand cmd = new SqlCommand(commandText))
+            //    {
+            //        SqlDataReader reader;
+            //        cmd.Connection = con;
+            //        con.Open();
+            //        reader = cmd.ExecuteReader();
+            //        reader.Read();
 
-                    if (reader.HasRows == true)
-                    {
-                        Type_Period = reader["Type_Period"].ToString();
-                    }
-                    else
-                    {
-                        Type_Period = null;
-                    }
+            //        if (reader.HasRows == true)
+            //        {
+            //            Type_Period = reader["Type_Period"].ToString();
+            //        }
+            //        else
+            //        {
+            //            Type_Period = null;
+            //        }
 
-                    con.Close();
-                }
-            }
+            //        con.Close();
+            //    }
+            //}
 
             using (SqlConnection con = new SqlConnection(cs))
             {
@@ -1245,7 +1253,7 @@ namespace OJAWeb.Controllers
                                 User_LastPosition3 = reader["User_LastPosition3"].ToString(),
                                 User_Reason3 = reader["User_Reason3"].ToString(),
 
-                                User_Period = Type_Period,
+                                User_Period = reader["User_Period"].ToString(),
                                 User_Emp_Phone = reader["User_Emp_Phone"].ToString(),
                             };
                             emplist.Add(uobj);
@@ -2392,6 +2400,7 @@ namespace OJAWeb.Controllers
         public ActionResult EmploymentEdit()
         {
             string Period_ID = "";
+            string User_Period = "";
             string userID = Session["ID"].ToString();
 
             EmploymentModel infoemp = new EmploymentModel();
@@ -2434,7 +2443,7 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
-                            Period_ID = reader["User_Period"].ToString();
+                            User_Period = reader["User_Period"].ToString();
 
                             EmploymentModel uobj = new EmploymentModel();
                             uobj.User_Company1 = reader["User_Company1"].ToString();
@@ -2510,6 +2519,30 @@ namespace OJAWeb.Controllers
                 }
             }
 
+            if (User_Period != "NA")
+            {
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    string commandText = "SELECT * FROM TblMaster_Period WHERE Type_Period='" + User_Period + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
+                    {
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
+                            Period_ID = reader["ID"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            else { }
+            
+
             List<SelectListItem> period = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
@@ -2543,6 +2576,7 @@ namespace OJAWeb.Controllers
         public ActionResult EmploymentEdit(EmploymentModel employment)
         {
             var dataProcess = false;
+            string User_Period = "";
             string userID = Session["ID"].ToString();
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
@@ -2558,6 +2592,32 @@ namespace OJAWeb.Controllers
                     dataProcess = reader.HasRows;
                 }
                 con1.Close();
+            }
+
+            if (employment.User_Period != null)
+            {
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    string commandText = "SELECT * FROM TblMaster_Period WHERE ID='" + employment.User_Period + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
+                    {
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+
+                        if (!(String.IsNullOrEmpty(userID)))
+                        {
+                            User_Period = reader["Type_Period"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            else 
+            {
+                User_Period = "NA";
             }
 
             using (SqlConnection con1 = new SqlConnection(cs))
@@ -2579,7 +2639,7 @@ namespace OJAWeb.Controllers
 
                 if (dataProcess == true)
                 {
-                    string query3 = "UPDATE TblEmployment SET User_Company1 = '" + employment.User_Company1 + "',User_CompanyAddress1 = '" + employment.User_CompanyAddress1 + "',User_Status_Employ1 = '" + employment.User_Status_Employ1 + "', User_From_Year1 = '" + employment.User_From_Year1 + "',User_To_Year1 = '" + employment.User_To_Year1 + "',User_LastPosition1 = '" + employment.User_LastPosition1 + "',User_Reason1 = '" + employment.User_Reason1 + "', User_Company2 = '" + employment.User_Company2 + "',User_CompanyAddress2 = '" + employment.User_CompanyAddress2 + "',User_Status_Employ2 = '" + employment.User_Status_Employ2 + "',User_From_Year2 = '" + employment.User_From_Year2 + "',User_To_Year2 = '" + employment.User_To_Year2 + "',User_LastPosition2 = '" + employment.User_LastPosition2 + "',User_Reason2 = '" + employment.User_Reason2 + "',User_Company3 = '" + employment.User_Company3 + "',User_CompanyAddress3 = '" + employment.User_CompanyAddress3 + "',User_Status_Employ3 = '" + employment.User_Status_Employ3 + "',User_From_Year3 = '" + employment.User_From_Year3 + "',User_To_Year3 = '" + employment.User_To_Year3 + "',User_LastPosition3 = '" + employment.User_LastPosition3 + "',User_Reason3 = '" + employment.User_Reason3 + "',User_Period = '" + employment.User_Period + "',User_Emp_Phone = '" + employment.User_Emp_Phone + "' WHERE User_ID='" + userID + "'";
+                    string query3 = "UPDATE TblEmployment SET User_Company1 = '" + employment.User_Company1 + "',User_CompanyAddress1 = '" + employment.User_CompanyAddress1 + "',User_Status_Employ1 = '" + employment.User_Status_Employ1 + "', User_From_Year1 = '" + employment.User_From_Year1 + "',User_To_Year1 = '" + employment.User_To_Year1 + "',User_LastPosition1 = '" + employment.User_LastPosition1 + "',User_Reason1 = '" + employment.User_Reason1 + "', User_Company2 = '" + employment.User_Company2 + "',User_CompanyAddress2 = '" + employment.User_CompanyAddress2 + "',User_Status_Employ2 = '" + employment.User_Status_Employ2 + "',User_From_Year2 = '" + employment.User_From_Year2 + "',User_To_Year2 = '" + employment.User_To_Year2 + "',User_LastPosition2 = '" + employment.User_LastPosition2 + "',User_Reason2 = '" + employment.User_Reason2 + "',User_Company3 = '" + employment.User_Company3 + "',User_CompanyAddress3 = '" + employment.User_CompanyAddress3 + "',User_Status_Employ3 = '" + employment.User_Status_Employ3 + "',User_From_Year3 = '" + employment.User_From_Year3 + "',User_To_Year3 = '" + employment.User_To_Year3 + "',User_LastPosition3 = '" + employment.User_LastPosition3 + "',User_Reason3 = '" + employment.User_Reason3 + "',User_Period = '" + User_Period + "',User_Emp_Phone = '" + employment.User_Emp_Phone + "' WHERE User_ID='" + userID + "'";
                     using (SqlCommand cmd1 = new SqlCommand(query3))
                     {
                         cmd1.Connection = con1;
@@ -2630,7 +2690,7 @@ namespace OJAWeb.Controllers
                         cmd2.Parameters.AddWithValue("@User_LastPosition3", employment.User_LastPosition3);
                         cmd2.Parameters.AddWithValue("@User_Reason3", employment.User_Reason3);
 
-                        cmd2.Parameters.AddWithValue("@User_Period", employment.User_Period);
+                        cmd2.Parameters.AddWithValue("@User_Period", User_Period);
                         cmd2.Parameters.AddWithValue("@User_Emp_Phone", employment.User_Emp_Phone);
                         cmd2.Parameters.AddWithValue("@User_ID", userID);
 
@@ -2924,7 +2984,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> relation1 = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT * FROM TblMaster_Relation where Status = 'Membership'";
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'Membership' order by Type_Relation asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -2951,7 +3011,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> relation2 = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT * FROM TblMaster_Relation where Status = 'Other'";
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'Other' order by Type_Relation asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3176,7 +3236,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> relation1 = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT * FROM TblMaster_Relation where Status = 'NotBlooded'";
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'NotBlooded' order by Type_Relation asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3203,7 +3263,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> relation2 = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT * FROM TblMaster_Relation where Status = 'Other'";
+                string query = "SELECT * FROM TblMaster_Relation where Status = 'Other' order by Type_Relation asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;

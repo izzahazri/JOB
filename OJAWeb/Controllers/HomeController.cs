@@ -20,6 +20,14 @@ namespace OJAWeb.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
+        public ActionResult ExtendSession()
+        {
+            System.Web.Security.FormsAuthentication.SetAuthCookie(User.Identity.Name, false);
+            var data = new { IsSuccess = true };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Index()
         {
             return View();

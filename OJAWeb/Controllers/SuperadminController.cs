@@ -24,6 +24,14 @@ namespace OJAWeb.Controllers
 {
     public class SuperadminController : Controller
     {
+        [HttpGet]
+        public ActionResult ExtendSession()
+        {
+            System.Web.Security.FormsAuthentication.SetAuthCookie(User.Identity.Name, false);
+            var data = new { IsSuccess = true };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Superadmin
         public ActionResult Index()
         {
@@ -1967,7 +1975,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> profile = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, Profile_Name FROM TblUser_Profile WHERE IsActive=1";
+                string query = "SELECT ID, Profile_Name FROM TblUser_Profile WHERE IsActive=1 order by Profile_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -2098,7 +2106,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> profile = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, Profile_Name FROM TblUser_Profile WHERE IsActive=1";
+                string query = "SELECT ID, Profile_Name FROM TblUser_Profile WHERE IsActive=1 order by Profile_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3038,7 +3046,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> company = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, Company_Name FROM TblMaster_Company WHERE IsActive=1";
+                string query = "SELECT ID, Company_Name FROM TblMaster_Company WHERE IsActive=1 order by Company_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3197,7 +3205,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> company = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, Company_Name FROM TblMaster_Company WHERE IsActive=1";
+                string query = "SELECT ID, Company_Name FROM TblMaster_Company WHERE IsActive=1 order by Company_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3469,7 +3477,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> jobtype = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, Type_Job FROM TblMaster_JobType";
+                string query = "SELECT ID, Type_Job FROM TblMaster_JobType order by Type_Job asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3718,7 +3726,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> DC = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, DC_Code FROM [TblMaster_DC] WHERE IsActive=1";
+                string query = "SELECT ID, DC_Code FROM [TblMaster_DC] WHERE IsActive=1 order by DC_Code asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3744,7 +3752,7 @@ namespace OJAWeb.Controllers
             List<SelectListItem> department = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string query = "SELECT ID, Dep_Name FROM TblMaster_Department WHERE IsActive=1";
+                string query = "SELECT ID, Dep_Name FROM TblMaster_Department WHERE IsActive=1 order by Dep_Name asc";
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -3999,10 +4007,30 @@ namespace OJAWeb.Controllers
         {
             ViewBag.FromDate = DateTime.Now.ToString("dd-MM-yyyy", new CultureInfo("en-US"));
             ViewBag.ToDate = DateTime.Now.ToString("dd-MM-yyyy", new CultureInfo("en-US"));
+            string userID = Session["ID"].ToString();
 
             ReportModel report = new ReportModel();
 
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string commandText = "SELECT * FROM TblUser_Login WHERE ID='" + userID + "'";
+                using (SqlCommand cmd = new SqlCommand(commandText))
+                {
+                    SqlDataReader reader;
+                    cmd.Connection = con;
+                    con.Open();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    if (!(String.IsNullOrEmpty(userID)))
+                    {
+                        string userShortName = reader["User_ShortName"].ToString();
+                        ViewBag.User_ShortName = userShortName;
+                    }
+                    con.Close();
+                }
+            }
 
             //List<ReportModel> reportlist = new List<ReportModel>();
 
