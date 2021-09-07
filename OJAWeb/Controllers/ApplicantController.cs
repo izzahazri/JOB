@@ -921,10 +921,10 @@ namespace OJAWeb.Controllers
             string Qua_ID = "";
             string Qua_ID2 = "";
 
-            string Type_School = "";
-            string Type_School2 = "";
-            string Type_Qua = "";
-            string Type_Qua2 = "";
+            string Type_School = "NA";
+            string Type_School2 = "NA";
+            string Type_Qua = "NA";
+            string Type_Qua2 = "NA";
 
             string userID = Session["ID"].ToString();
 
@@ -982,99 +982,107 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (School_ID != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_School WHERE ID='" + School_ID + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_School WHERE ID='" + School_ID + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Type_School = reader["Type_School"].ToString();
-                    }
-                    else
-                    {
-                        Type_School = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Type_School = reader["Type_School"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Qua_ID != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_Qualification WHERE ID='" + Qua_ID + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_Qualification WHERE ID='" + Qua_ID + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Type_Qua = reader["Type_Qualification"].ToString();
-                    }
-                    else
-                    {
-                        Type_Qua = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Type_Qua = reader["Type_Qualification"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (School_ID2 != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_School WHERE ID='" + School_ID2 + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_School WHERE ID='" + School_ID2 + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Type_School2 = reader["Type_School"].ToString();
-                    }
-                    else
-                    {
-                        Type_School2 = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Type_School2 = reader["Type_School"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Qua_ID2 != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_Qualification WHERE ID='" + Qua_ID2 + "'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_Qualification WHERE ID='" + Qua_ID2 + "'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Type_Qua2 = reader["Type_Qualification"].ToString();
-                    }
-                    else
-                    {
-                        Type_Qua2 = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Type_Qua2 = reader["Type_Qualification"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
@@ -1133,7 +1141,7 @@ namespace OJAWeb.Controllers
 
         public ActionResult Employment()
         {
-            string Period_ID = ""; ;
+            //string Period_ID = ""; ;
             //string Type_Period = "";
             string userID = Session["ID"].ToString();
 
@@ -1176,7 +1184,7 @@ namespace OJAWeb.Controllers
                     {
                         if (!(String.IsNullOrEmpty(userID)))
                         {
-                            Period_ID = reader["User_Period"].ToString();
+                            //Period_ID = reader["User_Period"].ToString();
                         }
                     }
                     else
@@ -1346,10 +1354,10 @@ namespace OJAWeb.Controllers
             string Relay_ID = "";
             string Relay_ID2 = "";
 
-            string Member_Status = "";
-            string Member_Status2 = "";
-            string Relay_Status = "";
-            string Relay_Status2 = "";
+            string Member_Status = "NA";
+            string Member_Status2 = "NA";
+            string Relay_Status = "NA";
+            string Relay_Status2 = "NA";
 
             string userID = Session["ID"].ToString();
 
@@ -1407,99 +1415,107 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Member_ID != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Member_ID + "' AND Status='Membership'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Member_ID + "' AND Status='Membership'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Member_Status = reader["Type_Relation"].ToString();
-                    }
-                    else
-                    {
-                        Member_Status = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Member_Status = reader["Type_Relation"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Member_ID2 != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Member_ID2 + "' AND Status='Membership'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Member_ID2 + "' AND Status='Membership'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Member_Status2 = reader["Type_Relation"].ToString();
-                    }
-                    else
-                    {
-                        Member_Status2 = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Member_Status2 = reader["Type_Relation"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Relay_ID != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Relay_ID + "' AND Status='Other'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Relay_ID + "' AND Status='Other'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Relay_Status = reader["Type_Relation"].ToString();
-                    }
-                    else
-                    {
-                        Relay_Status = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Relay_Status = reader["Type_Relation"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
-            using (SqlConnection con = new SqlConnection(cs))
+            if (Relay_ID2 != "NA")
             {
-                string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Relay_ID2 + "' AND Status='Other'";
-                using (SqlCommand cmd = new SqlCommand(commandText))
+                using (SqlConnection con = new SqlConnection(cs))
                 {
-                    SqlDataReader reader;
-                    cmd.Connection = con;
-                    con.Open();
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.HasRows == true)
+                    string commandText = "SELECT * FROM TblMaster_Relation WHERE ID='" + Relay_ID2 + "' AND Status='Other'";
+                    using (SqlCommand cmd = new SqlCommand(commandText))
                     {
-                        Relay_Status2 = reader["Type_Relation"].ToString();
-                    }
-                    else
-                    {
-                        Relay_Status2 = null;
-                    }
+                        SqlDataReader reader;
+                        cmd.Connection = con;
+                        con.Open();
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
 
-                    con.Close();
+                        if (reader.HasRows == true)
+                        {
+                            Relay_Status2 = reader["Type_Relation"].ToString();
+                        }
+                        else
+                        {
+                        }
+
+                        con.Close();
+                    }
                 }
             }
 
@@ -2519,7 +2535,7 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            if (User_Period != "NA")
+            if (User_Period != "NA" && User_Period != null && User_Period != "")
             {
                 using (SqlConnection con = new SqlConnection(cs))
                 {
