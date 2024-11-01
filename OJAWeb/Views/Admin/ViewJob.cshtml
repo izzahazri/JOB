@@ -238,18 +238,18 @@
                             </div>
 
                             <div class="about col-md-12 ">
-                                <div class="col-md-4 ">
-                                    @Html.Label("Applicant Resume")
-                                </div>
-                                <div class="col-md-8 institute">
-                                    @Html.DisplayFor(modelItem => model.User_Resume)
-                                    @if (model.User_Resume != "NO FILE")
-                                    {
-                                        <a href="@Url.Action("DownloadResume", "Admin", new { id = model.Position_ID })">
-                                            <span class="resumefile">View</span>
-                                        </a>
-                                    }
-                                </div>
+                              <div class="col-md-4 ">
+                                @Html.Label("Applicant Resume")
+                              </div>
+                              <div class="col-md-8 institute">
+                                @Html.DisplayFor(modelItem => model.User_Resume)
+                                @if (model.User_Resume != "NO FILE")
+                                {
+                                  <a href="@Url.Action("DownloadResume", "Admin", new { id = model.Position_ID, applicantId = ViewBag.ApplicantID })">
+                                    <span class="resumefile">View</span>
+                                  </a>
+                                }
+                              </div>
                             </div>
                         </div>
 

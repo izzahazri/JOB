@@ -2034,11 +2034,18 @@ namespace OJAWeb.Controllers
 
                         FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
 
-                        string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+                        //string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+                        var UploadPath = "DrivingLicense/";
+
+                        if (!Directory.Exists(UploadPath))
+                        {
+                            Directory.CreateDirectory(UploadPath);
+                        }
 
                         string AttachFile = UploadPath + FileName;
                         about.User_Driving_Attach = FileName;
 
+                        AttachFile = Path.GetFullPath(AttachFile);
                         about.DrivingLicense.SaveAs(AttachFile);
 
                         if (about.User_Driving_Class != null)
@@ -2325,7 +2332,8 @@ namespace OJAWeb.Controllers
 
                 FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
 
-                string UploadPath = ConfigurationManager.AppSettings["UserCertPath"].ToString();
+                //string UploadPath = ConfigurationManager.AppSettings["UserCertPath"].ToString();
+                var UploadPath = "EducationCert/";
 
                 if (!Directory.Exists(UploadPath))
                 {
@@ -2335,6 +2343,7 @@ namespace OJAWeb.Controllers
                 string AttachFile = UploadPath + FileName;
                 education.User_Cert_File = FileName;
 
+                AttachFile = Path.GetFullPath(AttachFile);
                 education.CertFile.SaveAs(AttachFile);
 
             }
@@ -2557,7 +2566,7 @@ namespace OJAWeb.Controllers
                 }
             }
             else { }
-            
+
 
             List<SelectListItem> period = new List<SelectListItem>();
             using (SqlConnection con = new SqlConnection(cs))
@@ -2631,7 +2640,7 @@ namespace OJAWeb.Controllers
                     }
                 }
             }
-            else 
+            else
             {
                 User_Period = "NA";
             }
@@ -3465,7 +3474,8 @@ namespace OJAWeb.Controllers
 
             string dt = DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
 
-            string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            //string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            var UploadPath = "Resume/";
 
             if (!Directory.Exists(UploadPath))
             {
@@ -3477,6 +3487,7 @@ namespace OJAWeb.Controllers
             resume.Uploaded_Resume = dt;
 
             //To copy and save file into server.  
+            AttachFile = Path.GetFullPath(AttachFile);
             resume.ResumeFile.SaveAs(AttachFile);
 
             var dataProcess = false;
@@ -3717,7 +3728,9 @@ namespace OJAWeb.Controllers
                     con.Close();
                 }
             }
-            string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+            //string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+            var UploadPath = "DrivingLicense/";
+
             string FullNameFile = UploadPath + User_Driving_Attach;
 
             string File_Name = User_Driving_Attach.Substring(0, User_Driving_Attach.LastIndexOf('.'));
@@ -3765,7 +3778,8 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            string UploadPath = ConfigurationManager.AppSettings["UserCertPath"].ToString();
+            //string UploadPath = ConfigurationManager.AppSettings["UserCertPath"].ToString();
+            var UploadPath = "EducationCert/";
             string FullNameFile = UploadPath + User_Cert_File;
 
             string File_Name = User_Cert_File.Substring(0, User_Cert_File.LastIndexOf('.'));
@@ -3814,7 +3828,8 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            //string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            var UploadPath = "Resume/";
             string FullNameFile = UploadPath + User_Resume;
 
             string File_Name = User_Resume.Substring(0, User_Resume.LastIndexOf('.'));

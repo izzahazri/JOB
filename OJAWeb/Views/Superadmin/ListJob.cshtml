@@ -88,7 +88,7 @@
                                         @*@Html.TextBoxFor(modelItem => model.Position_ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })*@
                                         @Html.TextBoxFor(modelItem => model.Position_ID, new { type = "text", Style = "width:100%;display:none", @class = "form-control" })
 
-                                        <a href="@Url.Action("ViewJob", "Superadmin",new { id = model.Job_ID })">
+                                        <a href="@Url.Action("ViewJob", "Superadmin",new { id = model.Job_ID, applicantId = model.User_ID, })">
                                             <span class="icon"><i class="fa fa-search" style="color: #ed6d00;" title="View Application"></i></span>
                                         </a>
                                         &nbsp;

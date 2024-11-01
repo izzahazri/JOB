@@ -408,7 +408,8 @@ namespace OJAWeb.Controllers
             return clearText;
         }
 
-        private string Decrypt(string cipherText)
+        //public static string Decrypt(string cipherText)
+        private static string Decrypt(string cipherText)
         {
             string EncryptionKey = "MAKV2SPBNI99212";
             byte[] cipherBytes = Convert.FromBase64String(cipherText);

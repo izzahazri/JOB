@@ -175,7 +175,7 @@
 
                         <div class="about col-md-12 ">
                             <div class="col-md-3 ">
-                                @Html.Label("Qualification")
+                                @Html.Label("")
                             </div>
                             <div class="col-md-9">
                                 @Html.DisplayFor(modelItem => model.User_Qualification)
@@ -266,7 +266,7 @@
                                     @Html.DisplayFor(modelItem => model.User_Resume)
                                     @if (model.User_Resume != "NO FILE")
                                     {
-                                        <a href="@Url.Action("DownloadResume", "Superadmin", new { id = model.Position_ID })">
+                                        <a href="@Url.Action("DownloadResume", "Superadmin", new { id = model.Position_ID, applicantId = ViewBag.applicantId, })">
                                             <span class="resumefile">View</span>
                                         </a>
                                     }

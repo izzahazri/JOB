@@ -1,97 +1,137 @@
 ﻿@model OJAWeb.Models.DeclarationModel
 @{
-    ViewBag.Title = "Declaration";
+  ViewBag.Title = "Declaration";
 }
 
 @{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+  Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h3 class="title" style="text-align:center;padding-bottom: 10px;padding-top: 20px;">Declaration</h3>
 
 <div class="container-fluid">
-    <div class="row">
-        @foreach (var model in Model.getDataDeclare)
-        {
-            <div class="col-md-12" style="padding-bottom: 70px;padding-right: 50px;">
-                <p>
-                    <strong>
-                        I hereby declare that I have taken all the necessary steps to understand the requirements in this application form and to
-                        the best of my knowledge the information given by me in this form is true and correct in every respect.
-                        Further, I have not withheld any material fact and information which may affect my application.
-                        I fully understand and agree that any false information revealed after the engagement shall render my service to be terminated by ABX Express (M) Sdn. Bhd.
-                        <br />
-                        (130250-H) (hereby known as “COMPANY”).
-                    </strong>
-                </p>
+  <div class="row">
+    @foreach (var model in Model.getDataDeclare)
+    {
+      <div class="col-md-12" style="padding-bottom: 70px;padding-right: 50px;">
+        <p style="text-align: justify;">
+          <strong>
+            I hereby declare that I have taken all the necessary steps to understand the requirements in this application
+            form and to
+            the best of my knowledge the information given by me in this form is true and correct in every respect.
+            Further, I have
+            not withheld any material fact and information which may affect my application. I fully understand and agree
+            that any
+            false information revealed after the engagement shall render my service to be terminated by the Company.
+            <br />
+            @* (130250-H) (hereby known as “COMPANY”). *@
+          </strong>
+        </p>
 
-                <p style="font-style: italic">
-                    (Saya dengan ini mengaku bahawa saya telah mengambil langkah-langkah yang sepatutnya untuk memahami butir-butir yang
-                    diperlukan di dalam borang permohonan ini dan sepanjang pengetahuan saya semua maklumat yang saya berikan di dalam borang
-                    ini adalah betul dan benar belaka. Saya juga tidak menyembunyikan sebarang fakta dan maklumat penting yang boleh menjejaskan
-                    permohonan saya. Saya faham dan bersetuju bahawa sebarang keterangan dan maklumat yang diberikan jika didapati tidak benar
-                    atau palsu selepas saya diambil bekerja boleh mengakibatkan perkhidmatan saya ditamatkan oleh ABX Express (M) Sdn. Bhd.
-                    <br />
-                    (130250-H) (dengan ini dikenali sebagai “SYARIKAT”).
-                </p>
+        <p style="font-style: italic; text-align: justify;">
+          (Saya dengan ini mengaku bahawa saya telah mengambil langkah-langkah yang sepatutnya untuk memahami butir-butir
+          yang diperlukan di dalam borang
+          permohonan ini dan sepanjang pengetahuan saya semua maklumat yang saya berikan di dalam borang ini adalah betul
+          dan benar belaka. Saya juga tidak
+          menyembunyikan sebarang fakta dan maklumat penting yang boleh menjejaskan permohonan saya. Saya faham dan
+          bersetuju bahawa sebarang keterangan dan
+          maklumat yang diberikan jika didapati tidak benar atau palsu selepas saya diambil bekerja boleh mengakibatkan
+          perkhidmatan saya ditamatkan oleh Syarikat.)
+          <br />
+          @* (130250-H) (dengan ini dikenali sebagai “SYARIKAT”). *@
+        </p>
 
-                <br />
-                <br />
+        <br />
 
-                <p>
-                    <strong>
-                        I hereby declare that I voluntarily give the express consent to the Company and / or its affiliates, to access and use,
-                        disclose, release, retain, and process all or any of my personal data as provided for:
-                    </strong>
-                </p>
+        <p style="text-align: justify;">
+          <strong>
+            I hereby declare that I voluntarily give the express consent to the Company and / or its affiliates, to access
+            and use,
+            disclose, release, retain, and process all or any of my personal data as provided for:
+          </strong>
+        </p>
 
-                <p style="font-style: italic">
-                    (Saya secara sukarela memberi persetujuan yang khusus kepada Syarikat dan / atau penggabungannya, untuk mengakses dan menggunakan,
-                    mendedahkan, mengeluarkan, menyimpan serta memproses semua atau mana-mana data peribadi saya yang diberikan).
-                </p>
+        <p style="font-style: italic; text-align: justify;">
+          (Saya secara sukarela memberi persetujuan yang khusus kepada Syarikat dan / atau penggabungannya, untuk
+          mengakses dan menggunakan, mendedahkan,
+          mengeluarkan, menyimpan serta memproses semua atau mana-mana data peribadi saya yang diberikan.)
+        </p>
 
-                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <strong>1. The purpose of communication to third parties.</strong></p>
-                <p style="font-style: italic">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp (Tujuan berkomunikasi kepada pihak-pihak ketiga)</p>
-                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <strong>2. The purpose of employment and performance of work or other than the work for the Company, or</strong></p>
-                <p style="font-style: italic">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp (Tujuan pekerjaan dan perlaksanaan kerja Syarikat atau kerja yang lain untuk Syarikat atau)</p>
-                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <strong>3. It required to do so by applicable law or government regulation or by any competent body or authority</strong></p>
-                <p style="font-style: italic">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp (Jika dikehendaki sedemikian oleh undang-undang yang berkenaan atau peraturan kerajaan atau oleh mana-mana badan yang berkompeten atau berkuasa).</p>
+        <p style="text-align: justify;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          <strong>
+            1. The purpose of communication to third parties
+          </strong>
+        </p>
+        <p style="font-style: italic; text-align: justify;">
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          (Tujuan berkomunikasi kepada pihak-pihak ketiga)
+        </p>
+        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          <strong>
+            2. The purpose of employment and performance of work or other than the work for the Company, or
+          </strong>
+        </p>
+        <p style="font-style: italic; text-align: justify;">
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          (Tujuan pekerjaan dan perlaksanaan kerja Syarikat atau kerja yang lain untuk Syarikat atau)
+        </p>
+        <p style="text-align: justify;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          <strong>
+            3. It required to do so by applicable law or government regulation or by any competent body or authority
+          </strong>
+        </p>
+        <p style="font-style: italic; text-align: justify;">
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          (Jika dikehendaki sedemikian oleh undang-undang yang berkenaan atau peraturan kerajaan atau oleh mana-mana badan
+          yang berkompeten atau berkuasa.)
+        </p>
 
-                <br />
-                <br />
+        <br />
 
-                <p>
-                    <strong>
-                        I hereby declare that I am fit and healthy in terms of physical and mental and have no involvement in any substance abuse
-                        to the best of my knowledge at the time of application for employment with the Company and shall voluntarily participate
-                        in any health screening procedures appointed by the Company should the Company found any reasonable excuse and / or cause
-                        pertaining to my health condition, whether physically or mentally, that will affect the productivity and execution of my
-                        job function as assigned by the Company. I fully understand and agree that the Company have the rights to alter / change
-                        my job function, including termination of employment with the Company, upon justification and confirmation from the
-                        registered medical practitioner should my health condition is announced to be unfit for employment with the Company.
-                    </strong>
-                </p>
+        <p style="text-align: justify;">
+          <strong>
+            I hereby declare that I am fit and healthy in terms of physical and mental and have no involvement in any
+            substance
+            abuse to the best of my knowledge at the time of application for employment with the Company and shall
+            voluntarily
+            participate in any health screening procedures appointed by the Company should the Company found any
+            reasonable
+            excuse and / or cause pertaining to my health condition, whether physically or mentally, that will affect the
+            productivity
+            and execution of my job function as assigned by the Company. I fully understand and agree that the Company
+            have the
+            rights to alter / change my job function, including termination of employment with the Company, upon
+            justification and
+            confirmation from the registered medical practitioner should my health condition is announced to be unfit for
+            employment with the Company.
+          </strong>
+        </p>
 
-                <p style="font-style: italic">
-                    (Saya dengan ini mengaku bahawa saya adalah cergas dan sihat dari segi fizikal dan mental serta tidak mempunyai sebarang
-                    penglibatan dalam aktiviti penyalahgunaan dadah sepanjang pengetahuan saya pada waktu permohonan pekerjaan dengan Syarikat
-                    dan secara sukarela akan mengambil bahagian dalam sebarang pemeriksaan kesihatan yang diperuntukkan oleh Syarikat jika
-                    Syarikat mempunyai alasan dan / atau sebab yang munasabah berkaitan tahap kesihatan saya, sama ada dalam segi fizikal
-                    atau mental, yang akan menjejaskan prestasi dan pelaksanaan tugas saya sepertimana yang diberikan oleh Syarikat. Saya
-                    faham dan bersetuju bahawa Syarikat mempunyai hak untuk mengubah / menukar tugas saya, termasuk penamatan perkhidmatan
-                    dengan Syarikat, setelah disahkan dan diakui oleh pegawai perubatan yang berdaftar jika didapati tahap kesihatan saya
-                    adalah dirasmikan sebagai tidak sesuai untuk meneruskan perkhidmatan dengan Syarikat.)
-                </p>
+        <p style="font-style: italic; text-align: justify;">
+          (Saya dengan ini mengaku bahawa saya adalah cergas dan sihat dari segi fizikal dan mental serta tidak mempunyai
+          sebarang penglibatan dalam aktiviti
+          penyalahgunaan dadah sepanjang pengetahuan saya pada waktu permohonan pekerjaan dengan Syarikat dan secara
+          sukarela akan mengambil bahagian dalam
+          sebarang pemeriksaan kesihatan yang diperuntukkan oleh Syarikat jika Syarikat mempunyai alasan dan / atau sebab
+          yang munasabah berkaitan tahap kesihatan
+          saya, sama ada dalam segi fizikal atau mental, yang akan menjejaskan prestasi dan pelaksanaan tugas saya
+          sepertimana yang diberikan oleh Syarikat. Saya faham
+          dan bersetuju bahawa Syarikat mempunyai hak untuk mengubah / menukar tugas saya, termasuk penamatan perkhidmatan
+          dengan Syarikat, setelah disahkan dan
+          diakui oleh pegawai perubatan yang berdaftar jika didapati tahap kesihatan saya adalah dirasmikan sebagai tidak
+          sesuai untuk meneruskan perkhidmatan dengan
+          Syarikat.)
+        </p>
 
-                <br />
-                @Html.TextBoxFor(modelItem => model.Position_ID, new { Style = "display:none" })
+        <br />
+        @Html.TextBoxFor(modelItem => model.Position_ID, new { Style = "display:none" })
 
 
-                <a onclick="myFunction()" href="@Url.Action("ThankYou", "Admin",new { id = model.Position_ID })">
-                    <span class="btn pull-right">Proceed Application</span>
-                </a>
-            </div>
-        }
-    </div>
-    @*}*@
+        <a onclick="myFunction()" href="@Url.Action("ThankYou", "Admin",new { id = model.Position_ID })">
+          <span class="btn pull-right">Proceed Application</span>
+        </a>
+      </div>
+    }
+  </div>
+  @*}*@
 </div>

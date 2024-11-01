@@ -719,10 +719,11 @@ namespace OJAWeb.Controllers
             return View(applyinfo);
         }
 
-        public ActionResult ViewJob(string id)
+        public ActionResult ViewJob(string id, string applicantId)
         {
             var Job_ID = id;
             var System_ID = "";
+            ViewBag.ApplicantID = applicantId;
 
             JobApprovalModel jobapprove = new JobApprovalModel();
 
@@ -930,7 +931,7 @@ namespace OJAWeb.Controllers
                             JobAppliedModel uobj = new JobAppliedModel
                             {
                                 User_Name = reader["User_Name"].ToString(),
-                                User_ID = reader["User_ID"].ToString(),
+                                User_ID = applyinfo.User_ID = reader["User_ID"].ToString(),
                                 Job_ID = reader["Job_ID"].ToString(),
                                 Region_Name = reader["Region_Name"].ToString(),
                                 Depart_Name = reader["Dep_Name"].ToString(),
@@ -1442,7 +1443,7 @@ namespace OJAWeb.Controllers
         // DOWNLOAD FILE
         // DOWNLOAD FILE
         // DOWNLOAD FILE
-        public FileResult DownloadResume(string id)
+        public FileResult DownloadResume(string id, string applicantId)
         {
             string fileName = "";
             var Position_ID = id;
@@ -1453,9 +1454,13 @@ namespace OJAWeb.Controllers
             string cs = ConfigurationManager.ConnectionStrings["abxserver"].ConnectionString;
             using (SqlConnection con = new SqlConnection(cs))
             {
-                string commandText = "SELECT User_Resume,User_ShortName from TblResume R LEFT JOIN TblJob_Application JA ON JA.User_ID = R.User_ID LEFT JOIN TblUser_Login UL ON UL.ID = R.User_ID WHERE JA.Position_ID='" + id + "'";
+                //string commandText = "SELECT User_Resume,User_ShortName from TblResume R LEFT JOIN TblJob_Application JA ON JA.User_ID = R.User_ID LEFT JOIN TblUser_Login UL ON UL.ID = R.User_ID WHERE JA.Position_ID='" + id + "'";
+                string commandText = "SELECT User_Resume,User_ShortName from TblResume R LEFT JOIN TblJob_Application JA ON JA.User_ID = R.User_ID LEFT JOIN TblUser_Login UL ON UL.ID = R.User_ID WHERE JA.Position_ID=@Position_ID and R.User_ID=@Applicant_ID";
                 using (SqlCommand cmd = new SqlCommand(commandText))
                 {
+                    cmd.Parameters.AddWithValue("@Position_ID", id);
+                    cmd.Parameters.AddWithValue("@Applicant_ID", applicantId );
+
                     SqlDataReader reader;
                     cmd.Connection = con;
                     con.Open();
@@ -1471,8 +1476,9 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
-            string FullNameFile = UploadPath + User_Resume;
+            //string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            var UploadPath = "Resume/";
+            string FullNameFile = UploadPath + User_Resume; //TODO: sini
 
             string File_Name = User_Resume.Substring(0, User_Resume.LastIndexOf('.'));
 
@@ -1520,7 +1526,9 @@ namespace OJAWeb.Controllers
                 }
             }
 
-            string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            //string UploadPath = ConfigurationManager.AppSettings["UserResumePath"].ToString();
+            var UploadPath = "Resume/";
+
             string FullNameFile = UploadPath + User_Resume;
 
             string File_Name = User_Resume.Substring(0, User_Resume.LastIndexOf('.'));
@@ -1658,7 +1666,9 @@ namespace OJAWeb.Controllers
                     con.Close();
                 }
             }
-            string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+            //string UploadPath = ConfigurationManager.AppSettings["UserDrivingL"].ToString();
+            var UploadPath = "DrivingLicense/";
+
             string FullNameFile = UploadPath + User_Driving_Attach;
 
             string File_Name = User_Driving_Attach.Substring(0, User_Driving_Attach.LastIndexOf('.'));
